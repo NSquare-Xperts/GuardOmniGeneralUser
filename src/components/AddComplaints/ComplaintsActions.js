@@ -9,7 +9,7 @@ export const addComplaint_ = (title, comments, uri1, type1, name1, uri2, type2, 
     return (dispatch) => {
         dispatch({ type: ADD_COMPLAINT });
 
-        callFormDataPostApi('http://guardomni.dutique.com:8000/api/complaintRequest', {
+        callFormDataPostApi('http://18.188.253.46:8000/api/complaintRequest', {
             "userId": userId,
             "complaintTitle": title,
             "uri1": uri1,

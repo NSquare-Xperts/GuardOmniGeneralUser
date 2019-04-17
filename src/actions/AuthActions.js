@@ -10,7 +10,7 @@ export const loginUser = (phone) => {
     return (dispatch) => {
         dispatch({ type: LOGIN_USER });
 
-        axios.post('http://guardomni.dutique.com:8000/api/validateUser',
+        axios.post('http://18.188.253.46:8000/api/validateUser',
             {
                 "phone": phone
             })

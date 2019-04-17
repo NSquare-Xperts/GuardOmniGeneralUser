@@ -55,7 +55,7 @@ class NewEditProfile extends Component {
      }
 
      renderUsersList() {
-          callPostApi('http://guardomni.dutique.com:8000/api/profileDetails?', {
+          callPostApi('http://18.188.253.46:8000/api/profileDetails?', {
                "userId": this.state.userId
           })
                .then((response) => {
@@ -174,8 +174,6 @@ class NewEditProfile extends Component {
                     </TouchableOpacity>
                )
           }
-
-
      }
 
      renderButton() {
@@ -221,8 +219,6 @@ class NewEditProfile extends Component {
                          {/* <Image source={require('../assets/fullscreen.jpg')}
                                    style={{ height: 95, width: 95, alignSelf: 'center', borderRadius: Platform.OS === 'ios' ? 95 / 2 : 60 }} /> */}
                          {this._handlePhotoView()}
-
-
 
                     </View>
 

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "780857249892",
+    "firebase_url": "https://guardomni-general-user.firebaseio.com",
+    "project_id": "guardomni-general-user",
+    "storage_bucket": "guardomni-general-user.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:780857249892:android:b93769b20f4e2bb4",
+        "android_client_info": {
+          "package_name": "com.guardomni.generaluser"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "780857249892-ml9m50vcrm5o9mc65ugorrl40m6rsh3g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.guardomni.generaluser",
+            "certificate_hash": "ad36607e7dd274246fe5ce4f318419958861fd11"
+          }
+        },
+        {
+          "client_id": "780857249892-a7u207amqtqpi647dhe2b8ia8uqodkif.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSJsDUWXinihgOm2GbAZMr-l12cOVKzNw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "780857249892-a7u207amqtqpi647dhe2b8ia8uqodkif.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

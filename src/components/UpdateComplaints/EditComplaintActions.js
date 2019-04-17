@@ -9,7 +9,7 @@ export const editComplaint_ = (title, comments, uri1, type1, name1, uri2, type2,
         dispatch({ type: EDIT_PROFILE });
 
         console.log("title ",title)
-        callFormDataUpdateComplaintPostApi('http://guardomni.dutique.com:8000/api/complaintUpdate', {
+        callFormDataUpdateComplaintPostApi('http://18.188.253.46:8000/api/complaintUpdate', {
 
             "userId": userId,
             "complaintTitle": title,

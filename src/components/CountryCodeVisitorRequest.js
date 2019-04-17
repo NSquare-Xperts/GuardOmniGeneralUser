@@ -22,8 +22,9 @@ class CountryCodeVisitorRequest extends Component {
     }
 
     componentWillUnmount(){
-        Actions.pop()
-        //return true;
+        Actions.popTo('visitorRequest1');
+        return true
+       
     }
 
     renderRow(Codes) {

@@ -8,7 +8,7 @@ export const loginUser = (phone) => {
         dispatch({ type: LOGIN_USER });
         console.log("phone :: ", phone)
         
-        axios.post('http://guardomni.dutique.com:8000/api/validateUser',
+        axios.post('http://18.188.253.46:8000/api/validateUser',
             { "mobileNumber": phone,
             "loginType": '4' 
         })
@@ -36,16 +36,18 @@ export const loginUser = (phone) => {
     }
 }
 
-export const VerifyOtp = ({ phone, otp }) => {
+export const VerifyOtp = ({ phone, otp, token, platform }) => {
     return (dispatch) => {
         dispatch({ type: LOGIN_USER });
 
         console.log(" INSIDE verify ");
         console.log(" PHONE OTP: ", phone, otp);
 
-        axios.post('http://guardomni.dutique.com:8000/api/validateOTP', {
+        axios.post('http://18.188.253.46:8000/api/validateOTP', {
             "mobileNumber": phone,
-            "otp": otp
+            "otp": otp,
+            "cloudId":token,
+            "deviceType":(platform=="android"?0:1)
         })
             .then((response) => {
 

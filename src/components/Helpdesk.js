@@ -32,7 +32,7 @@ class Helpdesk extends Component {
             })
             console.log('userId :: ', this.state.userId,this.state.flatId)
 
-            callPostApi('http://guardomni.dutique.com:8000/api/helpdeskList', {
+            callPostApi('http://18.188.253.46:8000/api/helpdeskList', {
                 "userId": this.state.userId,
                 "flatId": this.state.flatId
             })

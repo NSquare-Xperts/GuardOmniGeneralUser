@@ -73,7 +73,6 @@ class RouterComponent extends Component {
             } else if (Actions.currentScene == '_homepage') {
                 BackHandler.exitApp()
             }
-
             return true;
         });
 

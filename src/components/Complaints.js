@@ -20,11 +20,13 @@ class Complaints extends Component {
         month_count: '',
         userId: '',
         flatId: '',
-        isReload: true
+        isReload: this.props.home
+
     }
 
     renderUsersList() {
-        callPostApi('http://guardomni.dutique.com:8000/api/complaintList', {
+
+        callPostApi('http://18.188.253.46:8000/api/complaintList', {
             "userId": this.state.userId,
             "pageNumber": this.state.page,
             "flatId": this.state.flatId
@@ -33,31 +35,34 @@ class Complaints extends Component {
             res = JSON.parse(response)
             console.log("response : Complaints ", res.status)
             console.log("response : Complaints length ", res.data)
+
             if (res.status == 200) {
                 this.setState({
                     notices: this.state.notices.concat(res.data), loadMore: false, refreshing: false, totalRecords: res.totalRecords, month_count: res.month_count,
-                    status: res.status
+                    status: res.status,
+                    isReload: false
                 })
             } else if (res.status == 400) {
                 this.setState({
                     refreshing: false,
-                    loadMore: false
+                    loadMore: false,
+                    isReload: false
                 })
             } else {
                 this.setState({
-                    refreshing: false
+                    refreshing: false,
+                    isReload: false
                     //loadMore: false
                 })
             }
         });
     }
 
-    componentWillMount(){
-
+    componentWillMount() {
         console.log("will mount complaints ")
-       if(this.props.home == true){
-        this._getUserStorageValue()
-       }
+        if (this.state.isReload == true) {
+            this._getUserStorageValue()
+        }
     }
 
     async _getUserStorageValue() {
@@ -78,7 +83,7 @@ class Complaints extends Component {
     }
 
     componentDidMount() {
-        //console.log("complaints did mount")
+        console.log("complaints did mount")
         this.addComplaintListener =
             DeviceEventEmitter.addListener('eventNewComplaintAdded', (e) => {
                 if (e) {
@@ -89,6 +94,7 @@ class Complaints extends Component {
                         notices: [],
                         isReload: false
                     })
+                    console.log("call storage 1")
                     this._getUserStorageValue()
                 }
             });
@@ -103,13 +109,10 @@ class Complaints extends Component {
                         notices: [],
                         isReload: false
                     }),
-                        this._getUserStorageValue()
+                    console.log("call storage 2")
+                    this._getUserStorageValue()
                 }
             });
-            console.log("----isReload----"+this.state.isReload)
-        // if (this.state.isReload == true) {
-        //     this._getUserStorageValue()
-        // }
     }
 
     componentWillUnmount() {
@@ -382,7 +385,7 @@ const styles = {
 //             console.log('userId :: ', this.state.userId)
 //             console.log('flatno :: ', res.data[0].property_details.flat_no)
 
-//             callPostApi('http://guardomni.dutique.com:8000/api/complaintList', {
+//             callPostApi('http://18.188.253.46:8000/api/complaintList', {
 //                 "userId": this.state.userId,
 //                 "pageNumber": this.state.page,
 //                 "flatId": '1'

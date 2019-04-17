@@ -146,6 +146,9 @@ class AddComplaintNew extends Component {
     });
   }
 
+  componentWillMount(){
+    this.props.auth.title = ''
+  }
   renderButton() {
     return (
       <Button

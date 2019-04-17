@@ -44,7 +44,7 @@ export default class Visitors extends React.Component {
 
   renderUsersList() {
     console.log("----------call render : ")
-    callPostApi('http://guardomni.dutique.com:8000/api/visitorList', {
+    callPostApi('http://18.188.253.46:8000/api/visitorList', {
       "userId": this.state.userId,
       "pageNumber": 0,
       "flatId": this.state.flatId

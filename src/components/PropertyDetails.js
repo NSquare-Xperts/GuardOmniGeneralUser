@@ -27,7 +27,7 @@ class PropertyDetails extends Component {
     console.log("p detaisl ", this.state.userId, this.state.flatId)
     this.setState({ refreshing: true });
 
-    axios.post('http://guardomni.dutique.com:8000/api/propertyDetails?', {
+    axios.post('http://18.188.253.46:8000/api/propertyDetails?', {
        "userId": this.state.userId,
        "flatId": this.state.flatId
      

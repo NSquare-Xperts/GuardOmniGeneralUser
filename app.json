@@ -1,13 +1,13 @@
 {
   "name": "guardOmni",
-  "displayName": "guardOmni"
+  "displayName": "guardOmni",
+ 
 }
 
 // "ios": {
-//   "bundleIdentifier": "tech.aakar.weTrace",
+//   "bundleIdentifier": "tcom.guardomni.generaluser",
 //   "supportsTablet": true
 // },
 // "android": {
 //   "package": "tech.aakar.weTrace",
-  
 // }

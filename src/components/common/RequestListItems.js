@@ -3,8 +3,11 @@ import { Text, View, Image, TouchableWithoutFeedback, Alert,DeviceEventEmitter }
 import { callPostApi } from '../Util/APIManager';
 import { black, white_Original } from './color';
 import { Dialog } from 'react-native-simple-dialogs'
-import SimpleToast, { Toast } from 'react-native-simple-toast';
+//import SimpleToast, { Toast } from 'react-native-simple-toast';
 import { Actions } from 'react-native-router-flux';
+//import { SimpleToast } from 'react-native-simple-toast';
+//import Toast from 'react-native-easy-toast'
+import SimpleToast from 'react-native-simple-toast';
 //make component 
 //const RequestListItems = (props) => {
 
@@ -15,7 +18,6 @@ class RequestListItems extends Component {
     this.state = { isShowingDialog: false ,
     
     }
-    
   }
   render() {
     const { gridRowStyle, thumbnail_arrow, gridColStyle, textStyle, textStyleDate } = styles;
@@ -39,8 +41,6 @@ class RequestListItems extends Component {
             <Text style={textStyle}>{this.props.visitor_name} </Text>
             <Text style={textStyleDate}>{this.props.request_date_time}</Text>
           </View>
-
-
           
           <TouchableWithoutFeedback onPress={() =>
             Actions.editVR({ visitorRequestId: this.props.id})
@@ -75,7 +75,7 @@ class RequestListItems extends Component {
                         // Continue your code here...
                         res = JSON.parse(response)
                         console.log("request response : ")
-                        if (res.status == "200") {
+                        if (res.status == 200) {
                           
                           DeviceEventEmitter.emit('eventVisitorDeleted', { isDeletedSuccessFully: true });
                           this.setState({
@@ -86,8 +86,8 @@ class RequestListItems extends Component {
                           this.setState({
                             isShowingDialog: false
                           })
-                          SimpleToast.show("Failed To Add Request.")
-
+                       SimpleToast.show("Failed To Add Request.")
+                        //Toast.show("Failed To Add Request.")
                         }
                       });
 
