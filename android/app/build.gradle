@@ -101,6 +101,7 @@ android {
 
     defaultConfig {
         applicationId "com.guardomni.generaluser"
+        multiDexEnabled true
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 10
