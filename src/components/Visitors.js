@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { View, Animated, TouchableWithoutFeedback, TouchableOpacity, StyleSheet, AsyncStorage, Image, DeviceEventEmitter } from 'react-native'
+import { View, Animated, TouchableWithoutFeedback, TouchableOpacity, StyleSheet, AsyncStorage, Image, DeviceEventEmitter ,BackHandler} from 'react-native'
 import { TabView, SceneMap } from 'react-native-tab-view'
 import HomeNumberOfVisitors from './common/HomeNumberOfVisitors'
 import FlatListForVisitors from './FlatListForVisitors'
@@ -40,6 +40,8 @@ export default class Visitors extends React.Component {
         this._getStorageValue()
       });
       this._getStorageValue()
+
+      BackHandler.addEventListener('hardwareBackPress', this.handleBackPress)
   }
 
   renderUsersList() {
@@ -67,6 +69,16 @@ export default class Visitors extends React.Component {
     });
   }
 
+
+  handleBackPress() {
+    console.log("---scene---"+Actions.currentScene)
+    if (Actions.currentScene == 'visitors') {
+        Actions.pop()
+    }
+    return true;
+  }
+  
+ 
   //userID and FlatId
   async _getStorageValue() {
     var value = await AsyncStorage.getItem('propertyDetails')
@@ -134,6 +146,8 @@ export default class Visitors extends React.Component {
 
   componentWillUnmount() {
     this.addRequestListener.remove();
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress)
+    return true;
   }
   
   render() {

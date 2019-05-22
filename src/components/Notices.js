@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
-import { FlatList, View, ActivityIndicator, AsyncStorage, Text, Dimensions } from 'react-native'
+import { FlatList, View, ActivityIndicator, AsyncStorage, Text, Dimensions, BackHandler } from 'react-native'
 import Placeholder from 'rn-placeholder'
 import { red_lighter, white_Original, grey } from './common'
-import HomeNumberOfNotices from './common/HomeNumberOfNotices';
+import HomeNumberOfNotices from './common/HomeNumberOfNotices'
 import NoticeListItem from './common/NoticeListItem'
 import { callPostApi } from './Util/APIManager'
-import { Actions } from 'react-native-router-flux';
+import { Actions } from 'react-native-router-flux'
 
 class Notices extends Component {
     state = {
@@ -49,7 +49,6 @@ class Notices extends Component {
                         refreshing: false,
                         loadMore: false
                     })
-                    //console.log("stop calling")
                 }
             });
         // });
@@ -79,7 +78,19 @@ class Notices extends Component {
         }
     }
 
-   componentWillMount() {
+
+
+    handleBackPress() {
+        console.log("---scene---" + Actions.currentScene)
+        if (Actions.currentScene == 'Notices') {
+            Actions.pop()
+        }
+        return true;
+    }
+
+    componentWillMount() {
+
+        BackHandler.addEventListener('hardwareBackPress', this.handleBackPress)
 
         this._getUserStorageValue()
 
@@ -220,6 +231,12 @@ class Notices extends Component {
                 </View>
             );
         }
+    }
+
+    componentWillUnmount() {
+
+        BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress)
+        return true;
     }
 }
 // class Notices extends Component {

@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">GuardOmniUser</string>
+    <string name="app_name">generaluser</string>
+    <string name="sharedpreferences_tokenid"></string>
 </resources>

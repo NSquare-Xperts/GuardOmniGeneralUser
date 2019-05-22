@@ -36,6 +36,7 @@ class AddVisiorRequestNew extends Component {
 
     componentWillMount() {
         this.props.auth.phone = ''
+        //this.props.auth.code = '+91'
     }
     componentDidMount() {
         this._getUserStorageValue()
@@ -45,7 +46,7 @@ class AddVisiorRequestNew extends Component {
 
         this.props.auth.name = ''
         this.props.auth.phone = ''
-        this.props.auth.code = ''
+        this.props.auth.code = '+91'
         this.props.auth.noOfPeople = ''
         this.state.pickerSelectedValue = ''
         this.props.auth.vehicleNumber = ''

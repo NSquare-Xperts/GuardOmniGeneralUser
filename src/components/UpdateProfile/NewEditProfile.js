@@ -45,7 +45,7 @@ class NewEditProfile extends Component {
                this.setState({
                     userId: dataUser.user_id,
                     flatId: data.flat_id,
-               }, this.renderUsersList())
+               })
                this.renderUsersList()
           }
      }
@@ -55,6 +55,8 @@ class NewEditProfile extends Component {
      }
 
      renderUsersList() {
+
+          console.log("user ID : "+this.state.userId)
           callPostApi('http://guardomni.dutique.com:8000/api/profileDetails?', {
                "userId": this.state.userId
           })
@@ -126,11 +128,9 @@ class NewEditProfile extends Component {
                }
           });
      }
-
      _handlePhotoView = () => {
-
           console.log(" --url-- ", this.state.url)
-          if (this.state.url != null) {
+          if (this.state.url != null && this.state.url != '' ) {
                return (
                     <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
                          {this.state.ImageSource === null ?
@@ -174,8 +174,6 @@ class NewEditProfile extends Component {
                     </TouchableOpacity>
                )
           }
-
-
      }
 
      renderButton() {
@@ -220,9 +218,8 @@ class NewEditProfile extends Component {
                     <View style={{ height: '20%', justifyContent: 'center' }}>
                          {/* <Image source={require('../assets/fullscreen.jpg')}
                                    style={{ height: 95, width: 95, alignSelf: 'center', borderRadius: Platform.OS === 'ios' ? 95 / 2 : 60 }} /> */}
+                         
                          {this._handlePhotoView()}
-
-
 
                     </View>
 

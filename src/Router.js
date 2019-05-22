@@ -73,7 +73,6 @@ class RouterComponent extends Component {
             } else if (Actions.currentScene == '_homepage') {
                 BackHandler.exitApp()
             }
-
             return true;
         });
 
@@ -86,6 +85,7 @@ class RouterComponent extends Component {
             if (LoginData == null) {
                 //Actions.splash()
                 Actions.reset('splash')
+                // Actions.reset('Login')
             } else {
                 //console.log("...login...", LoginData);
                 //Actions.homepage()
@@ -97,7 +97,6 @@ class RouterComponent extends Component {
     componentWillUnmount() {
         BackHandler.removeEventListener()
     }
-
     render() {
         // const headerStyle = {
         //     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
@@ -193,7 +192,6 @@ class RouterComponent extends Component {
                     <Scene title="Camera" key="camera" component={Camera} />
 
                     {/* <Scene title="SwitchProperty" key="SwitchProperty" component={SwitchProperty}  /> */}
-
                     <Scene
                         key="drawer"
                         drawer={true}

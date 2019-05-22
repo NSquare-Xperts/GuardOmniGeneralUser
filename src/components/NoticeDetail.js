@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import { View, ScrollView, Text, Image, AsyncStorage } from 'react-native'
+import { View, ScrollView, Text, Image, AsyncStorage,BackHandler } from 'react-native'
 //import axios from 'axios'
 import { white_Original, grey, black, red_lighter } from './common'
 import { callPostApi } from './Util/APIManager';
-import ImageLoad from 'react-native-image-placeholder';
+import ImageLoad from 'react-native-image-placeholder'
+import {Actions} from 'react-native-router-flux'
 
 class NoticeDetail extends Component {
   constructor(props) {
@@ -55,9 +56,18 @@ class NoticeDetail extends Component {
         });
     });
   }
+
   componentWillMount() {
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackPress)
     this.renderNoticeDetails()
   }
+  handleBackPress() {
+    console.log("---scene---" + Actions.currentScene)
+    if (Actions.currentScene == 'NoticeDetail') {
+        Actions.pop()
+    }
+    return true;
+}
 
   _handleRefresh = () => {
     this.setState({
@@ -118,6 +128,11 @@ class NoticeDetail extends Component {
       </View>
     )
   }
+  componentWillUnmount() {
+
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress)
+    return true;
+}
 }
 export default NoticeDetail;
 

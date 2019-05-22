@@ -22,8 +22,8 @@ class CountryCodeEditVR extends Component {
     }
 
     componentWillUnmount(){
-        Actions.pop()
-        //return true;
+        Actions.popTo('countrycodeEditVR')
+        return true;
     }
 
     renderRow(Codes) {
@@ -49,7 +49,6 @@ class CountryCodeEditVR extends Component {
                     code: this.props.codes[i].code
                 })
             }
-
         }
         this.state.data = newData
         return (
