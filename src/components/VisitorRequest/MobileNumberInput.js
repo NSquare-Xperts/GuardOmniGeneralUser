@@ -7,6 +7,7 @@ const MobileNumberInput = (props) => {
             return(
                <View style={styles.displayStyle}>
                 <View style={styles.containerStyle}>
+                  
                     <TouchableWithoutFeedback onPress={()=> { Actions.countrycodeVR() }}>
                                     <View style={styles.pickerStyle}>                       
                                         <Text style={{marginLeft: 50}}>{props.code}</Text>
@@ -15,6 +16,7 @@ const MobileNumberInput = (props) => {
                                             style={{ height: 24, width: 24 }}/>
                                     </View>           
                     </TouchableWithoutFeedback>
+                   
                     <TextInput
                         style={{height: 50, width: '70%',marginLeft: 23,justifyContent: 'center'}}
                         placeholder = {Mobile_Number}

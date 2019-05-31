@@ -1,20 +1,45 @@
 import React from 'react';
-import { TouchableOpacity, Text, Image, ImageBackground, View } from 'react-native';
+import { TouchableWithoutFeedback, Text, Image, ImageBackground,AsyncStorage, View } from 'react-native';
 import { green, black, red, white_Original } from './color'
+import { Actions } from 'react-native-router-flux'
+import NotificationCount from '../NotificationCount'
 
 const Notification = (props) => {
-    return (
-        // <TouchableOpacity onPress={props.onPress} >
-        // </View >
-
-        <ImageBackground source={require('../assets/guard/home/notification_icn.png')} 
-        style={{ width: 30, height: 30,marginEnd: 10}}>
-            <View style={styles.TextViewStyle}>
-                <Text style={styles.TextStyle}>12</Text>
-            </View>
-        </ImageBackground>
-
-    );
+        // <TouchableWithoutFeedback onPress={() => Actions.Notifications()}>
+        // <ImageBackground source={require('../assets/guard/home/notification_icn.png')}
+        //     style={{ width: 30, height: 30, marginEnd: 10 }}>
+        //     {/* <View style={styles.TextViewStyle}>
+        //         <Text style={styles.TextStyle}>12</Text>
+        //     </View> */}
+        // </ImageBackground>
+        // </TouchableWithoutFeedback>
+        AsyncStorage.removeItem('notificationCount')
+        AsyncStorage.setItem('notificationCount',NotificationCount.getCurrentCount())
+        console.log("*************COUNT N >>>> "+AsyncStorage.getItem('notificationCount'))
+    
+        if (NotificationCount.getCurrentCount() <= 0) {
+            return (
+                <TouchableWithoutFeedback onPress={() => Actions.Notifications()}>
+                    <ImageBackground source={require('../assets/guard/home/notification_icn.png')}
+                        style={{ width: 30, height: 30, marginEnd: 10 }}>
+                        {/* <View style={styles.TextViewStyle}>
+                            <Text style={styles.TextStyle}>{NotificationCount.getCurrentCount()}</Text>
+                        </View> */}
+                    </ImageBackground>
+                </TouchableWithoutFeedback>
+            );
+        }else{
+            return(
+                <TouchableWithoutFeedback onPress={() => Actions.Notifications()}>
+                <ImageBackground source={require('../assets/guard/home/notification_icn.png')}
+                    style={{ width: 30, height: 30, marginEnd: 10 }}>
+                    <View style={styles.TextViewStyle}>
+                        <Text style={styles.TextStyle}>{NotificationCount.getCurrentCount()}</Text>
+                    </View>
+                </ImageBackground>
+            </TouchableWithoutFeedback>
+            )
+        }
 };
 const styles = {
     TextViewStyle:

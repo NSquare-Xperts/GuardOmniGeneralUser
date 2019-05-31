@@ -50,7 +50,6 @@ import AddComplaintNew from './components/AddComplaints/AddComplaintNew'
 import otpInputTimer from './components/otpInputTimer'
 import SplashScreenNoLogin from './components/SplashScreenNoLogin'
 import Aboutus from './components/Aboutus'
-
 import NewEditProfile from './components/UpdateProfile/NewEditProfile';
 import NewEditComplaints from './components/UpdateComplaints/NewEditComplaints';
 import NewEditVisitorRequest from './components/UpdateVisitorRequest/NewEditVisitorRequest';
@@ -73,7 +72,6 @@ class RouterComponent extends Component {
             } else if (Actions.currentScene == '_homepage') {
                 BackHandler.exitApp()
             }
-
             return true;
         });
 
@@ -86,6 +84,7 @@ class RouterComponent extends Component {
             if (LoginData == null) {
                 //Actions.splash()
                 Actions.reset('splash')
+                // Actions.reset('Login')
             } else {
                 //console.log("...login...", LoginData);
                 //Actions.homepage()
@@ -97,13 +96,11 @@ class RouterComponent extends Component {
     componentWillUnmount() {
         BackHandler.removeEventListener()
     }
-
     render() {
         // const headerStyle = {
         //     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
         //     height: 56 + Platform.select({ 'android': StatusBar.currentHeight, 'ios': 110 }),
         // }
-
         return (
             <Router>
                 <Scene key="root">
@@ -193,7 +190,6 @@ class RouterComponent extends Component {
                     <Scene title="Camera" key="camera" component={Camera} />
 
                     {/* <Scene title="SwitchProperty" key="SwitchProperty" component={SwitchProperty}  /> */}
-
                     <Scene
                         key="drawer"
                         drawer={true}
@@ -207,9 +203,9 @@ class RouterComponent extends Component {
                         hideNavBar>
 
                         <Scene title="GuardOmni" key="homepage" component={Homepage} />
-                        <Scene title="Notifications" key="notification" component={Notifications} />
-                        <Scene title="Switch Property" key="SwitchProperty" component={SwitchProperty} />
-                        <Scene title="About Us" key="Aboutus" component={Aboutus} />
+                        <Scene title="Notifications" key="notification" component={Notifications} renderRightButton={false}/>
+                        <Scene title="Switch Property" key="SwitchProperty" component={SwitchProperty} renderRightButton={false}/>
+                        <Scene title="About Us" key="Aboutus" component={Aboutus} renderRightButton={false}/>
 
                     </Scene>
                 </Scene>

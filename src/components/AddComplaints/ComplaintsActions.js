@@ -33,7 +33,14 @@ export const addComplaint_ = (title, comments, uri1, type1, name1, uri2, type2, 
 
                     DeviceEventEmitter.emit('eventNewComplaintAdded', { isAddeddSuccessFully: true });
                     addComplaintSuccess(dispatch, data)
-                } else {
+                }else if(res.status == 401) {
+
+                    AsyncStorage.removeItem('propertyDetails');
+                    AsyncStorage.removeItem('userDetail');
+                    AsyncStorage.removeItem('LoginData');
+                    //SimpleToast.show(response.message)
+                    Actions.reset('Login')
+                  }  else {
                     addComplaintFailed(dispatch, response.message)
                 }
             });

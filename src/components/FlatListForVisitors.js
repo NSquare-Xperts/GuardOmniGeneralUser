@@ -36,7 +36,14 @@ class FlatListForVisitors extends Component {
                         notices: this.state.notices.concat(res.data), loadMore: false, refreshing: false, totalRecords: res.totalRecords, month_count: res.month_count,
                         status: res.status
                     })
-                } else {
+                } else if (res.status == 401) {
+
+                    AsyncStorage.removeItem('propertyDetails');
+                    AsyncStorage.removeItem('userDetail');
+                    AsyncStorage.removeItem('LoginData');
+                    //SimpleToast.show(response.message)
+                    Actions.reset('Login')
+                  }else {
                     this.setState({
                         refreshing: false,
                     })

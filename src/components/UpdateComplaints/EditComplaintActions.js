@@ -41,7 +41,14 @@ export const editComplaint_ = (title, comments, uri1, type1, name1, uri2, type2,
                     Actions.popTo('ComplaintDetail');
                     DeviceEventEmitter.emit('eventEditedComplaint',{isEditedSuccessFully: true});
                     editComplaintSuccess(dispatch, data)
-                }else{
+                }else if(res.status == 401) {
+
+                    AsyncStorage.removeItem('propertyDetails');
+                    AsyncStorage.removeItem('userDetail');
+                    AsyncStorage.removeItem('LoginData');
+                    //SimpleToast.show(response.message)
+                    Actions.reset('Login')
+                  } else{
                     SimpleToast.show(res.message)
                 }
                 editComplaintFailed(dispatch, data)

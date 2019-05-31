@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import { View, ScrollView, Text, Image, AsyncStorage } from 'react-native'
+import { View, ScrollView, Text, Image, AsyncStorage,BackHandler } from 'react-native'
 //import axios from 'axios'
 import { white_Original, grey, black, red_lighter } from './common'
 import { callPostApi } from './Util/APIManager';
-import ImageLoad from 'react-native-image-placeholder';
+import ImageLoad from 'react-native-image-placeholder'
+import {Actions} from 'react-native-router-flux'
 
 class NoticeDetail extends Component {
   constructor(props) {
@@ -33,15 +34,15 @@ class NoticeDetail extends Component {
       this.setState({ userId: res.data[0].user_details.user_id })
       console.log('userId :: ', this.state.userId)
 
-      console.log("notice ID details", this.state.noticeId);
+      console.log("notice ID details", this.state.noticeId.id);
       callPostApi('http://guardomni.dutique.com:8000/api/noticeDetails', {
         "userId": this.state.userId,
-        "noticeId": this.state.noticeId
+        "noticeId": this.state.noticeId.id
       })
         .then((response) => {
           // Continue your code here...
           res = JSON.parse(response)
-          console.log("response : ", res.data)
+          console.log("response : ", res)
           console.log("title : ", res.data[0].notice_title)
           if (res.status == 200) {
             this.setState({
@@ -49,15 +50,31 @@ class NoticeDetail extends Component {
               //status: res.status
             })
             console.log("detail : ", details[0].notice_title)
-          } else {
+          } else if (res.status == 401) {
+
+            AsyncStorage.removeItem('propertyDetails');
+            AsyncStorage.removeItem('userDetail');
+            AsyncStorage.removeItem('LoginData');
+            //SimpleToast.show(response.message)
+            Actions.reset('Login')
+          }else {
             console.log("stop calling")
           }
         });
     });
   }
+
   componentWillMount() {
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackPress)
     this.renderNoticeDetails()
   }
+  handleBackPress() {
+    console.log("---scene---" + Actions.currentScene)
+    if (Actions.currentScene == 'NoticeDetail') {
+        Actions.pop()
+    }
+    return true;
+}
 
   _handleRefresh = () => {
     this.setState({
@@ -118,6 +135,11 @@ class NoticeDetail extends Component {
       </View>
     )
   }
+  componentWillUnmount() {
+
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress)
+    return true;
+}
 }
 export default NoticeDetail;
 

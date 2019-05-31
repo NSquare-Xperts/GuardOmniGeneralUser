@@ -1,12 +1,12 @@
 import * as React from 'react'
-import { View, Animated, TouchableWithoutFeedback, TouchableOpacity, StyleSheet, AsyncStorage, Image, DeviceEventEmitter } from 'react-native'
+import { View, Animated, TouchableOpacity, StyleSheet, AsyncStorage, Image, DeviceEventEmitter, BackHandler } from 'react-native'
 import { TabView, SceneMap } from 'react-native-tab-view'
 import HomeNumberOfVisitors from './common/HomeNumberOfVisitors'
 import FlatListForVisitors from './FlatListForVisitors'
 import { purple, black, grey, red_lighter } from './common'
 import { Actions } from 'react-native-router-flux'
 import FlatListForVisitorsHistory from './FlatListForVisitorsHistory'
-import {callPostApi} from './Util/APIManager'
+import { callPostApi } from './Util/APIManager'
 
 export default class Visitors extends React.Component {
   state = {
@@ -39,7 +39,8 @@ export default class Visitors extends React.Component {
         }
         this._getStorageValue()
       });
-      this._getStorageValue()
+    this._getStorageValue()
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackPress)
   }
 
   renderUsersList() {
@@ -52,19 +53,34 @@ export default class Visitors extends React.Component {
       //console.log("response : ")   
       res = JSON.parse(response)
       // console.log("******res : ",res)
-      console.log("---------* noOfVisitors : ", res.month_count)
-
+      //console.log("---------* noOfVisitors : ", res.month_count)
       if (res.status == 200) {
         this.setState({
-          noOfVisitors: res.month_count+"",
+          noOfVisitors: res.month_count + "",
           status: res.status
         })
+      } else if (res.status == 401) {
+
+        AsyncStorage.removeItem('propertyDetails');
+        AsyncStorage.removeItem('userDetail');
+        AsyncStorage.removeItem('LoginData');
+        //SimpleToast.show(response.message)
+        Actions.reset('Login')
       } else {
         this.setState({
           refreshing: false,
         })
       }
     });
+  }
+
+
+  handleBackPress() {
+    console.log("---scene---" + Actions.currentScene)
+    if (Actions.currentScene == 'visitors') {
+      Actions.pop()
+    }
+    return true;
   }
 
   //userID and FlatId
@@ -94,23 +110,23 @@ export default class Visitors extends React.Component {
 
         <HomeNumberOfVisitors
           noOfVisitors={this.state.noOfVisitors} />
-
         <View style={styles.tabBar}>
-          {props.navigationState.routes.map((route, i) => {
-            const color = props.position.interpolate({
-              inputRange,
-              outputRange: inputRange.map(
-                inputIndex => (inputIndex === i ? black : grey),
-              ),
-            });
-            return (
-              <TouchableOpacity
-                style={styles.tabItem}
-                onPress={() => this.setState({ index: i })}>
-                <Animated.Text style={{ color }}>{route.title}</Animated.Text>
-              </TouchableOpacity>
-            );
-          })}
+          {
+            props.navigationState.routes.map((route, i) => {
+              const color = props.position.interpolate({
+                inputRange,
+                outputRange: inputRange.map(
+                  inputIndex => (inputIndex === i ? black : grey),
+                ),
+              });
+              return (
+                <TouchableOpacity
+                  style={styles.tabItem}
+                  onPress={() => this.setState({ index: i })}>
+                  <Animated.Text style={{ color }}>{route.title}</Animated.Text>
+                </TouchableOpacity>
+              );
+            })}
         </View>
       </View>
     );
@@ -134,8 +150,9 @@ export default class Visitors extends React.Component {
 
   componentWillUnmount() {
     this.addRequestListener.remove();
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress)
+    return true;
   }
-  
   render() {
     if (this.state.refreshing) {
       return (
@@ -158,7 +175,6 @@ export default class Visitors extends React.Component {
             renderScene={this._renderScene}
             renderTabBar={this._renderTabBar}
             onIndexChange={this._handleIndexChange} />
-
         </View>
       )
     }

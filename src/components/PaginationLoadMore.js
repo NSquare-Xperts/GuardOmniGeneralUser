@@ -21,7 +21,9 @@ export default class PaginationLoadMore extends Component {
 
     getData = async () => {
         const url = 'https://jsonplaceholder.typicode.com/photos?_limit=10&_page='+this.state.page;
-        fetch(url).then((response) => response.json())
+        fetch(url).then((response) => {
+            res = JSON.parse(response)
+        })
             .then((responseJson) => {
                 this.setState({
                     //data: responseJson

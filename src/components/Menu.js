@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Text, View, Image, Alert, Platform, AsyncStorage } from 'react-native';
 import { Content, List, ListItem, Drawer, Toast } from 'native-base';
 import { Actions } from 'react-native-router-flux';
+import axios from 'axios' 
 import { Dialog } from 'react-native-simple-dialogs';
 import { SInput } from './common/SInput';
 import { Home, SwitchProperty, Logout, AboutGuardOmni, Notifications, red_lighter, App_Name, App_Version, black } from './common';
@@ -30,7 +31,8 @@ class Menu extends Component {
                     <Content>
                         <List>
                             <ListItem onPress={() =>
-                                Actions.homepage()}
+                                 {Actions.drawerClose(),
+                                Actions.homepage()}}
                                 //Actions.reset('homepage')}
                                 noBorder={true}>
                                 <Image style={styles.thumbnail}
@@ -38,7 +40,9 @@ class Menu extends Component {
                                 <Text style={styles.drawerText}>{Home}</Text>
                             </ListItem>
 
-                            <ListItem onPress={() => Actions.SwitchProperty()}
+                            <ListItem onPress={() => 
+                           { Actions.drawerClose(), Actions.SwitchProperty()}
+                        }
                                 noBorder={true}>
 
                                 <Image style={styles.thumbnail}
@@ -46,14 +50,16 @@ class Menu extends Component {
                                 <Text style={styles.drawerText}>{SwitchProperty}</Text>
                             </ListItem>
 
-                            <ListItem onPress={() => Actions.notification()}
+                            <ListItem onPress={() => 
+                            { Actions.drawerClose(),Actions.notification()}
+                            }
                                 noBorder={true}>
                                 <Image style={styles.thumbnail}
                                     source={require('./assets/Drawer/dnotification_icn.png')} />
                                 <Text style={styles.drawerText}>{Notifications}</Text>
                             </ListItem>
 
-                            <ListItem onPress={() => Actions.Aboutus()}
+                            <ListItem onPress={() => { Actions.drawerClose(),Actions.Aboutus()}}
                                 noBorder={true} >
                                 <Image style={styles.thumbnail}
                                     source={require('./assets/Drawer/dinformation_icn.png')} />
@@ -68,21 +74,41 @@ class Menu extends Component {
                                     [
                                         {
                                             text: 'No', onPress: () =>
-                                                console.log('Cancel Pressed')
-
+                                                {console.log('Cancel Pressed'),
+                                                Actions.drawerClose()}
                                         },
                                         {
                                             text: 'Yes', onPress: () => {
                                                 //clear session data 
                                                 //Actions.reset('Login')
                                                 
+
+
+
+                                                AsyncStorage.multiGet(["LoginData"]).then((data) => {
+                                                    LoginData = data[0][1];
+                                                    var res = JSON.parse(LoginData)
+
+                                                axios.post('http://guardomni.dutique.com:8000/api/logoutUser',
+                                                {
+                                                    "userId": res.data[0].user_details.user_id
+                                                })
+                                                .then((response) => {
+                                    
+                                                       console.log("response: "+response)
+                                                })
+                                                .catch(error => {
+                                                    console.log("error : ", error.response.message)
+                                                });
+                                              
                                                 AsyncStorage.removeItem('propertyDetails');
                                                 AsyncStorage.removeItem('userDetail');
                                                 AsyncStorage.removeItem('LoginData');
                                                 SimpleToast.show("Logout successfully")
                                                 Actions.reset('Login')
-
+                                            });
                                             }
+
                                         }
                                     ],
                                     { cancelable: true }

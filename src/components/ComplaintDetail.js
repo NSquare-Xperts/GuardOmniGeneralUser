@@ -52,7 +52,14 @@ class ComplaintDetail extends Component {
                             details: res.data, refreshing: false
                         })
 
-                    } else {
+                    }else if (res.status == 401) {
+
+                        AsyncStorage.removeItem('propertyDetails');
+                        AsyncStorage.removeItem('userDetail');
+                        AsyncStorage.removeItem('LoginData');
+                        //SimpleToast.show(response.message)
+                        Actions.reset('Login')
+                      } else {
                         console.log("stop calling")
                     }
 
@@ -176,7 +183,6 @@ class ComplaintDetail extends Component {
         }
 
     }
-
     render() {
         return (
             <View style={{ backgroundColor: red_lighter, flex: 1 }}>
@@ -202,6 +208,9 @@ class ComplaintDetail extends Component {
                 </ScrollView>
             </View>
         )
+    }
+    componentWillUnmount(){
+        this.editComplaintListener.remove()
     }
 }
 export default ComplaintDetail;

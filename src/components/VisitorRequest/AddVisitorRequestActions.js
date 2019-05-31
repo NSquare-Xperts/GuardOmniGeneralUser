@@ -32,7 +32,15 @@ export const VisitorRequest = (name,phone,selectedDate,noOfPeople,vehicleType,ve
                               
                 DeviceEventEmitter.emit('eventVisitorRequestAdded',{isAddeddSuccessFully: true});
                 verifyRequestSuccess(dispatch, data)
-        }else{
+                
+        }else if (data.status == 401) {
+
+            AsyncStorage.removeItem('propertyDetails');
+            AsyncStorage.removeItem('userDetail');
+            AsyncStorage.removeItem('LoginData');
+            //SimpleToast.show(response.message)
+            Actions.reset('Login')
+          }else{
             SimpleToast.show(res.message)
             verifyRequestFailed(dispatch, response.message)
         }

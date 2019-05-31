@@ -30,7 +30,15 @@ export const editVisitorRequest_ = (userId, visitorName, visitorMobileNumber, re
                     Actions.popTo('visitors')
                     DeviceEventEmitter.emit('eventVisitorRequestEdited',{isEditedSuccessFully: true});
                     editVisitorRequestSuccess(dispatch, data)
-                }else{
+                }else if (data.status == 401) {
+
+                    AsyncStorage.removeItem('propertyDetails');
+                    AsyncStorage.removeItem('userDetail');
+                    AsyncStorage.removeItem('LoginData');
+                    //SimpleToast.show(response.message)
+                    Actions.reset('Login')
+                  }
+                else{
                     SimpleToast.show(res.message)
                     editVisitorRequestFailed(dispatch, data)
                 }

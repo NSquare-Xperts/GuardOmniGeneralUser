@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react'
-import { FlatList, View, ActivityIndicator, DeviceEventEmitter, TouchableWithoutFeedback, Image, AsyncStorage, Text, Dimensions } from 'react-native'
+import { FlatList, View, ActivityIndicator, DeviceEventEmitter, TouchableWithoutFeedback, Image, AsyncStorage, Text,BackHandler, Dimensions } from 'react-native'
 import Placeholder from 'rn-placeholder'
 import { red_lighter, white_Original, grey } from './common'
 import { callPostApi } from './Util/APIManager'
@@ -20,10 +20,11 @@ class Complaints extends Component {
         month_count: '',
         userId: '',
         flatId: '',
-        isReload: true
+        //isReload: this.props.home
     }
 
     renderUsersList() {
+
         callPostApi('http://guardomni.dutique.com:8000/api/complaintList', {
             "userId": this.state.userId,
             "pageNumber": this.state.page,
@@ -33,31 +34,46 @@ class Complaints extends Component {
             res = JSON.parse(response)
             console.log("response : Complaints ", res.status)
             console.log("response : Complaints length ", res.data)
+
             if (res.status == 200) {
                 this.setState({
                     notices: this.state.notices.concat(res.data), loadMore: false, refreshing: false, totalRecords: res.totalRecords, month_count: res.month_count,
-                    status: res.status
+                    status: res.status,
                 })
             } else if (res.status == 400) {
                 this.setState({
                     refreshing: false,
-                    loadMore: false
+                    loadMore: false,
                 })
-            } else {
+            } else if (res.status == 401) {
+
+                AsyncStorage.removeItem('propertyDetails');
+                AsyncStorage.removeItem('userDetail');
+                AsyncStorage.removeItem('LoginData');
+                //SimpleToast.show(response.message)
+                Actions.reset('Login')
+              }else {
                 this.setState({
-                    refreshing: false
-                    //loadMore: false
+                    refreshing: false,
                 })
             }
         });
     }
 
-    componentWillMount(){
 
+    handleBackPress() {
+        console.log("---scene---"+Actions.currentScene)
+        if (Actions.currentScene == 'Complaints') {
+            Actions.pop()
+        }
+        return true;
+      }
+  
+      
+    componentWillMount() {
         console.log("will mount complaints ")
-       if(this.props.home == true){
-        this._getUserStorageValue()
-       }
+            this._getUserStorageValue()
+            BackHandler.addEventListener('hardwareBackPress', this.handleBackPress)
     }
 
     async _getUserStorageValue() {
@@ -78,7 +94,7 @@ class Complaints extends Component {
     }
 
     componentDidMount() {
-        //console.log("complaints did mount")
+        console.log("complaints did mount")
         this.addComplaintListener =
             DeviceEventEmitter.addListener('eventNewComplaintAdded', (e) => {
                 if (e) {
@@ -87,8 +103,8 @@ class Complaints extends Component {
                         loadMore: false,
                         page: 0,
                         notices: [],
-                        isReload: false
                     })
+                    console.log("call storage 1")
                     this._getUserStorageValue()
                 }
             });
@@ -101,19 +117,18 @@ class Complaints extends Component {
                         loadMore: false,
                         page: 0,
                         notices: [],
-                        isReload: false
                     }),
-                        this._getUserStorageValue()
+                    console.log("call storage 2")
+                    this._getUserStorageValue()
+                    Actions.refresh()
                 }
             });
-            console.log("----isReload----"+this.state.isReload)
-        // if (this.state.isReload == true) {
-        //     this._getUserStorageValue()
-        // }
     }
 
     componentWillUnmount() {
         //console.log("unmount .....drawer")
+       
+        BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress)
         Actions.popTo('drawer');
         this.setState({
             notices: []
