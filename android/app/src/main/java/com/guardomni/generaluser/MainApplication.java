@@ -2,7 +2,7 @@ package com.guardomni.generaluser;
 
 import android.app.Application;
 
-import com.facebook.react.BuildConfig;
+
 import com.facebook.react.ReactApplication;
 import com.google.firebase.FirebaseApp;
 import com.swmansion.reanimated.ReanimatedPackage;

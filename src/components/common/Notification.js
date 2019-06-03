@@ -4,6 +4,7 @@ import { green, black, red, white_Original } from './color'
 import { Actions } from 'react-native-router-flux'
 import NotificationCount from '../NotificationCount'
 
+
 const Notification = (props) => {
         // <TouchableWithoutFeedback onPress={() => Actions.Notifications()}>
         // <ImageBackground source={require('../assets/guard/home/notification_icn.png')}

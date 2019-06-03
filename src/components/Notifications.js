@@ -7,6 +7,7 @@ import NotificationListItem from './common/NotificationListItem'
 import { callPostApi } from './Util/APIManager'
 import SimpleToast from 'react-native-simple-toast'
 import { ScrollView } from 'react-native-gesture-handler';
+import NotificationCount from './NotificationCount'
 
 class Notifications extends Component {
     state = {
@@ -18,6 +19,7 @@ class Notifications extends Component {
     }
 
     renderNotificationList() {
+        
 
         console.log("notification List " + this.state.userId + "," + this.state.flatId)
         callPostApi('http://guardomni.dutique.com:8000/api/getNotificationList', {
@@ -34,16 +36,13 @@ class Notifications extends Component {
                 console.log("response : ", res)
                 if (res.status == 200) {
                     this.setState({
-
                         notificationsList: this.state.notificationsList.concat(res.data), loadMore: false, refreshing: false,
                         status: res.status
                     })
                 }else if (res.status == 401) {
-
                     AsyncStorage.removeItem('propertyDetails');
                     AsyncStorage.removeItem('userDetail');
-                    AsyncStorage.removeItem('LoginData');
-                    //SimpleToast.show(response.message)
+                    AsyncStorage.removeItem('LoginData');                    
                     Actions.reset('Login')
                   }              
                 else {
