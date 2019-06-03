@@ -162,10 +162,8 @@ class Notices extends Component {
     }
 
     _sendId(item) {
-        console.log("data : ", item)
+        console.log("Selected Notice ID : ", item)
         Actions.NoticeDetail({ noticeID: item })
-
-
     }
 
     render() {

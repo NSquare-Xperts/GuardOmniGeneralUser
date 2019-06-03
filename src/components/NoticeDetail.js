@@ -33,11 +33,11 @@ class NoticeDetail extends Component {
 
       this.setState({ userId: res.data[0].user_details.user_id })
       console.log('userId :: ', this.state.userId)
+      console.log("notice ID details", this.state.noticeId);
 
-      console.log("notice ID details", this.state.noticeId.id);
       callPostApi('http://guardomni.dutique.com:8000/api/noticeDetails', {
         "userId": this.state.userId,
-        "noticeId": this.state.noticeId.id
+        "noticeId": this.state.noticeId
       })
         .then((response) => {
           // Continue your code here...

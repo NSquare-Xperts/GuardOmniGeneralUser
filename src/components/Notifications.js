@@ -25,7 +25,8 @@ class Notifications extends Component {
         callPostApi('http://guardomni.dutique.com:8000/api/getNotificationList', {
             "userId": this.state.userId,
             "flatId": this.state.flatId,
-            "pageNumber": this.state.page
+            "pageNumber": this.state.page,
+            "loginType": '4'
             // "userId": 34,
             // "flatId": 56,
             // "pageNumber": 0
@@ -157,20 +158,17 @@ class Notifications extends Component {
         // 1 => manual in : general user 
         // 2 => Reported Visitor request REported inout list in guard 
         // 3 => Complaint resolved
-
-        data = JSON.parse(item.notification_data)
         
         SENDid =JSON.parse(item.notification_data)
-       
-        console.log("notificationItem : " +data.notification_category)
-        console.log("notificationItem : " +SENDid.id)
-
-        console.log("notificationData : " + data.notification_data.id)
-        if (data.notification_category == "0") {
+        
+        if (SENDid.notification_category == "0") {
+            console.log("Notifications Notice ID : " +SENDid.id)
             Actions.NoticeDetail({ noticeID: SENDid.id })
-        } else if (data.notification_category == "2") {
+        } else if (SENDid.notification_category == "2") {
+            console.log("Notifications Report ID : " +SENDid.id)
             Actions.ReportedInOutDetails({ RId: SENDid.id})
-        } else if (data.notification_category == "3") {
+        } else if (SENDid.notification_category == "3") {
+            console.log("Notifications Complaint ID: : " +SENDid.id)
             Actions.ComplaintDetail({ complaintID: SENDid.id })
         }
     }

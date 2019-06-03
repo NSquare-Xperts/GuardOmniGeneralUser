@@ -120,24 +120,16 @@ class Homepage extends Component {
       // 2 => Reported Visitor request REported inout list in guard 
       // 3 => Complaint resolved
       console.log("notification type : " + data.notification_category)
+      console.log("Notification ID: " + data.id)
 
       if (data.notification_category == "3") {
         Actions.ComplaintDetail({ complaintID: data.id })
-      } else if (data.notification_category == "1") {
-
-        // Actions.ReportedInOutDetails({ RId: data.id })
+      } else if (data.notification_category == "1") {       
         Actions.visitors()
-
       } else if (data.notification_category == "0") {
         console.log("Inside If notice detail ")
         Actions.NoticeDetail({ noticeID: data.id })
-      }
-      // Actions.popTo('_Complaints',{complaintID:data.id})
-      // else if(data.notification_category==2)
-      // Actions.popTo('ReportedInOutDetails',{RId:data.id})
-      // else if()
-      //console.log("OnNotification Open GaurdHomePage")
-      //console.log("Data " + JSON.stringify(data))
+      }      
     })
   }
 
