@@ -45,32 +45,21 @@ export const loginUser = (phone) => {
 
 export const VerifyOtp = ({ phone, otp, token, platform }) => {
     return (dispatch) => {
-        dispatch({ type: LOGIN_USER });
-
-        console.log(" INSIDE verify ");
-        console.log(" PHONE OTP: ", phone, otp);
-        console.log(" FCM Token: ", token);
-
+       dispatch({ type: LOGIN_USER });
         axios.post('http://guardomni.dutique.com:8000/api/validateOTP', {
             "mobileNumber": phone,
             "otp": otp,
             "cloudId":token,
-            "deviceType":(platform=="android"?0:1)
+            "deviceType":(platform=="android"?0:1),
+            "loginType": '4'
         })
             .then((response) => {
-
-                console.log("LOGIN1 : "+response)
                 var data = response.data
-                var login = JSON.stringify(data)
-               
-               console.log("LOGIN1 : ", data.data)
-                //console.log("LOGIN2 : ", data.data[0].property_details)
-                console.log("login response : "+data)
-                
+                var login = JSON.stringify(data)               
+                               
                 if (data.status == 400) {
                     loginFailed(dispatch, data.message)
                 }else if (data.status == 401) {
-
                     AsyncStorage.removeItem('propertyDetails');
                     AsyncStorage.removeItem('userDetail');
                     AsyncStorage.removeItem('LoginData');

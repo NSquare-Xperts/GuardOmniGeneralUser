@@ -70,7 +70,7 @@ export const VerifyOtp = ({ phone, otp }) => {
 
         axios.post('http://ec2-34-219-55-114.us-west-2.compute.amazonaws.com:3000/api/verifyOtp/', {
             "phone": phone,
-            "otp": otp
+            "otp": otp            
         })
             .then((response) => {
 
