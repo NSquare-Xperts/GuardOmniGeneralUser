@@ -77,8 +77,7 @@ class MyId extends Component {
         )
     }
 
-    render() {
-        console.log("render")
+    render() {        
         return (
             <View style={{ backgroundColor: red_lighter, flex: 1 }}>
                 {this.renderUserDetails()}

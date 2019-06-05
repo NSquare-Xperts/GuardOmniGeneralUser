@@ -119,8 +119,7 @@ class NoticeDetail extends Component {
     }
   }
 
-  render() {
-    console.log("render");
+  render() {    
     return (
       <View style={{ backgroundColor: red_lighter, flex: 1 }}>
         <ScrollView style={styles.container}>

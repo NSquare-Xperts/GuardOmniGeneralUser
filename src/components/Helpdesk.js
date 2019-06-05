@@ -27,10 +27,7 @@ class Helpdesk extends Component {
             LoginData = data[0][1];
             var res = JSON.parse(LoginData)
 
-            this.setState({ userId: res.data[0].user_details.user_id 
-               
-            
-            })
+            this.setState({ userId: res.data[0].user_details.user_id })
             console.log('userId :: ', this.state.userId,this.state.flatId)
 
             callPostApi('http://guardomni.dutique.com:8000/api/helpdeskList', {
@@ -46,7 +43,8 @@ class Helpdesk extends Component {
                     if (res.status == 200) {
                         this.setState({
                             notices: res.Helpdesk, loadMore: false, refreshing: false, totalRecords: res.totalRecords, month_count: res.month_count,
-                            status: res.status
+                            status: res.status,
+                            refreshing: false,
                         })
                     }else if (res.status == 401) {
 

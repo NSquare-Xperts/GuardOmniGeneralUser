@@ -60,8 +60,7 @@ const MoreIcon = require('./components/assets/Complaints/more_options.png');
 // import { Right } from 'native-base';
 class RouterComponent extends Component {
 
-    componentDidMount() {
-        console.log("...componentWillMount...")
+    componentDidMount() {        
         BackHandler.addEventListener('hardwareBackPress', () => {
             if (Actions.currentScene == 'Login') {
                 //Actions.refresh({ key: Math.random() })

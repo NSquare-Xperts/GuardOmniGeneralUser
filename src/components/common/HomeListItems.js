@@ -7,8 +7,7 @@ import ImageLoad from 'react-native-image-placeholder'
 //make component 
 const HomeListItems = (props) => {
   const { gridRowStyle, container, thumbnail, gridColStyle, textStyle, textBoldStyle } = styles;
-
-  console.log("props >> "+props.image)
+ 
   return (
     <TouchableWithoutFeedback onPress={() => Actions.PropertyDetails()}>
       <View style={container}>

@@ -26,7 +26,6 @@ class Homepage extends Component {
   }
 
   handleBackPress() {
-    console.log("Back handler" + Actions.currentScene)
     if (Actions.currentScene == 'Login') {
       //Actions.refresh({ key: Math.random() })
       BackHandler.exitApp()
@@ -62,9 +61,6 @@ class Homepage extends Component {
    }
 
   componentWillMount() {
-
-    console.log("HomePage: componentWillMount")
-
     this._getStorageValue();
     BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
   }
@@ -72,14 +68,10 @@ class Homepage extends Component {
   componentWillUnmount() {
     Actions.pop()
     BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
-
     return true;
   }
 
-  componentDidMount() {
-    
-    console.log("HomePage: componentDidMount")
-    
+  componentDidMount() {   
     this.addnotificationListener =
     DeviceEventEmitter.addListener('notificationcount', (e) => {
       if (e) {
@@ -91,8 +83,8 @@ class Homepage extends Component {
     this.notificationListener = firebase.notifications().onNotification((notification) => {
       // Process your notification as required
       const { title, body, data } = notification;
-      console.log("OnNotification HomePage")
-      console.log("Data " + JSON.stringify(data) + "And " + data.id)
+      // console.log("OnNotification HomePage")
+      // console.log("Data " + JSON.stringify(data) + "And " + data.id)
 
       this.getNotificationCount()
 
@@ -119,15 +111,14 @@ class Homepage extends Component {
       // 1 => manual in : general user 
       // 2 => Reported Visitor request REported inout list in guard 
       // 3 => Complaint resolved
-      console.log("notification type : " + data.notification_category)
+      console.log("Notification type : " + data.notification_category)
       console.log("Notification ID: " + data.id)
 
       if (data.notification_category == "3") {
         Actions.ComplaintDetail({ complaintID: data.id })
       } else if (data.notification_category == "1") {       
         Actions.visitors()
-      } else if (data.notification_category == "0") {
-        console.log("Inside If notice detail ")
+      } else if (data.notification_category == "0") {        
         Actions.NoticeDetail({ noticeID: data.id })
       }      
     })
@@ -144,8 +135,7 @@ class Homepage extends Component {
     }
   }
 
-  render() {
-    console.log("render2")
+  render() {    
     if (!this.state.refreshing) {
       return (
         <View style={{ display: 'flex', flex: 1, justifyContent: 'flex-start', backgroundColor: { red_lighter } }}>
