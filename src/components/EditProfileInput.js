@@ -64,7 +64,7 @@ const EditProfileInput = (props) => {
                         </View>
 
                         <TextInput
-                            style={{ fontFamily: 'OpenSans-Regular',marginBottom:7, fontSize: 12, color: grey }}
+                            style={{ fontFamily: 'OpenSans',marginBottom:7, fontSize: 12, color: grey }}
                             placeholder={Mobile_Number}
                             underlineColorAndroid='rgba(0,0,0,0)'
                             onChangeText={props.phoneChange}
@@ -221,7 +221,7 @@ const styles = {
         alignItems: 'center'
     },
     textStyle: {
-        fontFamily: 'OpenSans-Regular',
+        fontFamily: 'OpenSans',
         fontSize: 12,
         color: black,
         marginLeft: 20,

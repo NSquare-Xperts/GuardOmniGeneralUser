@@ -206,7 +206,7 @@ const styles = {
   textStyle: {
     fontSize: 18,
     color: black,
-    fontFamily: 'OpenSans-Regular.ttf'
+    fontFamily: 'OpenSans.ttf'
   },
   headerText: {
     fontSize: 20,

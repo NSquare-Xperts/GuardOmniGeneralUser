@@ -91,7 +91,7 @@ const styles = {
     justifyContent: 'center',
   },
   textStyle: {
-    fontFamily: 'OpenSans-Regular',
+    fontFamily: 'OpenSans',
     color: black,
     fontSize: 12,
     flexWrap: 'wrap',

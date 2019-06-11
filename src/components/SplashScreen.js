@@ -40,7 +40,7 @@ export default SplashScreen;
 const styles = {
 
   textVersion: {
-    fontFamily: 'OpenSans-Regular',
+    fontFamily: 'OpenSans',
     color: white_light,
     fontSize: 12
   }

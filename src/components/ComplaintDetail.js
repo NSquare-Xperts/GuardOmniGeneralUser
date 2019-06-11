@@ -251,7 +251,7 @@ const styles = {
 
     },
     textDetailStyle: {
-        fontFamily: 'OpenSans-Regular',
+        fontFamily: 'OpenSans',
         fontSize: 13,
         color: black,
         padding: 3,
@@ -392,7 +392,7 @@ const styles = {
 
 //       },
 //       textDetailStyle: {
-//         fontFamily: 'OpenSans-Regular',
+//         fontFamily: 'OpenSans',
 //         fontSize: 13,
 //         color: black,
 //         padding: 3,

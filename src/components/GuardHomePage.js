@@ -55,6 +55,7 @@ class GuardHomepage extends Component {
       // else if()
       console.log("OnNotification Open GaurdHomePage")
       console.log("Data " + JSON.stringify(data))
+      firebase.notifications().removeDeliveredNotification(notificationOpen.notification.notificationId)
     })
   }
   render() {

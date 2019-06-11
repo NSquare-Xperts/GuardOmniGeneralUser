@@ -150,7 +150,7 @@ const styles = {
     justifyContent: 'space-between'
   },
   textStylePopup: {
-    fontFamily: 'OpenSans-Regular',
+    fontFamily: 'OpenSans',
     fontSize: 14,
     color: black,
     alignSelf: 'center',
@@ -162,14 +162,14 @@ const styles = {
     justifyContent: 'center'
   },
   textStyle: {
-    fontFamily: 'OpenSans-Regular',
+    fontFamily: 'OpenSans',
     fontSize: 14,
     color: 'black',
     alignSelf: 'flex-start',
     marginLeft: 15
   },
   textStyleDate: {
-    fontFamily: 'OpenSans-Regular',
+    fontFamily: 'OpenSans',
     fontSize: 12,
     color: 'black',
     alignSelf: 'flex-start',

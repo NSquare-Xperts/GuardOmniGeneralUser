@@ -201,7 +201,7 @@ const styles = {
     textStyle: {
         fontSize: 14,
         color: black,
-        fontFamilty: 'OpenSans-Regular',
+        fontFamilty: 'OpenSans',
         alignSelf: 'center'
     }
 

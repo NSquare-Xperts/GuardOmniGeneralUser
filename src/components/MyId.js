@@ -128,13 +128,13 @@ const styles = {
         marginBottom: 5
     },
     textStyle: {
-        fontFamily: 'OpenSans-Regular',
+        fontFamily: 'OpenSans',
         fontSize: 12,
         color: black,
         //alignSelf: 'flex-start',
     },
     textStyleMyId: {
-        fontFamily: 'OpenSans-Regular',
+        fontFamily: 'OpenSans',
         fontSize: 14,
         color: black,
         marginBottom: 2

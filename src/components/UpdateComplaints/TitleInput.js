@@ -95,7 +95,7 @@ const styles = {
         borderWidth: 2,
         marginTop: 15,
         paddingLeft: 25,
-        fontFamily: 'OpenSans-Regular.ttf',
+        fontFamily: 'OpenSans.ttf',
         fontSize: 12,
         color: black
     },

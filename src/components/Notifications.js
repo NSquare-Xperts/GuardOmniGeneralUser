@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { FlatList, Text, View, TouchableWithoutFeedback, AsyncStorage, Image, Alert, Dimensions,BackHandler } from 'react-native'
+import { FlatList, Text, View, TouchableWithoutFeedback, AsyncStorage, Image, Alert, Dimensions,BackHandler, DeviceEventEmitter } from 'react-native'
 import Placeholder from 'rn-placeholder'
 import { red_lighter, white_Original, grey } from './common'
 import { Actions } from 'react-native-router-flux'
@@ -93,7 +93,7 @@ class Notifications extends Component {
   
     componentWillMount() {
         this._getUserStorageValue()
-        NotificationCount.setCurrentCount(0)
+        NotificationCount.setCurrentCount(0)        
         BackHandler.addEventListener('hardwareBackPress', this.handleBackPress)
     }
     _handleRefresh = () => {
@@ -109,6 +109,7 @@ class Notifications extends Component {
     }
 
     componentWillUnmount(){
+        DeviceEventEmitter.emit('notificationcount', { isNotificationAdded: true });
         BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress)
     }
 

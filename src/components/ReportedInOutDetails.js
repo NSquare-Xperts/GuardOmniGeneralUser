@@ -80,12 +80,12 @@ const styles = {
   },
   textStyle: {
     color: black,
-    fontFamily: 'OpenSans-Regular',
+    fontFamily: 'OpenSans',
     fontSize: 12,
   },
   textRedStyle: {
     color: red,
-    fontFamily: 'OpenSans-Regular',
+    fontFamily: 'OpenSans',
     fontSize: 12,
   },
   line : {

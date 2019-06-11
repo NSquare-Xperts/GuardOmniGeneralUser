@@ -121,6 +121,7 @@ class Homepage extends Component {
       } else if (data.notification_category == "0") {        
         Actions.NoticeDetail({ noticeID: data.id })
       }      
+      firebase.notifications().removeDeliveredNotification(notificationOpen.notification.notificationId)
     })
   }
 

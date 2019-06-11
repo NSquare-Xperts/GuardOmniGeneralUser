@@ -163,7 +163,7 @@ const styles = {
     borderWidth: 2, 
     marginTop: 15,
     paddingLeft: 25,
-    fontFamily: 'OpenSans-Regular', 
+    fontFamily: 'OpenSans', 
     fontSize: 12, 
     color: black
    },
@@ -180,7 +180,7 @@ const styles = {
     marginTop: 15,
     marginRight: 5,
     paddingLeft: 25,
-    fontFamily: 'OpenSans-Regular', 
+    fontFamily: 'OpenSans', 
     fontSize: 12, 
     color: black
    },

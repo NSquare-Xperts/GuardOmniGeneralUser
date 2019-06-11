@@ -248,7 +248,7 @@ const styles = {
     color: red
   },
   textVersion: {
-    fontFamily: 'OpenSans-Regular',
+    fontFamily: 'OpenSans',
     color: grey,
     justifyContent: 'flex-end',
     alignSelf: 'center',

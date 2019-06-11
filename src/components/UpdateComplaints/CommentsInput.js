@@ -66,7 +66,7 @@ const styles = {
         marginTop: 10,
         marginLeft:15,
         paddingLeft: 25,
-        fontFamily: 'OpenSans-Regular.ttf',
+        fontFamily: 'OpenSans.ttf',
         fontSize: 14,
         color: black
     },

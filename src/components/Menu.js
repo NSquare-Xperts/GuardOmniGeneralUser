@@ -149,7 +149,7 @@ const styles = {
         marginLeft: 10
     },
     drawerText: {
-        fontFamily: 'OpenSans-Regular',
+        fontFamily: 'OpenSans',
         fontSize: 14,
         color: 'black',
         marginLeft: 15
