@@ -17,6 +17,7 @@ export const  ENTER_EMAIL = 'enter_email'
 
 export const COMPLAINT_TITLE = 'complaint_title'
 export const COMPLAINT_COMMENTS = 'complaint_comments'
+export const EDIT_COMPLAINT_COMMENTS = 'edit_complaint_comments'
 export const COMPLAINT_IMAGES = 'complaint_images'
 export const ADD_COMPLAINT = 'add_complaint'
 export const VERIFY_COMPLAINT = 'VERIFY_COMPLAINT'

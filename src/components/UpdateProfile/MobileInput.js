@@ -19,7 +19,7 @@ const MobileInput = (props) => {
 
                 <TextInput
                     editable={false}
-                    style={{ fontFamily: 'OpenSans.ttf', marginBottom: 7, fontSize: 12, color: grey, marginLeft:8}}
+                    style={{ fontFamily: 'OpenSans', marginBottom: 7, fontSize: 12, color: grey, marginLeft:8}}
                     placeholder={ Mobile_NO }
                     underlineColorAndroid='rgba(0,0,0,0)'
                     onChangeText={props.phoneChange}

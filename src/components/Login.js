@@ -297,12 +297,15 @@ class Login extends Component {
   }
 
   componentWillUnmount() {
+    this.notificationDisplayedListener();
+    this.notificationListener();    
+}
+
+  componentWillUnmount() {
     this.props.auth.phone = ''
     this.props.auth.isOTPVisible = false
     this.props.auth.toggle = false
     Actions.pop()
-    this.notificationListener();
-    this.notificationOpenedListener();
     return true;
   }
 }
@@ -632,7 +635,7 @@ export default connect(mapStateToProps, { phoneChanged, otpChanged, loginUser, l
 
 //   },
 //   topText: {
-//     fontFamily: 'OpenSans-Bold.ttf',
+//     fontFamily: 'OpenSans-Bold',
 //     color: black,
 //     fontSize: 20,
 //     marginTop: 5,
@@ -646,7 +649,7 @@ export default connect(mapStateToProps, { phoneChanged, otpChanged, loginUser, l
 //     color: 'red',
 //   },
 //   textVersion: {
-//     fontFamily: 'OpenSans.ttf',
+//     fontFamily: 'OpenSans',
 //     color: grey,
 //     justifyContent: 'flex-end',
 //     alignSelf: 'center',

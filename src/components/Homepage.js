@@ -67,6 +67,8 @@ class Homepage extends Component {
 
   componentWillUnmount() {
     Actions.pop()
+    this.notificationListener()
+    this.notificationOpenedListener()
     BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
     return true;
   }

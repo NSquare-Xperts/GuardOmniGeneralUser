@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, Image, AsyncStorage, DeviceEventEmitter } from 'react-native'
+import { Text, View, Image, AsyncStorage, DeviceEventEmitter,BackHandler } from 'react-native'
 import { red_lighter, white_Original, grey, black } from './common'
 import { ScrollView } from 'react-native-gesture-handler';
 import { callPostApi } from './Util/APIManager';
@@ -10,6 +10,7 @@ import ImageLoad from 'react-native-image-placeholder'
 class ComplaintDetail extends Component {
     constructor(props) {
         super(props)
+        this.handleBackPress = this.handleBackPress.bind(this)
         this.state = {
             complaintId: props.complaintID,
             refreshing: true,
@@ -209,9 +210,19 @@ class ComplaintDetail extends Component {
             </View>
         )
     }
+    componentWillMount() {
+        BackHandler.addEventListener('hardwareBackPress', this.handleBackPress)
+    }
     componentWillUnmount(){
         this.editComplaintListener.remove()
+        BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress)
     }
+
+    handleBackPress() {        
+        this.props.navigation.goBack(null);
+        return true;
+    }
+
 }
 export default ComplaintDetail;
 

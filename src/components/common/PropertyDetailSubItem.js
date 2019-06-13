@@ -67,14 +67,14 @@ const styles = {
     justifyContent: 'flex-start'
   },
   textStyle: {
-    fontFamily: 'OpenSans.ttf',
+    fontFamily: 'OpenSans',
     fontSize: 12,
     color: 'black',
     alignSelf: 'center',
     marginLeft: 15
   },
   textStyleDate: {
-    fontFamily: 'OpenSans.ttf',
+    fontFamily: 'OpenSans',
     fontSize: 12,
     color: 'black',
     alignSelf: 'flex-start',

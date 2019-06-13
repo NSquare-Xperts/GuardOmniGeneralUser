@@ -59,7 +59,7 @@ const styles = {
         //justifyContent: 'flex-end',
       },
       textStyleSmall: {
-        fontFamily: 'OpenSans.ttf',
+        fontFamily: 'OpenSans',
         fontSize: 12,
         color: black,
         marginTop: 2,
@@ -67,7 +67,7 @@ const styles = {
         //alignSelf: 'flex-start',
       },
       textStyle: {
-        fontFamily: 'OpenSans.ttf',
+        fontFamily: 'OpenSans',
         fontSize: 14,
         color: black,
         //marginBottom: 2
@@ -76,7 +76,7 @@ const styles = {
         //marginTop: 2
       },
       textStyleGreen: {
-        fontFamily: 'OpenSans.ttf',
+        fontFamily: 'OpenSans',
         fontSize: 12,
         color: green,
       //  marginBottom: 2
@@ -85,7 +85,7 @@ const styles = {
         //marginTop: 2
       },
       textStyleTitle: {
-        fontFamily: 'OpenSans-Bold.ttf',
+        fontFamily: 'OpenSans-Bold',
         fontSize: 20,
         color: black,
         //alignSelf: 'center',
@@ -93,7 +93,7 @@ const styles = {
         marginBottom: 10
       },
       textStyleBold: {
-        fontFamily: 'OpenSans-Bold.ttf',
+        fontFamily: 'OpenSans-Bold',
         fontSize: 18,
         color: black,
         marginTop: 3,
