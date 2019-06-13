@@ -74,6 +74,7 @@ import com.android.build.OutputFile
 
 project.ext.react = [
     entryFile: "index.js",
+    nodeExecutableAndArgs:  ["/usr/local/bin/node"],
     bundleAssetName: "index.android.bundle",
     bundleInDebug: true,
     bundleInRelease: true
@@ -109,8 +110,8 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         missingDimensionStrategy 'react-native-camera', 'general'
-        versionCode 18
-        versionName "2.2.8"
+        versionCode 19
+        versionName "2.2.9"
     }
     splits {
         abi {

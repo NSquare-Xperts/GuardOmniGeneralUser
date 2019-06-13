@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, ImageBackground, Image, TouchableOpacity, PixelRatio, AsyncStorage } from 'react-native'
+import { Text, View, ImageBackground, Image, TouchableOpacity, PixelRatio, AsyncStorage, BackHandler } from 'react-native'
 import { connect } from 'react-redux'
 import Button from '../common/Button'
 import { titleChanged, commentsChanged, addComplaint_ } from './ComplaintsActions'
@@ -10,6 +10,11 @@ import ImagePicker from 'react-native-image-picker'
 import { Actions } from 'react-native-router-flux'
 
 class AddComplaintNew extends Component {
+
+  constructor(props) {
+    super(props);
+    this.handleBackPress = this.handleBackPress.bind(this)
+  }
 
   state = {
     errorTitle: '',
@@ -148,7 +153,9 @@ class AddComplaintNew extends Component {
 
   componentWillMount(){
     this.props.auth.title = ''
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
   }
+
   renderButton() {
     return (
       <Button
@@ -571,8 +578,15 @@ class AddComplaintNew extends Component {
     this.props.auth.comments = ''
 
     //Actions.pop('Complaints');
-    Actions.popTo('Complaints');
+    // Actions.popTo('Complaints');
     //Actions.refresh()
+
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
+    return true;
+  }
+
+  handleBackPress() {  
+    this.props.navigation.goBack(null);
     return true;
   }
 

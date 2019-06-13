@@ -14,6 +14,7 @@ import NotificationCount from './NotificationCount'
 
 class Homepage extends Component {
 
+
   state = {
     propertyData: {
       "site_name": "NA",
@@ -66,7 +67,7 @@ class Homepage extends Component {
   }
 
   componentWillUnmount() {
-    Actions.pop()
+    // Actions.pop()
     this.notificationListener()
     this.notificationOpenedListener()
     BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
