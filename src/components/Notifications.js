@@ -270,7 +270,8 @@ class Notifications extends Component {
                                 {
                                     text: 'Yes', onPress: () => {
 
-                                        //call notification delete api 
+                                        if (this.state.notificationsList.length > 0){ 
+                                            //call notification delete api 
                                         callPostApi('http://guardomni.dutique.com:8000/api/deleteAllNotifications', {
                                             "userId": this.state.userId,
                                             "flatId": this.state.flatId
@@ -279,19 +280,17 @@ class Notifications extends Component {
                                                 // Continue your code here...
                                                 res = JSON.parse(response)
                                                 console.log("response : ", res)
-                                                if (res.status == 200) {
-
-                                                    //AsyncStorage.removeItem('complaintID')
-                                                    //AsyncStorage.removeItem('userID')
-                                                    //Actions.pop('Complaints');
-                                                    //DeviceEventEmitter.emit('eventDeletedComplaint',{isDeletedSuccessFully: true});
-                                                    //Actions.popTo('_Complaints');
-
+                                                if (res.status == 200) {                                                    
+                                                    this._handleRefresh()
                                                     SimpleToast.show(res.message)
                                                 } else {
                                                     SimpleToast.show(res.message)
+                                                    this._handleRefresh()
                                                 }
                                             });
+                                        }else {
+                                            console.log("No Notifications")
+                                        }                                      
 
                                     }
                                 }

@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import { Text, View, Image, AsyncStorage, DeviceEventEmitter,BackHandler } from 'react-native'
+import { Text, View, Image, AsyncStorage, DeviceEventEmitter,BackHandler,TouchableWithoutFeedback } from 'react-native'
 import { red_lighter, white_Original, grey, black } from './common'
 import { ScrollView } from 'react-native-gesture-handler';
 import { callPostApi } from './Util/APIManager';
 import ImageLoad from 'react-native-image-placeholder'
+import Dialog from "react-native-dialog";
 
 //1 : resolved 
 //0 : not
@@ -17,6 +18,9 @@ class ComplaintDetail extends Component {
             isVisibleImg1: false,
             isVisibleImg2: false,
             isVisibleImg3: false,
+            dialogVisible: false,
+            userId:'',
+            newComment:'',
             text: '',
             details: [
                 {
@@ -47,7 +51,7 @@ class ComplaintDetail extends Component {
                 .then((response) => {
                     // Continue your code here...
                     res = JSON.parse(response)
-                    console.log("details : ", res)
+                    console.log("Complaint Details : ", res)                    
                     if (res.status == "200") {
                         this.setState({
                             details: res.data, refreshing: false
@@ -207,9 +211,71 @@ class ComplaintDetail extends Component {
                     <Text style={styles.textDetailStyle}>{this.state.details[0].complaint_description} </Text>
 
                 </ScrollView>
+                <TouchableWithoutFeedback onPress={() =>
+                        this.showDialog()}>
+                        <Image style={styles.thumbnail_arrow}
+                            source={require('./assets/Visitor/add_fab_click.png')} />
+                </TouchableWithoutFeedback>
+                <Dialog.Container visible={this.state.dialogVisible}>
+                    <Dialog.Title>Add New Comment</Dialog.Title>                        
+                        <Dialog.Input  style={styles.textInput}
+                            value={this.state.newComment}
+                            onChangeText={comment => this.setState({ newComment:comment })}                            
+                            >
+                        </Dialog.Input>
+                        <Dialog.Button label="Cancel" onPress={this.handleCancel} />
+                        <Dialog.Button label="Add" onPress={this.handleAddComment} />
+                </Dialog.Container>
             </View>
         )
     }
+    
+      showDialog = () => {
+        this.setState({ dialogVisible: true });
+      };
+    
+      handleCancel = () => {
+        this.setState({ dialogVisible: false });
+      };
+    
+      handleAddComment = () => {        
+        console.log("New Comment: ",this.state.newComment)
+        this.setState({ dialogVisible: false });
+        this.setState({ newComment:'' })
+        if (this.state.newComment.length > 0) {
+            console.log("UserID: ",this.state.userId,"ComplaintID:",this.state.complaintId,"Comment: ", this.state.newComment)
+        callPostApi('http://18.188.253.46:8000/api/addComplaintComment', {
+                "userId": this.state.userId,
+                "complaintId": this.state.complaintId,
+                "comment": this.state.newComment
+            })
+                .then((response) => {
+                    
+                    res = JSON.parse(response)
+                    console.log("details : ", res)
+                    // if (res.status == "200") {
+                    //     this.setState({
+                    //         details: res.data, refreshing: false
+                    //     })
+                    // this.renderComplaintDetails()
+
+                    // }else if (res.status == 401) {
+
+                    //     AsyncStorage.removeItem('propertyDetails');
+                    //     AsyncStorage.removeItem('userDetail');
+                    //     AsyncStorage.removeItem('LoginData');
+                    //     //SimpleToast.show(response.message)
+                    //     Actions.reset('Login')
+                    //   } else {
+                    //     console.log("stop calling")
+                    // }
+
+                });
+        }
+        
+      };
+      
+
     componentWillMount() {
         BackHandler.addEventListener('hardwareBackPress', this.handleBackPress)
     }
@@ -240,6 +306,22 @@ const styles = {
         borderRadius: 2,
         marginBottom: 5
     },
+    thumbnail_arrow: {
+        height: 55,
+        width: 55,
+        elevation: 4,
+        position: 'absolute',
+        bottom: 0,
+        right: 0,
+        //padding: 20,
+        //flex: 1,
+        justifyContent: 'flex-end',
+        //alignItems: 'flex-end',
+        marginRight: 10,
+        //alignSelf: 'flex-end',
+        marginLeft: 10,
+        marginBottom: 8
+    },
     thumbnail: {
         height: 155,
         width: '100%',
@@ -267,6 +349,17 @@ const styles = {
         color: black,
         padding: 3,
         marginLeft: 5
+    },
+    textInput: {
+        alignSelf: 'stretch',
+        padding: 5,
+        marginLeft: 5,
+        borderBottomColor:'#000',
+        margin:5,
+        marginRight:5,
+    
+        borderBottomColor: '#000', // Add this to specify bottom border color
+        borderBottomWidth: 1     // Add this to specify bottom border thickness
     }
 
 }
