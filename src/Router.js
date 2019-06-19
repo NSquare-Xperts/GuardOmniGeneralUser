@@ -56,6 +56,7 @@ import NewEditVisitorRequest from './components/UpdateVisitorRequest/NewEditVisi
 import CountrycodeEditVR from './components/CountryCodeEditVR'
 import TimePicker from './components/TimePicker'
 import ComplaintDetailTextAlert from './components/ComplaintDetailTextAlert'
+import ComplaintDetailDoNotEdit from './components/ComplaintDetailDoNotEdit';
 
 const MoreIcon = require('./components/assets/Complaints/more_options.png');
 // import { Right } from 'native-base';
@@ -144,7 +145,7 @@ class RouterComponent extends Component {
                     <Scene title="Helpdesk" key="Helpdesk" component={Helpdesk} />
                     <Scene title="Complaint Detail" key="ComplaintDetail" component={ComplaintDetail} renderRightButton={OptionMenu} />
                     {/* <Scene title="Complaint Detail" key="ComplaintDetailDelete" component={ComplaintDetail} renderRightButton={OptionMenuDelete} /> */}
-                    <Scene title="Complaint Detail" key="ComplaintDetailDelete" component={ComplaintDetail} />
+                    <Scene title="Complaint Detail" key="ComplaintDetailDelete" component={ComplaintDetailDoNotEdit} />
                     
                     <Scene title="Notifications" key="Notifications" component={Notifications} />
 

@@ -14,7 +14,6 @@ import NotificationCount from './NotificationCount'
 
 class Homepage extends Component {
 
-
   state = {
     propertyData: {
       "site_name": "NA",
@@ -86,11 +85,9 @@ class Homepage extends Component {
     this.notificationListener = firebase.notifications().onNotification((notification) => {
       // Process your notification as required
       const { title, body, data } = notification;
-      // console.log("OnNotification HomePage")
-      // console.log("Data " + JSON.stringify(data) + "And " + data.id)
+       console.log("OnNotification HomePage")
 
       this.getNotificationCount()
-
       DeviceEventEmitter.emit('notificationcount', { isNotificationAdded: true });
 
       const localNotification = new firebase.notifications.Notification({
@@ -110,15 +107,16 @@ class Homepage extends Component {
 
     this.notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen) => {
       const { title, body, data } = notificationOpen.notification;
+
       // 0 => notice detail
       // 1 => manual in : general user 
       // 2 => Reported Visitor request REported inout list in guard 
       // 3 => Complaint resolved
-      console.log("Notification type : " + data.notification_category)
-      console.log("Notification ID: " + data.id)
+     // console.log("Notification type : " + data.notification_category)
+     // console.log("Notification ID: " + data.id)
 
       if (data.notification_category == "3") {
-        Actions.ComplaintDetail({ complaintID: data.id })
+        Actions.ComplaintDetailDelete({ complaintID: data.id })
       } else if (data.notification_category == "1") {       
         Actions.visitors()
       } else if (data.notification_category == "0") {        

@@ -1,13 +1,16 @@
 import React, { Component } from 'react'
-import { Text, View, Image, AsyncStorage, DeviceEventEmitter,BackHandler,TouchableWithoutFeedback } from 'react-native'
-import { red_lighter, white_Original, grey, black } from './common'
+import { Text, View, Image, AsyncStorage, DeviceEventEmitter, BackHandler, TouchableWithoutFeedback, FlatList } from 'react-native'
+import { red_lighter, white_Original, grey, black, grey_lighter } from './common'
 import { ScrollView } from 'react-native-gesture-handler';
 import { callPostApi } from './Util/APIManager';
 import ImageLoad from 'react-native-image-placeholder'
 import Dialog from "react-native-dialog";
+import HTML from 'react-native-render-html';
 
+// http://guardomni.dutique.com:8000
 //1 : resolved 
 //0 : not
+
 class ComplaintDetail extends Component {
     constructor(props) {
         super(props)
@@ -19,9 +22,18 @@ class ComplaintDetail extends Component {
             isVisibleImg2: false,
             isVisibleImg3: false,
             dialogVisible: false,
-            userId:'',
-            newComment:'',
+            userId: '',
+            errorComment: '',
+            newComment: '',
             text: '',
+            complaintsCommentArray: [
+                {
+                    "comment": "NA",
+                    "complaint_comment_id": "",
+                    "updated_at": "NA",
+                    "user_id": ""
+                }
+            ],
             details: [
                 {
                     "complaint_title": "NA",
@@ -51,23 +63,23 @@ class ComplaintDetail extends Component {
                 .then((response) => {
                     // Continue your code here...
                     res = JSON.parse(response)
-                    console.log("Complaint Details : ", res)                    
+                    console.log("Complaint Details : ", res)
+
                     if (res.status == "200") {
                         this.setState({
-                            details: res.data, refreshing: false
+                            details: res.data, refreshing: false, complaintsCommentArray: res.complaint_comments
                         })
 
-                    }else if (res.status == 401) {
+                    } else if (res.status == 401) {
 
                         AsyncStorage.removeItem('propertyDetails');
                         AsyncStorage.removeItem('userDetail');
                         AsyncStorage.removeItem('LoginData');
                         //SimpleToast.show(response.message)
                         Actions.reset('Login')
-                      } else {
+                    } else {
                         console.log("stop calling")
                     }
-
                 });
         });
     }
@@ -84,7 +96,6 @@ class ComplaintDetail extends Component {
                     this.renderComplaintDetails()
             });
         this.renderComplaintDetails()
-
     }
 
     _handleRefresh = () => {
@@ -125,13 +136,13 @@ class ComplaintDetail extends Component {
                     <ImageLoad
                         style={styles.thumbnail}
                         loadingStyle={{ size: 'large', color: 'blue' }}
-                        source={{ uri: this.state.details[0].complaint_image_2}}
+                        source={{ uri: this.state.details[0].complaint_image_2 }}
                     />
 
                     <ImageLoad
                         style={styles.thumbnail}
                         loadingStyle={{ size: 'large', color: 'blue' }}
-                        source={{ uri: this.state.details[0].complaint_image_3}}
+                        source={{ uri: this.state.details[0].complaint_image_3 }}
                     />
                     {/* <Image
                         style={styles.thumbnail}
@@ -172,7 +183,6 @@ class ComplaintDetail extends Component {
         } else if (this.state.details[0].complaint_image_1 != "") {
             return (
                 <View>
-
                     {/* <Image
                         style={styles.thumbnail}
                         source={{ uri: this.state.details[0].complaint_image_1 }} /> */}
@@ -180,9 +190,7 @@ class ComplaintDetail extends Component {
                     <ImageLoad
                         style={styles.thumbnail}
                         loadingStyle={{ size: 'large', color: 'blue' }}
-                        source={{ uri: this.state.details[0].complaint_image_1 }}
-                    />
-
+                        source={{ uri: this.state.details[0].complaint_image_1 }} />
                 </View>
             )
         }
@@ -210,55 +218,80 @@ class ComplaintDetail extends Component {
 
                     <Text style={styles.textDetailStyle}>{this.state.details[0].complaint_description} </Text>
 
+                    {/* Comment section  */}
+                    <Text style={styles.commentTitleStyle}>Comments :</Text>
+                    <FlatList style={styles.flatListStyle}
+                        data={this.state.complaintsCommentArray}
+                        // ItemSeparatorComponent={this.FlatListItemSeparator}
+                        renderItem={({ item }) =>
+                            // < Text style={styles.textDetailStyle}>{item.comment}</Text>                                
+                            <HTML html={item.comment + ', Date : ' + item.updated_at} />
+                        } />
                 </ScrollView>
+
                 <TouchableWithoutFeedback onPress={() =>
-                        this.showDialog()}>
-                        <Image style={styles.thumbnail_arrow}
-                            source={require('./assets/Visitor/add_fab_click.png')} />
+                    this.showDialog()}>
+                    <Image style={styles.thumbnail_arrow}
+                        source={require('./assets/Visitor/add_fab_click.png')} />
                 </TouchableWithoutFeedback>
-                <Dialog.Container visible={this.state.dialogVisible}>
-                    <Dialog.Title>Add New Comment</Dialog.Title>                        
-                        <Dialog.Input  style={styles.textInput}
-                            value={this.state.newComment}
-                            onChangeText={comment => this.setState({ newComment:comment })}                            
-                            >
-                        </Dialog.Input>
-                        <Dialog.Button label="Cancel" onPress={this.handleCancel} />
-                        <Dialog.Button label="Add" onPress={this.handleAddComment} />
+
+                <Dialog.Container
+                    visible={this.state.dialogVisible}>
+                    <Dialog.Title>Add New Comment</Dialog.Title>
+                    <Dialog.Input
+                        height={100}
+                        width={215}
+                        style={styles.inputStyleComment}
+                        //={styles.textDetailStyle}
+                        value={this.state.newComment}
+                        numberOfLines={5}
+                        multiline={true}
+                        onChangeText={comment => this.setState({
+                            errorComment: '',
+                            newComment: comment
+                        })}
+                    >
+                    </Dialog.Input>
+                    <Text style={{ color: 'red' }}> {this.state.errorComment}</Text>
+                    <Dialog.Button label="Cancel" onPress={this.handleCancel} />
+                    <Dialog.Button label="Add" onPress={this.handleAddComment} />
                 </Dialog.Container>
             </View>
         )
     }
-    
-      showDialog = () => {
+
+    showDialog = () => {
         this.setState({ dialogVisible: true });
-      };
-    
-      handleCancel = () => {
+    };
+
+    handleCancel = () => {
         this.setState({ dialogVisible: false });
-      };
-    
-      handleAddComment = () => {        
-        console.log("New Comment: ",this.state.newComment)
-        this.setState({ dialogVisible: false });
-        this.setState({ newComment:'' })
+    };
+
+    handleAddComment = () => {
+        console.log("New Comment: ", this.state.newComment)
+
+
+
         if (this.state.newComment.length > 0) {
-            console.log("UserID: ",this.state.userId,"ComplaintID:",this.state.complaintId,"Comment: ", this.state.newComment)
-        callPostApi('http://18.188.253.46:8000/api/addComplaintComment', {
+            this.setState({ dialogVisible: false });
+            this.setState({ newComment: '' })
+            console.log("UserID: ", this.state.userId, "ComplaintID:", this.state.complaintId, "Comment: ", this.state.newComment)
+            callPostApi('http://guardomni.dutique.com:8000/api/addComplaintComment', {
                 "userId": this.state.userId,
                 "complaintId": this.state.complaintId,
                 "comment": this.state.newComment
             })
                 .then((response) => {
-                    
+
                     res = JSON.parse(response)
                     console.log("details : ", res)
                     // if (res.status == "200") {
                     //     this.setState({
                     //         details: res.data, refreshing: false
                     //     })
-                    // this.renderComplaintDetails()
-
+                    //this.renderComplaintDetails()
+                    this._handleRefresh()
                     // }else if (res.status == 401) {
 
                     //     AsyncStorage.removeItem('propertyDetails');
@@ -271,20 +304,24 @@ class ComplaintDetail extends Component {
                     // }
 
                 });
+        } else {
+            this.setState({
+                errorComment: 'Please add comment first'
+            })
         }
-        
-      };
-      
+
+    };
+
 
     componentWillMount() {
         BackHandler.addEventListener('hardwareBackPress', this.handleBackPress)
     }
-    componentWillUnmount(){
+    componentWillUnmount() {
         this.editComplaintListener.remove()
         BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress)
     }
 
-    handleBackPress() {        
+    handleBackPress() {
         this.props.navigation.goBack(null);
         return true;
     }
@@ -343,6 +380,15 @@ const styles = {
         marginLeft: 5
 
     },
+    commentTitleStyle: {
+        fontFamily: 'OpenSans-Bold.ttf',
+        fontSize: 15,
+        color: black,
+        padding: 3,
+        marginLeft: 5,
+        marginTop: 10
+
+    },
     textDetailStyle: {
         fontFamily: 'OpenSans',
         fontSize: 13,
@@ -350,14 +396,39 @@ const styles = {
         padding: 3,
         marginLeft: 5
     },
+    flatListStyle: {
+        fontFamily: 'OpenSans-Regular.ttf',
+        fontSize: 13,
+        color: black,
+        padding: 3,
+        marginLeft: 5
+
+    },
+    inputStyleComment: {
+        textAlignVertical: 'top',
+        //height: 100,
+        width: '95%',
+        color: black,
+        multiline: true,
+        backgroundColor: white_Original,
+        borderRadius: 10,
+        alignSelf: 'flex-start',
+        shadowRadius: 4,
+        borderColor: grey_lighter,
+        borderWidth: 1,
+        marginTop: 2,
+        marginLeft: 1,
+        fontFamily: 'OpenSans',
+        fontSize: 14,
+        color: black
+    },
     textInput: {
         alignSelf: 'stretch',
         padding: 5,
         marginLeft: 5,
-        borderBottomColor:'#000',
-        margin:5,
-        marginRight:5,
-    
+        borderBottomColor: '#000',
+        margin: 5,
+        marginRight: 5,
         borderBottomColor: '#000', // Add this to specify bottom border color
         borderBottomWidth: 1     // Add this to specify bottom border thickness
     }

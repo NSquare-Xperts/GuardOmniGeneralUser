@@ -3,6 +3,7 @@ import { USERNAME_CHANGED, PHONE_CHANGED, CODE_CHANGED, NUMBER_OF_PEOPLE_CHANGED
 import { Actions } from 'react-native-router-flux'
 import {  callPostApi } from '../Util/APIManager'
 import { DeviceEventEmitter } from 'react-native'
+//import SimpleToast from 'react-native-simple-toast'
 
 export const editVisitorRequest_ = (userId, visitorName, visitorMobileNumber, requestDateTime, noOfVisitors, vehicleType, vehicleNumber, visitorRequestId,flatId) => {
 
@@ -27,9 +28,14 @@ export const editVisitorRequest_ = (userId, visitorName, visitorMobileNumber, re
                 console.log("edit visitor request : ", res)
                
                 if (res.status == 200) {
+                    
+                    //Toast.show(res.message)
+                   // SimpleToast.show(res.message,100)
                     Actions.popTo('visitors')
                     DeviceEventEmitter.emit('eventVisitorRequestEdited',{isEditedSuccessFully: true});
                     editVisitorRequestSuccess(dispatch, data)
+                  
+
                 }else if (data.status == 401) {
 
                     AsyncStorage.removeItem('propertyDetails');

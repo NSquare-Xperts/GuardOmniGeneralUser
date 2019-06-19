@@ -5,6 +5,7 @@ import { red_lighter, white_Original, grey } from './common'
 import { callPostApi } from './Util/APIManager'
 import RequestListItems from './common/RequestListItems'
 import { Actions } from 'react-native-router-flux'
+import SimpleToast from 'react-native-simple-toast';
 
 class FlatListForVisitors extends Component {
     state = {
@@ -77,6 +78,7 @@ class FlatListForVisitors extends Component {
         this.editRequestListener =
             DeviceEventEmitter.addListener('eventVisitorRequestEdited', (e) => {
                 if (e) {
+
                     this.setState({
                         refreshing: true,
                         loadMore: false,
@@ -85,6 +87,7 @@ class FlatListForVisitors extends Component {
                         notices: []
                     })
                     this._getUserStorageValue()
+                   SimpleToast.show("Visitor Request Updated Successfully!")
                 }
 
             })

@@ -24,8 +24,8 @@ class Complaints extends Component {
     }
 
     renderUsersList() {
-
-        callPostApi('http://guardomni.dutique.com:8000/api/complaintList', {
+        //callPostApi('http://guardomni.dutique.com:8000/api/complaintList', {
+            callPostApi('http://guardomni.dutique.com:8000/api/complaintList', {  
             "userId": this.state.userId,
             "pageNumber": this.state.page,
             "flatId": this.state.flatId
@@ -156,7 +156,7 @@ class Complaints extends Component {
         return (
             <View
                 style={{
-                    height: 0.4,
+                    height: 0.3,
                     width: "95%",
                     backgroundColor: grey,
                     marginLeft: 10,
