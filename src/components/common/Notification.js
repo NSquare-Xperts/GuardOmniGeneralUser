@@ -15,8 +15,8 @@ const Notification = (props) => {
         // </ImageBackground>
         // </TouchableWithoutFeedback>
         AsyncStorage.removeItem('notificationCount')
-        AsyncStorage.setItem('notificationCount',NotificationCount.getCurrentCount())
-            
+        // AsyncStorage.setItem('notificationCount',NotificationCount.getCurrentCount())
+        AsyncStorage.setItem('notificationCount',JSON.stringify(NotificationCount.getCurrentCount()))
         if (NotificationCount.getCurrentCount() <= 0) {
             return (
                 <TouchableWithoutFeedback onPress={() => Actions.Notifications()}>

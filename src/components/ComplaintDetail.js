@@ -7,7 +7,7 @@ import ImageLoad from 'react-native-image-placeholder'
 import Dialog from "react-native-dialog";
 import HTML from 'react-native-render-html';
 
-// http://guardomni.dutique.com:8000
+// http://18.188.253.46:8000
 //1 : resolved 
 //0 : not
 
@@ -56,7 +56,7 @@ class ComplaintDetail extends Component {
 
             this.setState({ userId: res.data[0].user_details.user_id })
 
-            callPostApi('http://guardomni.dutique.com:8000/api/complaintDetails', {
+            callPostApi('http://18.188.253.46:8000/api/complaintDetails', {
                 "userId": this.state.userId,
                 "complaintId": this.state.complaintId
             })
@@ -277,7 +277,7 @@ class ComplaintDetail extends Component {
             this.setState({ dialogVisible: false });
             this.setState({ newComment: '' })
             console.log("UserID: ", this.state.userId, "ComplaintID:", this.state.complaintId, "Comment: ", this.state.newComment)
-            callPostApi('http://guardomni.dutique.com:8000/api/addComplaintComment', {
+            callPostApi('http://18.188.253.46:8000/api/addComplaintComment', {
                 "userId": this.state.userId,
                 "complaintId": this.state.complaintId,
                 "comment": this.state.newComment
@@ -397,7 +397,7 @@ const styles = {
         marginLeft: 5
     },
     flatListStyle: {
-        fontFamily: 'OpenSans-Regular.ttf',
+        fontFamily: 'OpenSans.ttf',
         fontSize: 13,
         color: black,
         padding: 3,

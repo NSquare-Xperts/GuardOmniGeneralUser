@@ -8,7 +8,7 @@ export const loginUser = (phone) => {
         dispatch({ type: LOGIN_USER });
         console.log("phone :: ", phone)
         
-        axios.post('http://guardomni.dutique.com:8000/api/validateUser',
+        axios.post('http://18.188.253.46:8000/api/validateUser',
             { "mobileNumber": phone,
             "loginType": '4' 
         })
@@ -46,7 +46,7 @@ export const loginUser = (phone) => {
 export const VerifyOtp = ({ phone, otp, token, platform }) => {
     return (dispatch) => {
        dispatch({ type: LOGIN_USER });
-        axios.post('http://guardomni.dutique.com:8000/api/validateOTP', {
+        axios.post('http://18.188.253.46:8000/api/validateOTP', {
             "mobileNumber": phone,
             "otp": otp,
             "cloudId":token,

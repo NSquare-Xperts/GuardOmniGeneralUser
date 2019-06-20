@@ -921,6 +921,7 @@
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				9C443AD2B3E040F8A0FA9E6C /* [CP] Embed Pods Frameworks */,
 				6022E3836A133FDDDB6270E2 /* [CP] Copy Pods Resources */,
+				BC3ED70922BB52FF000C1140 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1613,6 +1614,23 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-GeneralUserGO-tvOS/Pods-GeneralUserGO-tvOS-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		BC3ED70922BB52FF000C1140 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" f146a2def16a9274d491f9af7e95a372d5efe2c4 461852e8782ec3ad269c6fe4b63f691e7884914a8e08756356556d7cd434e6cf\n";
 		};
 		C19A18594A1A09A66F86146C /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;

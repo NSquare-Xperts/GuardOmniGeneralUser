@@ -24,8 +24,8 @@ class Complaints extends Component {
     }
 
     renderUsersList() {
-        //callPostApi('http://guardomni.dutique.com:8000/api/complaintList', {
-            callPostApi('http://guardomni.dutique.com:8000/api/complaintList', {  
+        //callPostApi('http://18.188.253.46:8000/api/complaintList', {
+            callPostApi('http://18.188.253.46:8000/api/complaintList', {  
             "userId": this.state.userId,
             "pageNumber": this.state.page,
             "flatId": this.state.flatId
@@ -211,8 +211,11 @@ class Complaints extends Component {
         console.log(" id **** ", sendID)
         console.log(" status **** ", status)
 
-        AsyncStorage.setItem('complaintID', sendID)
-        AsyncStorage.setItem('userID', this.state.userId)
+        // AsyncStorage.setItem('complaintID', sendID)
+        // AsyncStorage.setItem('userID', this.state.userId)
+        
+        AsyncStorage.setItem('complaintID', JSON.stringify(sendID))
+        AsyncStorage.setItem('userID', JSON.stringify(this.state.userId))
 
         if (status == 0) {
             Actions.ComplaintDetail({ complaintID: item })
@@ -397,7 +400,7 @@ const styles = {
 //             console.log('userId :: ', this.state.userId)
 //             console.log('flatno :: ', res.data[0].property_details.flat_no)
 
-//             callPostApi('http://guardomni.dutique.com:8000/api/complaintList', {
+//             callPostApi('http://18.188.253.46:8000/api/complaintList', {
 //                 "userId": this.state.userId,
 //                 "pageNumber": this.state.page,
 //                 "flatId": '1'

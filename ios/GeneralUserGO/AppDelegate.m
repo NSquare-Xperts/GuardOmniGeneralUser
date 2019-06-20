@@ -11,6 +11,8 @@
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 #import <Firebase.h>
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
 
 
 @interface AppDelegate (){
@@ -50,6 +52,9 @@
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tokenRefreshNotification:) name:kFIRInstanceIDTokenRefreshNotification object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fcmConnectionStateChange) name:kFIRInstanceIDTokenRefreshNotification object:nil];
 
+  [Fabric with:@[[Crashlytics class]]];
+
+  
 //  NSArray *familyNames = [UIFont familyNames];
 
 //  for( NSString *familyName in familyNames ){

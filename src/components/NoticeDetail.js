@@ -35,7 +35,7 @@ class NoticeDetail extends Component {
       console.log('userId :: ', this.state.userId)
       console.log("notice ID details", this.state.noticeId);
 
-      callPostApi('http://guardomni.dutique.com:8000/api/noticeDetails', {
+      callPostApi('http://18.188.253.46:8000/api/noticeDetails', {
         "userId": this.state.userId,
         "noticeId": this.state.noticeId
       })

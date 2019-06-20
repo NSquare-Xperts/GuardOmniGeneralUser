@@ -24,7 +24,7 @@ class FlatListForVisitorsHistory extends Component {
 
     renderUsersList() {
 
-        callPostApi('http://guardomni.dutique.com:8000/api/visitorHistory', {
+        callPostApi('http://18.188.253.46:8000/api/visitorHistory', {
             "userId": this.state.userId,
             "pageNumber": this.state.page,
             "flatId": this.state.flatId
@@ -268,7 +268,7 @@ const styles = {
 //     }
 
 //     renderUsersList() {
-//         callPostApi('http://guardomni.dutique.com:8000/api/visitorHistory', {
+//         callPostApi('http://18.188.253.46:8000/api/visitorHistory', {
 //             "userId": '2',
 //             "pageNumber": this.state.page,
 //             "flatId": '1'

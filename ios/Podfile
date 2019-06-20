@@ -9,6 +9,8 @@ target 'GeneralUserGO' do
 
 	pod 'Firebase/Core'
 	pod 'Firebase/Messaging'
+	pod 'Fabric'
+	pod 'Crashlytics'
 
   target 'GeneralUserGOTests' do
     inherit! :search_paths

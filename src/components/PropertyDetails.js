@@ -28,7 +28,7 @@ class PropertyDetails extends Component {
     console.log("p detaisl ", this.state.userId, this.state.flatId)
    // this.setState({ refreshing: true });
 
-    axios.post('http://guardomni.dutique.com:8000/api/propertyDetails?', {
+    axios.post('http://18.188.253.46:8000/api/propertyDetails?', {
        "userId": this.state.userId,
        "flatId": this.state.flatId
      
@@ -270,7 +270,7 @@ const styles = {
 // //     // this.setState({ refreshing: true });
 // //      this.setState({ refreshing: true });
 
-// //    callPostApi('http://guardomni.dutique.com:8000/api/propertyList?', {
+// //    callPostApi('http://18.188.253.46:8000/api/propertyList?', {
 // //       "userId": this.state.userId,
 // //       "flatId": this.state.flatId
 // //     })
@@ -302,7 +302,7 @@ const styles = {
 
 //     console.log("p detaisl ", this.state.userId, this.state.flatId)
 //     this.setState({ refreshing: true });
-//     axios.post('http://guardomni.dutique.com:8000/api/propertyDetails?', {
+//     axios.post('http://18.188.253.46:8000/api/propertyDetails?', {
 //        "userId": this.state.userId,
 //        "flatId": this.state.flatId
      

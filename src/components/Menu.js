@@ -89,7 +89,7 @@ class Menu extends Component {
                                                     LoginData = data[0][1];
                                                     var res = JSON.parse(LoginData)
 
-                                                axios.post('http://guardomni.dutique.com:8000/api/logoutUser',
+                                                axios.post('http://18.188.253.46:8000/api/logoutUser',
                                                 {
                                                     "userId": res.data[0].user_details.user_id
                                                 })
@@ -149,7 +149,7 @@ const styles = {
         marginLeft: 10
     },
     drawerText: {
-        fontFamily: 'OpenSans-Regular',
+        fontFamily: 'OpenSans',
         fontSize: 14,
         color: 'black',
         marginLeft: 15
@@ -294,7 +294,7 @@ const styles = {
 //                                                     LoginData = data[0][1];
 //                                                     var res = JSON.parse(LoginData)
 
-//                                                 axios.post('http://guardomni.dutique.com:8000/api/logoutUser',
+//                                                 axios.post('http://18.188.253.46:8000/api/logoutUser',
 //                                                 {
 //                                                     "userId": res.data[0].user_details.user_id
 //                                                 })
