@@ -6,17 +6,10 @@ import NotificationCount from '../NotificationCount'
 
 
 const Notification = (props) => {
-        // <TouchableWithoutFeedback onPress={() => Actions.Notifications()}>
-        // <ImageBackground source={require('../assets/guard/home/notification_icn.png')}
-        //     style={{ width: 30, height: 30, marginEnd: 10 }}>
-        //     {/* <View style={styles.TextViewStyle}>
-        //         <Text style={styles.TextStyle}>12</Text>
-        //     </View> */}
-        // </ImageBackground>
-        // </TouchableWithoutFeedback>
-        AsyncStorage.removeItem('notificationCount')
-        // AsyncStorage.setItem('notificationCount',NotificationCount.getCurrentCount())
+       
+        AsyncStorage.removeItem('notificationCount')        
         AsyncStorage.setItem('notificationCount',JSON.stringify(NotificationCount.getCurrentCount()))
+        
         if (NotificationCount.getCurrentCount() <= 0) {
             return (
                 <TouchableWithoutFeedback onPress={() => Actions.Notifications()}>

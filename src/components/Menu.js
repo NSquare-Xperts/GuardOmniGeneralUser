@@ -81,9 +81,6 @@ class Menu extends Component {
                                             text: 'Yes', onPress: () => {
                                                 //clear session data 
                                                 //Actions.reset('Login')
-                                                
-
-
 
                                                 AsyncStorage.multiGet(["LoginData"]).then((data) => {
                                                     LoginData = data[0][1];
@@ -94,8 +91,7 @@ class Menu extends Component {
                                                     "userId": res.data[0].user_details.user_id
                                                 })
                                                 .then((response) => {
-                                    
-                                                       console.log("response: "+response)
+                                                        console.log("response: "+response)
                                                 })
                                                 .catch(error => {
                                                     console.log("error : ", error.response.message)

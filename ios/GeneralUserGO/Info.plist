@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>GeneralUserGO</string>
+	<string>GOGeneralUser</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -51,8 +51,12 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>Application requires camera for capturing images to add in a Complaint and to set Profile Picture</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Application requires Library permission for selecting images to add in a Complaint and to set Profile Picture</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>

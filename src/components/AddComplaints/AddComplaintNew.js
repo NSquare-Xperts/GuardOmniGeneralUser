@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, ImageBackground, Image, TouchableOpacity, PixelRatio, AsyncStorage, BackHandler } from 'react-native'
+import { Text, View, ImageBackground, Image, TouchableOpacity, PixelRatio, AsyncStorage, BackHandler, TouchableWithoutFeedback,Keyboard } from 'react-native'
 import { connect } from 'react-redux'
 import Button from '../common/Button'
 import { titleChanged, commentsChanged, addComplaint_ } from './ComplaintsActions'
@@ -8,6 +8,7 @@ import TitleInput from './TitleInput'
 import CommentsInput from './CommentsInput'
 import ImagePicker from 'react-native-image-picker'
 import { Actions } from 'react-native-router-flux'
+import { ScrollView } from 'react-native-gesture-handler'
 
 class AddComplaintNew extends Component {
 
@@ -597,11 +598,18 @@ class AddComplaintNew extends Component {
 
   render() {
     return (
-      <View style={styles.containerStyle}>
-        <View style={styles.card}>
-          {this.renderVerifyFileds()}
-        </View>
-      </View>
+      <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss() }}>
+        {/* <ScrollView
+          keyboardShouldPersistTaps={'handled'}
+          keyboardDismissMode='none'
+          contentContainerStyle={{ position: 'absolute', justifyContent: 'flex-start', height: '100%', width: '100%' }}> */}
+          <View style={styles.containerStyle}>
+            <View style={styles.card}>
+                {this.renderVerifyFileds()}
+            </View>
+          </View>
+        {/* </ScrollView> */}
+      </TouchableWithoutFeedback>      
     );
   }
 }
