@@ -4,6 +4,7 @@ import android.app.Application;
 
 
 import com.facebook.react.ReactApplication;
+import com.actionsheet.ActionSheetPackage;
 import com.google.firebase.FirebaseApp;
 import com.swmansion.reanimated.ReanimatedPackage;
 import io.invertase.firebase.RNFirebasePackage;
@@ -33,6 +34,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new ActionSheetPackage(),
             new ReanimatedPackage(),
             new RNFirebasePackage(),
             new RNGestureHandlerPackage(),

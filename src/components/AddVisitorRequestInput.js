@@ -159,7 +159,7 @@ const styles = {
         height: 55,
         width: '90%',
         color: black,
-        backgroundColor: white_Original,
+        backgroundColor: grey_lighter,
         borderRadius: 27,
         alignSelf: 'center',
         shadowRadius: 4,

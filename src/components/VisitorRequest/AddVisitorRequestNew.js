@@ -30,6 +30,8 @@ class AddVisiorRequestNew extends Component {
             userId: '',
             flatId: '',
             pickerSelectedValue: '',
+            minimumDate: new Date(),
+            is24Hours: false,
 
         }
     }
@@ -168,28 +170,26 @@ class AddVisiorRequestNew extends Component {
 
                 <Text style={styles.errorStyle}>{this.state.errornoOfPeople}</Text>
 
-                <View style={{ flexDirection: 'row', marginLeft: 25, justifyContent: 'space-around' }}>
-
-                    <VehicleNoInput
-                        vehicleChange={(text) => this.props.noOfVehicleChanged(text)}
-                        value={this.props.auth.vehicleNumber} />
-
-                    {/* add vehicle type */}
-
-                    <View style={styles.displayPickerStyle}>
-                        <View style={styles.containerPickerStyle}>
-                            <Picker
-                                style={{ marginLeft: 10 }}
-                                selectedValue={this.state.pickerSelectedValue}
-                                onValueChange={(itemValue, itemIndex) => this.setState({ pickerSelectedValue: itemValue })}
-                                mode='dropdown'>
-                                <Picker.Item label="2-w" value="2-w" />
-                                <Picker.Item label="3-w" value="3-w" />
-                                <Picker.Item label="4-w" value="4-w" />
-
-                            </Picker>
-                        </View>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+                    <View style={styles.veicleNoStyle}>
+                        <VehicleNoInput
+                            vehicleChange={(text) => this.props.noOfVehicleChanged(text)}
+                            value={this.props.auth.vehicleNumber} />
                     </View>
+                    {/* add vehicle type */}
+                    
+                    <View style={styles.containerPickerStyle}>
+                        <Picker
+                            style={{ marginLeft: 10 }}
+                            selectedValue={this.state.pickerSelectedValue}
+                            onValueChange={(itemValue, itemIndex) => this.setState({ pickerSelectedValue: itemValue })}
+                            mode='dropdown'>
+                            <Picker.Item label="2-w" value="2-w" />
+                            <Picker.Item label="3-w" value="3-w" />
+                            <Picker.Item label="4-w" value="4-w" />
+                        </Picker>
+                    </View>
+
                 </View>
 
                 <Text style={styles.textstyle}>{This_field_is_optional}</Text>
@@ -197,8 +197,8 @@ class AddVisiorRequestNew extends Component {
                 <DateTimePicker
                     isVisible={this.state.isDateTimePickerVisible}
                     mode={'datetime'}
-                    is24Hour={false}
-                    minimumDate={Date.now()}
+                    is24Hour={this.state.is24Hours}
+                    minimumDate={this.state.minimumDate}
                     //onDateChange={this._handleDatePicked}
                     onConfirm={this._handleDatePicked}
                     onCancel={this._hideDateTimePicker} />
@@ -264,18 +264,31 @@ const styles = {
     },
 
 
+    // containerPickerStyle: {
+    //     height: 50,
+    //     width: '63%',
+    //     flexDirection: 'row',
+    //     borderRadius: 30,
+    //     shadowRadius: 4,
+    //     marginLeft: 35,
+    //     //marginRight: 20,
+    //     borderColor: grey_lighter,
+    //     borderWidth: 1,
+    //     justifyContent: 'center',
+    //     alignItems: 'center'
+    // },
+    veicleNoStyle: {
+        width: '90%',
+        // marginLeft: 10
+    },
     containerPickerStyle: {
         height: 50,
-        width: '63%',
-        flexDirection: 'row',
+        marginRight: 20,
         borderRadius: 30,
         shadowRadius: 4,
-        marginLeft: 35,
-        //marginRight: 20,
         borderColor: grey_lighter,
         borderWidth: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
+        width: '20%'
     },
     displayPickerStyle: {
         flexDirection: 'row',

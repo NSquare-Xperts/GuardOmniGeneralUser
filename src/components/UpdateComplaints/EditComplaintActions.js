@@ -80,7 +80,7 @@ export const titleChanged = (text) => {
         payload: text
     }
 }
-export const commentsChanged = (text) => {
+export const editCommentsChanged = (text) => {
     return {
         type: EDIT_COMPLAINT_COMMENTS,
         payload: text

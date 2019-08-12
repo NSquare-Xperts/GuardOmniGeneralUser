@@ -1,15 +1,33 @@
 import React, { Component } from 'react'
-import { Text, View, Image, AsyncStorage, DeviceEventEmitter, BackHandler, TouchableWithoutFeedback, FlatList } from 'react-native'
+import { Text, View, Image, AsyncStorage, DeviceEventEmitter, BackHandler, TouchableWithoutFeedback, FlatList,TouchableOpacity, Platform,Alert } from 'react-native'
 import { red_lighter, white_Original, grey, black, grey_lighter } from './common'
 import { ScrollView } from 'react-native-gesture-handler';
 import { callPostApi } from './Util/APIManager';
 import ImageLoad from 'react-native-image-placeholder'
 import Dialog from "react-native-dialog";
 import HTML from 'react-native-render-html';
+import ActionSheet from 'react-native-action-sheet';
+import { Actions } from 'react-native-router-flux';
+
 
 // http://18.188.253.46:8000
 //1 : resolved 
 //0 : not
+
+var BUTTONSiOS = [
+    'Edit',
+    'Delete',
+    'Cancel'
+];
+
+var BUTTONSandroid = [
+    'Edit',
+    'Delete',
+];
+
+var DESTRUCTIVE_INDEX = 1;
+var CANCEL_INDEX = 2;
+
 
 class ComplaintDetail extends Component {
     constructor(props) {
@@ -48,6 +66,86 @@ class ComplaintDetail extends Component {
         }
     }
 
+    static navigationOptions = ({ navigation }) => {
+        const { params = {} } = navigation.state;
+        return {
+            headerRight: <TouchableOpacity onPress={() => params.handleSave()}>
+                <Image
+                    source={require('../components/assets/Complaints/more_options.png')}
+                    style={styles.iconNotification} />
+            </TouchableOpacity>
+        };
+    };
+
+    _saveDetails() {
+        ActionSheet.showActionSheetWithOptions({
+            options: (Platform.OS == 'ios') ? BUTTONSiOS : BUTTONSandroid,
+            cancelButtonIndex: CANCEL_INDEX,
+            destructiveButtonIndex: DESTRUCTIVE_INDEX,
+            tintColor: 'blue'
+        },
+            (buttonIndex) => {
+                console.log('button clicked :', buttonIndex);
+                switch (buttonIndex) {
+                    case 0:
+                    console.log("Edit Button Pressed")                    
+                    Actions.newedit()
+                    break;
+                    case 1:
+                    console.log("Delete Button Pressed")
+                    Alert.alert(
+                        'Want to Delete this complaint ?',
+                        'Complaint will be deleted permantly',
+                        [
+                            {
+                                text: 'No', onPress: () =>
+                                    console.log('Cancel Pressed')
+    
+                            },
+                            {
+                                text: 'Yes', onPress: () => {
+    
+                                    AsyncStorage.multiGet(["LoginData"]).then((data) => {
+                                        LoginData = data[0][1];
+                                        var res = JSON.parse(LoginData)    
+                                        AsyncStorage.getItem('complaintID').then((data) => {                                            
+                                            var complaintID = JSON.parse(data)    
+                                            callPostApi('http://18.188.253.46:8000/api/complaintDelete', {
+                                                "userId": res.data[0].user_details.user_id,
+                                                "complaintId": complaintID,
+                                            })
+                                                .then((response) => {
+                                                    // Continue your code here...
+                                                    res = JSON.parse(response)
+                                                    //console.log("response : ", res)
+                                                    if (res.status == 200) {    
+                                                        AsyncStorage.removeItem('complaintID')
+                                                        AsyncStorage.removeItem('userID')
+                                                        //Actions.pop('Complaints');
+                                                        DeviceEventEmitter.emit('eventDeletedComplaint',{isDeletedSuccessFully: true});
+                                                        Actions.popTo('Complaints');
+    
+                                                        SimpleToast.show(res.message)
+                                                    } else {
+                                                        SimpleToast.show(res.message)
+                                                    }
+                                                });
+    
+                                        });
+                                    });
+                                }
+                            }
+                        ],
+                        { cancelable: true }
+                    )
+                    break;
+                    default:
+                }
+            });
+
+    }
+
+
     renderComplaintDetails() {
 
         AsyncStorage.multiGet(["LoginData"]).then((data) => {
@@ -62,8 +160,7 @@ class ComplaintDetail extends Component {
             })
                 .then((response) => {
                     // Continue your code here...
-                    res = JSON.parse(response)
-                    console.log("Complaint Details : ", res)
+                    res = JSON.parse(response)                   
 
                     if (res.status == "200") {
                         this.setState({
@@ -96,6 +193,9 @@ class ComplaintDetail extends Component {
                     this.renderComplaintDetails()
             });
         this.renderComplaintDetails()
+
+        this.props.navigation.setParams({ handleSave: this._saveDetails });
+
     }
 
     _handleRefresh = () => {
@@ -330,6 +430,17 @@ class ComplaintDetail extends Component {
 export default ComplaintDetail;
 
 const styles = {
+    iconNotification: {
+        height: 23,
+        width: 23,
+        marginTop: 5,
+        // paddingTop:15, 
+        //   justifyContent: 'spa',
+        alignSelf: 'center',
+        // marginTop: 5,
+        marginRight: 8
+        // position:'absolute'
+    },
     container: {
         backgroundColor: white_Original,
         width: '95.55%',

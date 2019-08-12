@@ -103,6 +103,7 @@ class Complaints extends Component {
                         loadMore: false,
                         page: 0,
                         notices: [],
+                        isReload: false
                     })
                     console.log("call storage 1")
                     this._getUserStorageValue()
@@ -117,6 +118,7 @@ class Complaints extends Component {
                         loadMore: false,
                         page: 0,
                         notices: [],
+                        isReload: false
                     }),
                     console.log("call storage 2")
                     this._getUserStorageValue()
@@ -206,10 +208,6 @@ class Complaints extends Component {
         AsyncStorage.removeItem('complaintStatus')
         var id = item;
         sendID = "" + id + ""
-
-
-        console.log(" id **** ", sendID)
-        console.log(" status **** ", status)
 
         // AsyncStorage.setItem('complaintID', sendID)
         // AsyncStorage.setItem('userID', this.state.userId)

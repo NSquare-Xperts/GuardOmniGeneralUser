@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Text, View, ImageBackground, Image, TouchableOpacity, PixelRatio, DeviceEventEmitter, AsyncStorage } from 'react-native'
 import { connect } from 'react-redux'
 import Button from '../common/Button'
-import { titleChanged, commentsChanged, editComplaint_ } from './EditComplaintActions'
+import { titleChanged, editCommentsChanged, editComplaint_ } from './EditComplaintActions'
 import { white_Original, red_lighter, grey_lighter, grey_light, Add_Complaint, Save } from '../common';
 import TitleInput from './TitleInput'
 import CommentsInput from './CommentsInput'
@@ -210,7 +210,8 @@ class NewEditComplaints extends Component {
      //call async data
      renderUsersComplaints() {
           //pass complaintIs
-          console.log("inside com edit",this.state.userId)
+          console.log("Complaint Edit: UserID:",this.state.userId,"Complaint ID: ", this.state.complaintId)
+
           callPostApi('http://18.188.253.46:8000/api/complaintDetails?', {
                //"userId": this.state.userId,
                "userId": this.state.userId,
@@ -248,12 +249,13 @@ class NewEditComplaints extends Component {
           var dataUser = JSON.parse(valueUser);
 
           var complaintId = await AsyncStorage.getItem('complaintID')
-          console.log("***** complaintId",complaintId)
+          var dataComplaintID = JSON.parse(complaintId);
+          console.log("***** complaintId",dataComplaintID)
          
           if (dataUser != '' || dataUser != null) {
                this.setState({
                     userId: dataUser.user_id,
-                    complaintId: complaintId
+                    complaintId: dataComplaintID
                     //flatId: data.flat_id,
 
                }, this.renderUsersComplaints())
@@ -579,7 +581,7 @@ class NewEditComplaints extends Component {
                     <Text style={styles.errorStyle}>{this.state.errorTitle}</Text>
 
                     <CommentsInput
-                         commentsChange={(text) => this.props.commentsChanged(text)}
+                         commentsChange={(text) => this.props.editCommentsChanged(text)}
                          value={this.props.auth.comments} />
 
                     <Text style={styles.errorStyle}>{this.state.errorComments}</Text>
@@ -685,4 +687,4 @@ const mapStateToProps = (state) => {
           auth: state.editComplaint
      }
 }
-export default connect(mapStateToProps, { titleChanged, commentsChanged, editComplaint_ })(NewEditComplaints)
+export default connect(mapStateToProps, { titleChanged, editCommentsChanged, editComplaint_ })(NewEditComplaints)

@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
-import { Text, View, ImageBackground, Image, TouchableOpacity, DeviceEventEmitter, AsyncStorage } from 'react-native'
+import { Text, View, ImageBackground, Image, TouchableOpacity, DeviceEventEmitter, AsyncStorage, KeyboardAvoidingView } from 'react-native'
 import { connect } from 'react-redux'
 import Button from '../common/Button'
 import { Picker } from 'native-base'
 import { usernameChanged, phoneChanged, codeChanged, noOfPeopleChanged, VisitorRequest, noOfVehicleChanged, vehicleNoChanged, dateChanged } from './EditVisitorRequestActions'
 import { editVisitorRequest_ } from './EditVisitorRequestActions'
-import { white_Original, red_lighter, grey_lighter, grey_light, Save, This_field_is_optional } from '../common';
+import { white_Original, red_lighter, grey_lighter, grey_light, Save, This_field_is_optional, Vehicle_Type, grey } from '../common';
 import { Actions } from 'react-native-router-flux'
 import { callPostApi } from '../Util/APIManager'
 import UsernameInput from './UsernameInput'
@@ -20,7 +20,7 @@ class NewEditVisitorRequest extends Component {
      constructor(props) {
           super(props)
           this.state = {
-               visitorRequestId : props.visitorRequestId,
+               visitorRequestId: props.visitorRequestId,
                isClicked: '',
                refreshing: true,
                errorName: '',
@@ -34,7 +34,7 @@ class NewEditVisitorRequest extends Component {
                pickerSelectedValue: '',
           }
      }
-     
+
      renderButton() {
           return (
                <Button
@@ -88,7 +88,7 @@ class NewEditVisitorRequest extends Component {
           callPostApi('http://18.188.253.46:8000/api/getVisitorDetailsAdmin?', {
                "userId": this.state.userId,
                "visitorId": this.state.visitorRequestId,
-               "flatId":  this.state.flatId
+               "flatId": this.state.flatId
           })
                .then((response) => {
                     // Continue your code here...
@@ -104,9 +104,9 @@ class NewEditVisitorRequest extends Component {
 
                          this.props.auth.code = countyCode[0]
                          this.props.auth.phone = countyCode[1]
-                         
-                         console.log("country code ",  this.props.auth.code,",",this.props.auth.phone )
-                         
+
+                         console.log("country code ", this.props.auth.code, ",", this.props.auth.phone)
+
                          this.props.auth.noOfPeople = res.data[0].no_of_visitors + ""
                          this.props.auth.vehicleNumber = res.data[0].vehicle_number + ""
 
@@ -134,7 +134,7 @@ class NewEditVisitorRequest extends Component {
 
           var today = new Date(date.toString());
           dateParsed = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
-          time = today.getHours() + ':' + today.getMinutes() 
+          time = today.getHours() + ':' + today.getMinutes()
           dateTime = dateParsed + ' ' + time
 
           console.log("print date : ", dateTime)
@@ -209,6 +209,8 @@ class NewEditVisitorRequest extends Component {
                          <View style={styles.displayPickerStyle}>
                               <View style={styles.containerPickerStyle}>
                                    <Picker
+                                        placeholder={Vehicle_Type}
+                                        placeholderStyle={{ fontSize: 14, textAlign: 'left', color: grey }}
                                         style={{ marginLeft: 10 }}
                                         selectedValue={this.state.pickerSelectedValue}
                                         onValueChange={(itemValue, itemIndex) => this.setState({ pickerSelectedValue: itemValue })}
@@ -263,11 +265,11 @@ class NewEditVisitorRequest extends Component {
 
      render() {
           return (
-               <View style={styles.containerStyle}>
+               <KeyboardAvoidingView style={styles.containerStyle} behavior="padding">
                     <View style={styles.card}>
                          {this.renderVerifyFileds()}
                     </View>
-               </View>
+               </KeyboardAvoidingView>
           );
      }
 }

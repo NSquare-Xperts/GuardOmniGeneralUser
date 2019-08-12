@@ -143,7 +143,8 @@ class RouterComponent extends Component {
                     <Scene title="Property Details" key="PropertyDetails" component={PropertyDetails} />
                     <Scene title="Complaints" key="Complaints" component={Complaints} />
                     <Scene title="Helpdesk" key="Helpdesk" component={Helpdesk} />
-                    <Scene title="Complaint Detail" key="ComplaintDetail" component={ComplaintDetail} renderRightButton={OptionMenu} />
+                    {/* <Scene title="Complaint Detail" key="ComplaintDetail" component={ComplaintDetail} renderRightButton={OptionMenu} /> */}
+                    <Scene title="Complaint Detail" key="ComplaintDetail" component={ComplaintDetail}/>
                     {/* <Scene title="Complaint Detail" key="ComplaintDetailDelete" component={ComplaintDetail} renderRightButton={OptionMenuDelete} /> */}
                     <Scene title="Complaint Detail" key="ComplaintDetailDelete" component={ComplaintDetailDoNotEdit} />
                     

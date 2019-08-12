@@ -177,7 +177,8 @@ class Notifications extends Component {
             Actions.ReportedInOutDetails({ RId: SENDid.id })
         } else if (SENDid.notification_category == "3") {
             console.log("Notifications Complaint ID: : " + SENDid.id)
-            Actions.ComplaintDetail({ complaintID: SENDid.id })
+            // Actions.ComplaintDetail({ complaintID: SENDid.id })
+            Actions.ComplaintDetailDelete({ complaintID: SENDid.id })
         }
     }
 

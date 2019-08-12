@@ -77,7 +77,9 @@ project.ext.react = [
     nodeExecutableAndArgs:  ["/usr/local/bin/node"],
     bundleAssetName: "index.android.bundle",
     bundleInDebug: true,
-    bundleInRelease: true
+    bundleInRelease: true,
+    jsBundleDirDebug: "$buildDir/intermediates/merged_assets/debug/mergeDebugAssets/out",
+    jsBundleDirRelease: "$buildDir/intermediates/merged_assets/release/mergeReleaseAssets/out"
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
@@ -142,6 +144,7 @@ android {
     }
 }
 dependencies {
+    implementation project(':react-native-action-sheet')
     implementation project(':react-native-reanimated')
     implementation project(':react-native-firebase')
     implementation project(':react-native-gesture-handler')
