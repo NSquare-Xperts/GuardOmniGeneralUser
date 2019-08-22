@@ -1,4 +1,4 @@
-import { COMPLAINT_TITLE, EDIT_COMPLAINT_COMMENTS, EDIT_PROFILE, EDIT_COMPLAINT, EDIT_COMPLAINT_FAILED } from '../../actions/types'
+import { COMPLAINT_TITLE, COMPLAINT_COMMENTS, EDIT_PROFILE, EDIT_COMPLAINT, EDIT_COMPLAINT_FAILED } from '../../actions/types'
 import { Actions } from 'react-native-router-flux'
 import { callFormDataUpdateComplaintPostApi } from '../Util/APIManager'
 import { DeviceEventEmitter } from 'react-native'
@@ -9,7 +9,7 @@ export const editComplaint_ = (title, comments, uri1, type1, name1, uri2, type2,
         dispatch({ type: EDIT_PROFILE });
 
         console.log("title ",title)
-        callFormDataUpdateComplaintPostApi('http://18.188.253.46:8000/api/complaintUpdate', {
+        callFormDataUpdateComplaintPostApi('http://192.168.0.32:8000/api/complaintUpdate', {
 
             "userId": userId,
             "complaintTitle": title,
@@ -41,14 +41,7 @@ export const editComplaint_ = (title, comments, uri1, type1, name1, uri2, type2,
                     Actions.popTo('ComplaintDetail');
                     DeviceEventEmitter.emit('eventEditedComplaint',{isEditedSuccessFully: true});
                     editComplaintSuccess(dispatch, data)
-                }else if(res.status == 401) {
-
-                    AsyncStorage.removeItem('propertyDetails');
-                    AsyncStorage.removeItem('userDetail');
-                    AsyncStorage.removeItem('LoginData');
-                    //SimpleToast.show(response.message)
-                    Actions.reset('Login')
-                  } else{
+                }else{
                     SimpleToast.show(res.message)
                 }
                 editComplaintFailed(dispatch, data)
@@ -80,9 +73,9 @@ export const titleChanged = (text) => {
         payload: text
     }
 }
-export const editCommentsChanged = (text) => {
+export const commentsChanged = (text) => {
     return {
-        type: EDIT_COMPLAINT_COMMENTS,
+        type: COMPLAINT_COMMENTS,
         payload: text
     }
 }
