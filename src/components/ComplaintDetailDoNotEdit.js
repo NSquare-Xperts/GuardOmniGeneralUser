@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
-import { Text, View, Image, AsyncStorage, DeviceEventEmitter,FlatList } from 'react-native'
+import { Text, View, Image, AsyncStorage, DeviceEventEmitter } from 'react-native'
 import { red_lighter, white_Original, grey, black } from './common'
 import { ScrollView } from 'react-native-gesture-handler';
 import { callPostApi } from './Util/APIManager';
 import ImageLoad from 'react-native-image-placeholder'
-import HTML from 'react-native-render-html'
 
 //1 : resolved 
 //0 : not
@@ -18,22 +17,14 @@ class ComplaintDetailDoNotEdit extends Component {
             isVisibleImg2: false,
             isVisibleImg3: false,
             text: '',
-            complaintsCommentArray:[
-                {
-                    "comment": "NA",
-                    "complaint_comment_id": "",
-                    "updated_at":"NA",
-                    "user_id":""
-                }
-            ],
             details: [
                 {
                     "complaint_title": "NA",
                     "complaint_status": "NA",
                     "user_name": "NA",
-                    "complaint_image_1": '',
-                    "complaint_image_2": '',
-                    "complaint_image_3": '',
+                    "media1": '',
+                    "media2": '',
+                    "media3": '',
                     "complaint_description": "NA"
                 }
             ]
@@ -48,7 +39,7 @@ class ComplaintDetailDoNotEdit extends Component {
 
             this.setState({ userId: res.data[0].user_details.user_id })
 
-            callPostApi('http://18.188.253.46:8000/api/complaintDetails', {
+            callPostApi('http://192.168.0.32:8000/api/complaintDetails', {
                 "userId": this.state.userId,
                 "complaintId": this.state.complaintId
             })
@@ -58,16 +49,10 @@ class ComplaintDetailDoNotEdit extends Component {
                     console.log("details : ", res)
                     if (res.status == "200") {
                         this.setState({
-                            details: res.data, refreshing: false,complaintsCommentArray:res.complaint_comments
+                            details: res.data, refreshing: false
                         })
-                    } else if (res.status == 401) {
 
-                        AsyncStorage.removeItem('propertyDetails');
-                        AsyncStorage.removeItem('userDetail');
-                        AsyncStorage.removeItem('LoginData');
-                        //SimpleToast.show(response.message)
-                        Actions.reset('Login')
-                      }else {
+                    } else {
                         console.log("stop calling")
                     }
 
@@ -123,19 +108,19 @@ class ComplaintDetailDoNotEdit extends Component {
                     <ImageLoad
                         style={styles.thumbnail}
                         loadingStyle={{ size: 'large', color: 'blue' }}
-                        source={{ uri: this.state.details[0].complaint_image_1 }}
+                        source={{ uri: this.state.details[0].media1 }}
                     />
 
                     <ImageLoad
                         style={styles.thumbnail}
                         loadingStyle={{ size: 'large', color: 'blue' }}
-                        source={{ uri: this.state.details[0].complaint_image_2}}
+                        source={{ uri: this.state.details[0].media2}}
                     />
 
                     <ImageLoad
                         style={styles.thumbnail}
                         loadingStyle={{ size: 'large', color: 'blue' }}
-                        source={{ uri: this.state.details[0].complaint_image_3}}
+                        source={{ uri: this.state.details[0].media3}}
                     />
                     {/* <Image
                         style={styles.thumbnail}
@@ -157,13 +142,13 @@ class ComplaintDetailDoNotEdit extends Component {
                     <ImageLoad
                         style={styles.thumbnail}
                         loadingStyle={{ size: 'large', color: 'blue' }}
-                        source={{ uri: this.state.details[0].complaint_image_1 }}
+                        source={{ uri: this.state.details[0].media1 }}
                     />
 
                     <ImageLoad
                         style={styles.thumbnail}
                         loadingStyle={{ size: 'large', color: 'blue' }}
-                        source={{ uri: this.state.details[0].complaint_image_2 }}
+                        source={{ uri: this.state.details[0].media2 }}
                     />
                     {/* <Image
                         style={styles.thumbnail}
@@ -176,6 +161,7 @@ class ComplaintDetailDoNotEdit extends Component {
         } else if (this.state.details[0].complaint_image_1 != "") {
             return (
                 <View>
+
                     {/* <Image
                         style={styles.thumbnail}
                         source={{ uri: this.state.details[0].complaint_image_1 }} /> */}
@@ -183,11 +169,13 @@ class ComplaintDetailDoNotEdit extends Component {
                     <ImageLoad
                         style={styles.thumbnail}
                         loadingStyle={{ size: 'large', color: 'blue' }}
-                        source={{ uri: this.state.details[0].complaint_image_1 }}
+                        source={{ uri: this.state.details[0].media1 }}
                     />
+
                 </View>
             )
         }
+
     }
 
     render() {
@@ -212,14 +200,6 @@ class ComplaintDetailDoNotEdit extends Component {
 
                     <Text style={styles.textDetailStyle}>{this.state.details[0].complaint_description} </Text>
 
-                    <Text style={styles.commentTitleStyle }>Comments :</Text>
-                    <FlatList style={styles.flatListStyle} 
-                            data={this.state.complaintsCommentArray}
-                            // ItemSeparatorComponent={this.FlatListItemSeparator}
-                            renderItem={({ item }) =>                                                                
-                                    // < Text style={styles.textDetailStyle}>{item.comment}</Text>                                
-                                    <HTML html={item.comment +', Date : '+item.updated_at} />
-                            } />
                 </ScrollView>
             </View>
         )
@@ -263,7 +243,7 @@ const styles = {
 
     },
     textDetailStyle: {
-        fontFamily: 'OpenSans',
+        fontFamily: 'OpenSans-Regular',
         fontSize: 13,
         color: black,
         padding: 3,
@@ -404,7 +384,7 @@ const styles = {
 
 //       },
 //       textDetailStyle: {
-//         fontFamily: 'OpenSans',
+//         fontFamily: 'OpenSans-Regular',
 //         fontSize: 13,
 //         color: black,
 //         padding: 3,
