@@ -8,7 +8,7 @@ export const editProfile_ = (username, email, flatId,userId, uri1, type1, name1,
     return (dispatch) => {
         dispatch({ type: EDIT_PROFILE });
 
-        callFormDataUpdateProfilePostApi('http://18.188.253.46:8000/api/profileUpdate?', {
+        callFormDataUpdateProfilePostApi('http://192.168.0.32:8000/api/profileUpdate?', {
             "userId": userId,
             "userName": username,
             "userEmailId": email,

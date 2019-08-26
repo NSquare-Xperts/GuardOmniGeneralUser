@@ -24,9 +24,9 @@ class ComplaintDetail extends Component {
                     "complaint_title": "NA",
                     "complaint_status": "NA",
                     "user_name": "NA",
-                    "media1": '',
-                    "media2": '',
-                    "media3": '',
+                    "complaint_image_1": '',
+                    "complaint_image_2": '',
+                    "complaint_image_3": '',
                     "complaint_description": "NA"
                 }
             ]
@@ -56,7 +56,6 @@ class ComplaintDetail extends Component {
                     } else {
                         console.log("stop calling")
                     }
-
                 });
         });
     }
@@ -101,45 +100,100 @@ class ComplaintDetail extends Component {
 
     _hideShowImageView() {
 
-        if (this.state.details[0].media1 != "" && this.state.details[0].media2 != "" && this.state.details[0].media3 != "") {
-            return (
-                <View>
-                    <ImageLoad
-                        style={styles.thumbnail}
-                        loadingStyle={{ size: 'large', color: 'blue' }}
-                        source={{ uri: this.state.details[0].media1 }} />
+        console.log("complaint_image_ 1 "+this.state.details[0].complaint_image_1)
+        console.log("complaint_image_ 2 "+this.state.details[0].complaint_image_2)
+        console.log("complaint_image_ 3 "+this.state.details[0].complaint_image_3)
 
-                    <ImageLoad
-                        style={styles.thumbnail}
-                        loadingStyle={{ size: 'large', color: 'blue' }}
-                        source={{ uri: this.state.details[0].media2 }} />
-
-                    <ImageLoad
-                        style={styles.thumbnail}
-                        loadingStyle={{ size: 'large', color: 'blue' }}
-                        source={{ uri: this.state.details[0].media3 }} />
-                </View>
-            )
-        } else if (this.state.details[0].media1 != "" && this.state.details[0].media2 != "") {
-            return (
-                <View>
-                    <ImageLoad
-                        style={styles.thumbnail}
-                        loadingStyle={{ size: 'large', color: 'blue' }}
-                        source={{ uri: this.state.details[0].media1 }} />
-
-                    <ImageLoad
-                        style={styles.thumbnail}
-                        loadingStyle={{ size: 'large', color: 'blue' }}
-                        source={{ uri: this.state.details[0].media2 }}
-                    />
-                </View>
-            )
-        } else if (this.state.details[0].media1 != "") {
+        if (this.state.details[0].complaint_image_1 != "" && this.state.details[0].complaint_image_2 != "" && this.state.details[0].complaint_image_3 != "") {
             return (
                 <View>
                     {this.state.details[0].includes('mp4')
-                        ? <Video
+                        ?
+                        <Video
+                            style={styles.thumbnail}
+                            controls={true}
+                            source={{ uri: 'http://techslides.com/demos/sample-videos/small.mp4' }}
+                            ref={(ref) => {
+                                this.player = ref
+                            }}                                      // Store reference
+                            onBuffer={this.onBuffer}                // Callback when remote video is buffering
+                            onError={this.videoError}
+                        />
+                        :
+                        <ImageLoad
+                            style={styles.thumbnail}
+                            loadingStyle={{ size: 'large', color: 'blue' }}
+                            source={{ uri: this.state.details[0].complaint_image_1 }} />
+                    }
+
+                    {this.state.details[0].includes('mp4')
+                        ?
+                        <Video
+                            style={styles.thumbnail}
+                            controls={true}
+                            source={{ uri: 'http://techslides.com/demos/sample-videos/small.mp4' }}
+                            ref={(ref) => {
+                                this.player = ref
+                            }}                                      // Store reference
+                            onBuffer={this.onBuffer}                // Callback when remote video is buffering
+                            onError={this.videoError}
+                        />
+                        :
+                        <ImageLoad
+                            style={styles.thumbnail}
+                            loadingStyle={{ size: 'large', color: 'blue' }}
+                            source={{ uri: this.state.details[0].complaint_image_2 }} />
+                    }
+
+                    {this.state.details[0].includes('mp4')
+                        ?
+                        <Video
+                            style={styles.thumbnail}
+                            controls={true}
+                            source={{ uri: 'http://techslides.com/demos/sample-videos/small.mp4' }}
+                            ref={(ref) => {
+                                this.player = ref
+                            }}                                      // Store reference
+                            onBuffer={this.onBuffer}                // Callback when remote video is buffering
+                            onError={this.videoError}
+                        />
+                        :
+
+                        <ImageLoad
+                            style={styles.thumbnail}
+                            loadingStyle={{ size: 'large', color: 'blue' }}
+                            source={{ uri: this.state.details[0].complaint_image_3 }} />
+                    }
+                </View>
+            )
+        } else if (this.state.details[0].complaint_image_1 != "" && this.state.details[0].complaint_image_2 != "") {
+            return (
+                <View>
+
+
+                    {this.state.details[0].includes('mp4')
+                        ?
+                        <Video
+                            style={styles.thumbnail}
+                            controls={true}
+                            source={{ uri: 'http://techslides.com/demos/sample-videos/small.mp4' }}
+                            ref={(ref) => {
+                                this.player = ref
+                            }}                                      // Store reference
+                            onBuffer={this.onBuffer}                // Callback when remote video is buffering
+                            onError={this.videoError}
+                        />
+                        :
+                        <ImageLoad
+                            style={styles.thumbnail}
+                            loadingStyle={{ size: 'large', color: 'blue' }}
+                            source={{ uri: this.state.details[0].complaint_image_1 }} />
+                    }
+
+
+                    {this.state.details[0].includes('mp4')
+                        ?
+                        <Video
                             style={styles.thumbnail}
                             controls={true}
                             source={{ uri: 'http://techslides.com/demos/sample-videos/small.mp4' }}
@@ -154,7 +208,31 @@ class ComplaintDetail extends Component {
                         <ImageLoad
                             style={styles.thumbnail}
                             loadingStyle={{ size: 'large', color: 'blue' }}
-                            source={{ uri: this.state.details[0].media1 }}
+                            source={{ uri: this.state.details[0].complaint_image_2 }}
+                        />
+                    }
+
+                </View>
+            )
+        } else if (this.state.details[0].complaint_image_1 != "") {
+            return (
+                <View>
+                    {this.state.details[0].includes('mp4')
+                        ? <Video
+                            style={styles.thumbnail}
+                            controls={true}
+                            source={{ uri: 'http://techslides.com/demos/sample-videos/small.mp4' }}
+                            ref={(ref) => {
+                                this.player = ref
+                            }}                                      // Store reference
+                            onBuffer={this.onBuffer}                // Callback when remote video is buffering
+                            onError={this.videoError}
+                        />
+                        :
+                        <ImageLoad
+                            style={styles.thumbnail}
+                            loadingStyle={{ size: 'large', color: 'blue' }}
+                            source={{ uri: this.state.details[0].complaint_image_1 }}
                         />
                     }
                 </View>

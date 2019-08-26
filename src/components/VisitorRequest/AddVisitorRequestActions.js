@@ -13,7 +13,7 @@ export const VisitorRequest = (name,phone,selectedDate,noOfPeople,vehicleType,ve
         dispatch({ type: ADD_REQUEST });
     
         console.log("vehicle type: ",vehicleType)
-        callPostApi('http://18.188.253.46:8000/api/visitorRequest', {
+        callPostApi('http://192.168.0.32:8000/api/visitorRequest', {
             "userId" : userId,
             "visitorName": name,
             "visitorMobileNumber": phone,

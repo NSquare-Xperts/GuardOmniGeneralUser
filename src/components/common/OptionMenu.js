@@ -45,7 +45,7 @@ const OptionMenu = (props) => {
                                     AsyncStorage.getItem('complaintID').then((data) => {
                                         console.log("Option menu", data)
 
-                                        callPostApi('http://18.188.253.46:8000/api/complaintDelete', {
+                                        callPostApi('http://192.168.0.32:8000/api/complaintDelete', {
                                             "userId": res.data[0].user_details.user_id,
                                             "complaintId": data,
                                         })
