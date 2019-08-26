@@ -88,7 +88,6 @@ class AddComplaintNew extends Component {
         });
       } else {
         console.log("responseon from gallery >> " + JSON.stringify(res))
-
         const source = { uri: 'data:image/jpeg;base64,' + res.data };
         console.log("source : " + JSON.stringify(source))
         console.log("URI >> " + res.uri)

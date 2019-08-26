@@ -23,7 +23,7 @@ class Notifications extends Component {
 
 
         console.log("notification List " + this.state.userId + "," + this.state.flatId)
-        callPostApi('http://18.188.253.46:8000/api/getNotificationList', {
+        callPostApi('http://192.168.0.32:8000/api/getNotificationList', {
             "userId": this.state.userId,
             "flatId": this.state.flatId,
             "pageNumber": this.state.page,
@@ -187,7 +187,7 @@ class Notifications extends Component {
         console.log(" Delete ID :" + item.id)
 
 
-        callPostApi('http://18.188.253.46:8000/api/deleteSingleNotification', {
+        callPostApi('http://192.168.0.32:8000/api/deleteSingleNotification', {
             "userId": this.state.userId,
             "notificationId": item.id,
         })
@@ -282,7 +282,7 @@ class Notifications extends Component {
                                         text: 'Yes', onPress: () => {
 
                                             //call notification delete api 
-                                            callPostApi('http://18.188.253.46:8000/api/deleteAllNotifications', {
+                                            callPostApi('http://192.168.0.32:8000/api/deleteAllNotifications', {
                                                 "userId": this.state.userId,
                                                 "flatId": this.state.flatId
                                             })
@@ -339,7 +339,7 @@ class Notifications extends Component {
 
                                         if (this.state.notificationsList.length > 0){ 
                                             //call notification delete api 
-                                        callPostApi('http://18.188.253.46:8000/api/deleteAllNotifications', {
+                                        callPostApi('http://192.168.0.32:8000/api/deleteAllNotifications', {
                                             "userId": this.state.userId,
                                             "flatId": this.state.flatId
                                         })
@@ -718,7 +718,7 @@ const styles = {
 //     renderNotificationList() {
 
 //         console.log("notification List " + this.state.userId + "," + this.state.flatId)
-//         callPostApi('http://18.188.253.46:8000/api/getNotificationList', {
+//         callPostApi('http://192.168.0.32:8000/api/getNotificationList', {
 //             "userId": this.state.userId,
 //             "flatId": this.state.flatId,
 //             "pageNumber": this.state.page
@@ -908,7 +908,7 @@ const styles = {
 //                                     text: 'Yes', onPress: () => {
 
 //                                        //call notification delete api 
-//                                        callPostApi('http://18.188.253.46:8000/api/complaintDelete', {
+//                                        callPostApi('http://192.168.0.32:8000/api/complaintDelete', {
 //                                             "userId": this.state.userID,
 //                                             "flatId": this.state.flatId,
 //                                         })

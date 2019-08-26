@@ -86,7 +86,7 @@ class Menu extends Component {
                                                     LoginData = data[0][1];
                                                     var res = JSON.parse(LoginData)
 
-                                                axios.post('http://18.188.253.46:8000/api/logoutUser',
+                                                axios.post('http://192.168.0.32:8000/api/logoutUser',
                                                 {
                                                     "userId": res.data[0].user_details.user_id
                                                 })
@@ -290,7 +290,7 @@ const styles = {
 //                                                     LoginData = data[0][1];
 //                                                     var res = JSON.parse(LoginData)
 
-//                                                 axios.post('http://18.188.253.46:8000/api/logoutUser',
+//                                                 axios.post('http://192.168.0.32:8000/api/logoutUser',
 //                                                 {
 //                                                     "userId": res.data[0].user_details.user_id
 //                                                 })

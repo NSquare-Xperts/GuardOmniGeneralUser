@@ -9,7 +9,7 @@ import { Actions } from 'react-native-router-flux'
 import HOmeMaintaince from '../common/HOmeMaintaince'
 import Paysection from './Paysection'
 import { callPostApi } from '../Util/APIManager'
-import ComplaintListItems from '../common/ComplaintListItem'
+import HistoryListItem from '../common/HistoryListItems'
 
 class Maintaince extends Component {
 
@@ -101,19 +101,19 @@ renderFooter = () => {
     if (this.state.loadMore || this.state.refreshing) {
         return (
             <View style={{ backgroundColor: red_lighter, display: 'flex', flex: 1, justifyContent: 'center', alignSelf: 'center', marginTop: Dimensions.get('window').height / 4 }}>
-
             </View>
         )
     } else {
         return (
             <View style={{ backgroundColor: red_lighter, display: 'flex', flex: 1, justifyContent: 'center', alignSelf: 'center', marginTop: Dimensions.get('window').height / 4 }}>
-                <Text style={styles.textStyle}>No Complaints Added Yet</Text>
+                <Text style={styles.textStyle}>No Data Found..!</Text>
             </View>
         )
     }
 }
 
 renderList() {
+
   callPostApi('http://192.168.0.32:8000/api/complaintList', {
       "userId": this.state.userId,
       "pageNumber": this.state.page,
@@ -156,15 +156,15 @@ renderList() {
                             nestedScrollEnabled={true}
                             renderItem={({ item }) =>
                                 <Placeholder.Paragraph>
-                                    <ComplaintListItems
+                                    <HistoryListItem
                                         //notice_image={'1'}
                                         //index={item.index}
                                         sendData={(item, status) => this._sendData(item, status)}
                                         complaintId={item.id}
-                                        complaint_title={item.complaint_title}
-                                        complaint_description={item.complaint_description}
-                                        complaint_status={item.complaint_status}
-                                        complaint_status_img={item.complaint_status_image}
+                                        // complaint_title={item.complaint_title}
+                                        // complaint_description={item.complaint_description}
+                                        // complaint_status={item.complaint_status}
+                                        // complaint_status_img={item.complaint_status_image}
                                         //out_date_time={item.out_date_time}
                                     />
                                 </Placeholder.Paragraph>
