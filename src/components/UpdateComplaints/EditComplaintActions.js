@@ -1,4 +1,4 @@
-import { COMPLAINT_TITLE, COMPLAINT_COMMENTS, EDIT_PROFILE, EDIT_COMPLAINT, EDIT_COMPLAINT_FAILED } from '../../actions/types'
+import { COMPLAINT_TITLE, EDIT_COMPLAINT_COMMENTS, EDIT_PROFILE, EDIT_COMPLAINT, EDIT_COMPLAINT_FAILED } from '../../actions/types'
 import { Actions } from 'react-native-router-flux'
 import { callFormDataUpdateComplaintPostApi } from '../Util/APIManager'
 import { DeviceEventEmitter } from 'react-native'
@@ -41,7 +41,14 @@ export const editComplaint_ = (title, comments, uri1, type1, name1, uri2, type2,
                     Actions.popTo('ComplaintDetail');
                     DeviceEventEmitter.emit('eventEditedComplaint',{isEditedSuccessFully: true});
                     editComplaintSuccess(dispatch, data)
-                }else{
+                }else if(res.status == 401) {
+
+                    AsyncStorage.removeItem('propertyDetails');
+                    AsyncStorage.removeItem('userDetail');
+                    AsyncStorage.removeItem('LoginData');
+                    //SimpleToast.show(response.message)
+                    Actions.reset('Login')
+                  } else{
                     SimpleToast.show(res.message)
                 }
                 editComplaintFailed(dispatch, data)
@@ -73,9 +80,9 @@ export const titleChanged = (text) => {
         payload: text
     }
 }
-export const commentsChanged = (text) => {
+export const editCommentsChanged = (text) => {
     return {
-        type: COMPLAINT_COMMENTS,
+        type: EDIT_COMPLAINT_COMMENTS,
         payload: text
     }
 }

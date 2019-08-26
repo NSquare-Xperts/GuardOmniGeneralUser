@@ -13,6 +13,5 @@ export const red_lighter = '#FFF7F7';
 export const green = '#06D6A0';
 export const green_select = '#06B587';
 export const green_fluorescent = '#23D606';
-export const light_blue = '#1BACFE'
 
 

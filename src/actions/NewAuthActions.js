@@ -8,9 +8,9 @@ export const loginUser = (phone) => {
         dispatch({ type: LOGIN_USER });
         console.log("phone :: ", phone)
         
-        //aws : http://guardomni.dutique.coYYYYYYYYYm:8000
-        //local : http://1uuuuuuuuuu92.168.0.32:8000
-        
+         //Live : http://guardomni.dutiqueIIIIIIIII.com:8000
+        //aws : http://18.temp188.253.46:8000temp
+        //local : http://192.168.0.32:8000
         axios.post('http://192.168.0.32:8000/api/validateUser',
             { "mobileNumber": phone,
             "loginType": '4' 

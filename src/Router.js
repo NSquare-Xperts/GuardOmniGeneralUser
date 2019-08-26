@@ -57,7 +57,7 @@ import CountrycodeEditVR from './components/CountryCodeEditVR'
 import TimePicker from './components/TimePicker'
 import ComplaintDetailTextAlert from './components/ComplaintDetailTextAlert'
 import ComplaintDetailDoNotEdit from './components/ComplaintDetailDoNotEdit';
-import Maintaince from './components/Maintaince/Maintaince';
+
 const MoreIcon = require('./components/assets/Complaints/more_options.png');
 // import { Right } from 'native-base';
 class RouterComponent extends Component {
@@ -93,6 +93,7 @@ class RouterComponent extends Component {
             }
         })
     }
+
     componentWillUnmount() {
         BackHandler.removeEventListener()
     }
@@ -104,8 +105,7 @@ class RouterComponent extends Component {
         return (
             <Router>
                 <Scene key="root">
-                {/* <Scene title="Maintaince" key="maintaince" component={Maintaince} init={true}
-                       /> */}
+
                     {/* <Scene title="splash" key="flat" component={FlatListSample}  /> */}
                     <Scene title="Splash" key="splashome" component={SplashScreenNoLogin} left={() => null} hideNavBar />
 
