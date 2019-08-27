@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import { Text, View, ImageBackground, Image, TouchableOpacity, PixelRatio, AsyncStorage, BackHandler, TouchableWithoutFeedback,Keyboard } from 'react-native'
+import { Text, View, ImageBackground, Image, TouchableOpacity, PixelRatio, AsyncStorage, BackHandler, TouchableWithoutFeedback, ActivityIndicator, Keyboard } from 'react-native'
 import { connect } from 'react-redux'
 import Button from '../common/Button'
 import { titleChanged, commentsChanged, addComplaint_ } from './ComplaintsActions'
-import { white_Original, red_lighter, grey_lighter, grey_light, Add_Complaint } from '../common';
+import { white_Original, red_lighter, grey_lighter, grey_light, Add_Complaint, pink } from '../common';
 import TitleInput from './TitleInput'
 import CommentsInput from './CommentsInput'
 import ImagePicker from 'react-native-image-picker'
@@ -18,6 +18,7 @@ class AddComplaintNew extends Component {
   }
 
   state = {
+    loader: false,
     errorTitle: '',
     errorComments: '',
     ImageSource: null,
@@ -63,7 +64,7 @@ class AddComplaintNew extends Component {
     }, (res) => {
       if (res.customButton) {
 
-        console.log("responseon  >> " + JSON.stringify(res)) 
+        console.log("responseon  >> " + JSON.stringify(res))
         ImagePicker.launchCamera({
           mediaType: res.customButton,
           videoQuality: 'medium',
@@ -73,22 +74,22 @@ class AddComplaintNew extends Component {
           let source;
           source = { uri: response.uri };
 
-          console.log("response > "+JSON.stringify(response))
-          if(res.customButton != "image"){
+          console.log("response > " + JSON.stringify(response))
+          if (res.customButton != "image") {
             this.setState({
               uriToSend: response.uri,
               ImageSource: source,
               imageName: response.path,
               type: "video/mp4"
             });
-          }else{
-          this.setState({
-            uriToSend: response.uri,
-            ImageSource: source,
-            imageName: response.fileName,
-            type: response.type
-          });
-        }
+          } else {
+            this.setState({
+              uriToSend: response.uri,
+              ImageSource: source,
+              imageName: response.fileName,
+              type: response.type
+            });
+          }
         });
       } else {
         console.log("responseon from gallery >> " + JSON.stringify(res))
@@ -104,7 +105,7 @@ class AddComplaintNew extends Component {
       }
     });
   }
-  
+
   selectPhoto2Tapped() {
     const options = {
       quality: 1.0,
@@ -133,28 +134,28 @@ class AddComplaintNew extends Component {
           let source;
           source = { uri: response.uri };
 
-          console.log("photo 2  >> "+JSON.stringify(response))
-          if(res.customButton != "image"){
+          console.log("photo 2  >> " + JSON.stringify(response))
+          if (res.customButton != "image") {
             this.setState({
               uriTo1Send: response.uri,
               ImageSource1: source,
               imageName1: response.path,
               type1: "video/mp4"
             });
-          }else{
-          this.setState({
-            uriTo1Send: response.uri,
-            ImageSource1: source,
-            imageName1: response.fileName,
-            type1: response.type
-          });
-        }
+          } else {
+            this.setState({
+              uriTo1Send: response.uri,
+              ImageSource1: source,
+              imageName1: response.fileName,
+              type1: response.type
+            });
+          }
         });
       } else {
         console.log("responseon from gallery >> " + JSON.stringify(res))
 
         const source = { uri: 'data:image/jpeg;base64,' + res.data };
-       // console.log("source : " + JSON.stringify(source))
+        // console.log("source : " + JSON.stringify(source))
         //console.log("source uri : " + JSON.stringify(source.uri))
         console.log("URI >> " + res.uri)
         this.setState({
@@ -194,21 +195,21 @@ class AddComplaintNew extends Component {
           let source;
           source = { uri: response.uri };
 
-          if(res.customButton != "image"){
+          if (res.customButton != "image") {
             this.setState({
               uriTo2Send: response.uri,
               ImageSource2: source,
               imageName2: response.path,
               type2: "video/mp4"
             });
-          }else{
-          this.setState({
-            uriTo2Send: response.uri,
-            ImageSource2: source,
-            imageName2: response.fileName,
-            type2: response.type
-          });
-        }
+          } else {
+            this.setState({
+              uriTo2Send: response.uri,
+              ImageSource2: source,
+              imageName2: response.fileName,
+              type2: response.type
+            });
+          }
         });
       } else {
         console.log("responseon from gallery >> " + JSON.stringify(res))
@@ -226,7 +227,7 @@ class AddComplaintNew extends Component {
     })
   }
 
-  componentWillMount(){
+  componentWillMount() {
     this.props.auth.title = ''
     BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
   }
@@ -246,24 +247,27 @@ class AddComplaintNew extends Component {
             })
           } else {
 
-            title = this.props.auth.title
-            comments = this.props.auth.comments
-            uri1 = this.state.uriToSend
-            type1 = this.state.type
-            name1 = this.state.imageName
+              title = this.props.auth.title
+              comments = this.props.auth.comments
+              uri1 = this.state.uriToSend
+              type1 = this.state.type
+              name1 = this.state.imageName
 
-            uri2 = this.state.uriTo1Send,
-            type2 = this.state.type1,
-            name2 = this.state.imageName1
+              uri2 = this.state.uriTo1Send,
+              type2 = this.state.type1,
+              name2 = this.state.imageName1
 
-            uri3 = this.state.uriTo2Send,
-            type3 = this.state.type2,
-            name3 = this.state.imageName2
+              uri3 = this.state.uriTo2Send,
+              type3 = this.state.type2,
+              name3 = this.state.imageName2
 
             userId = this.state.userId
             flatId = this.state.flatId
 
             //this.props.addComplaint_(title, comments,uri1,type1,name1)
+            this.setState({
+              loader: true
+            })
             this.props.addComplaint_(title, comments, uri1, type1, name1, uri2, type2, name2, uri3, type3, name3, flatId, userId)
 
           }
@@ -288,10 +292,7 @@ class AddComplaintNew extends Component {
 
       })
     }
-    // this.setState({ loadMore: true }, this.renderUsersList)
-    //this.renderUsersList()
   }
-
 
   _handlePhotoView = () => {
     //all 3 views 
@@ -336,7 +337,7 @@ class AddComplaintNew extends Component {
               <View style={styles.imageStyle}>
                 <Image
                   source={require('../assets/Complaints/add_image_plus.png')}
-                  style={{ height: 30, width: 30, alignSelf:'center'}} />
+                  style={{ height: 30, width: 30, alignSelf: 'center' }} />
                 <Text style={{
                   fontSize: 14,
                   alignSelf: 'center',
@@ -464,144 +465,6 @@ class AddComplaintNew extends Component {
       )
     }
   }
-  // _handlePhotoView = () => {
-  //   //all 3 views 
-  //   if (this.state.ImageSource === null) {
-  //     //only + View 1 
-  //     return (
-  //       <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
-  //         {this.state.ImageSource === null ?
-  //           <ImageBackground
-  //             style={styles.imageStyle}
-  //             value={'value'}>
-  //             <View style={{ alignSelf: 'center', flex: 1, margin: 5, padding: 10, marginTop: 14 }}>
-  //               <Image
-  //                 source={require('../assets/Complaints/add_image_plus.png')}
-  //                 style={{ height: 30, width: 30, }} />
-  //               <Text style={styles.textStyle}>Image</Text>
-  //             </View>
-  //           </ImageBackground>
-  //           :
-  //           <Image style={styles.imageStyle}
-  //             source={this.state.ImageSource}
-  //           />
-  //         }
-  //       </TouchableOpacity>
-  //     )
-  //   } else if (this.state.ImageSource !== null && this.state.ImageSource1 === null) {
-  //     //only 2 view : 1st and 2nd
-  //     return (
-
-  //       <View style={{ flexDirection: 'row' }}>
-
-  //         <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
-
-  //           {this.state.ImageSource === null ?
-  //             <ImageBackground
-  //               style={styles.imageStyle}
-  //               value={'value'}>
-  //               <View style={{ alignSelf: 'center', flex: 1, margin: 5, padding: 10, marginTop: 14 }}>
-  //                 <Image
-  //                   source={require('../assets/Complaints/add_image_plus.png')}
-  //                   style={{ height: 30, width: 30, }} />
-  //                 <Text style={styles.textStyle}>Image</Text>
-  //               </View>
-  //             </ImageBackground>
-  //             :
-  //             <Image style={styles.imageStyle}
-  //               source={this.state.ImageSource}
-  //             />
-  //           }
-  //         </TouchableOpacity>
-
-  //         <TouchableOpacity onPress={this.selectPhoto2Tapped.bind(this)}>
-
-  //           {this.state.ImageSource1 === null ?
-  //             <ImageBackground
-  //               style={styles.imageStyle}
-  //               value={'value'}>
-  //               <View style={{ alignSelf: 'center', flex: 1, margin: 5, padding: 10, marginTop: 14 }}>
-  //                 <Image
-  //                   source={require('../assets/Complaints/add_image_plus.png')}
-  //                   style={{ height: 30, width: 30, }} />
-  //                 <Text style={styles.textStyle}>Image</Text>
-  //               </View>
-  //             </ImageBackground>
-  //             :
-  //             <Image style={styles.imageStyle}
-  //               source={this.state.ImageSource1}
-  //             />
-  //           }
-  //         </TouchableOpacity>
-  //       </View>
-  //     )
-  //   } else if (this.state.ImageSource !== null && this.state.ImageSource1 !== null) {
-  //     //only 3 view : 1st , 2nd , 3rd 
-  //     return (
-  //       <View style={{ flexDirection: 'row' }}>
-  //         <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
-  //           {
-  //             this.state.ImageSource === null ?
-  //               <ImageBackground
-  //                 style={styles.imageStyle}
-  //                 value={'value'}>
-  //                 <View style={{ alignSelf: 'center', flex: 1, margin: 5, padding: 10, marginTop: 14 }}>
-  //                   <Image
-  //                     source={require('../assets/Complaints/add_image_plus.png')}
-  //                     style={{ height: 30, width: 30, }} />
-  //                   <Text style={styles.textStyle}>Image</Text>
-  //                 </View>
-  //               </ImageBackground>
-  //               :
-  //               <Image style={styles.imageStyle}
-  //                 source={this.state.ImageSource}
-  //               />
-  //           }
-  //         </TouchableOpacity>
-
-  //         <TouchableOpacity onPress={this.selectPhoto2Tapped.bind(this)}>
-
-  //           {this.state.ImageSource === null ?
-  //             <ImageBackground
-  //               style={styles.imageStyle}
-  //               value={'value'}>
-  //               <View style={{ alignSelf: 'center', flex: 1, margin: 5, padding: 10, marginTop: 14 }}>
-  //                 <Image
-  //                   source={require('../assets/Complaints/add_image_plus.png')}
-  //                   style={{ height: 30, width: 30, }} />
-  //                 <Text style={styles.textStyle}>Image</Text>
-  //               </View>
-  //             </ImageBackground>
-  //             :
-  //             <Image style={styles.imageStyle}
-  //               source={this.state.ImageSource1}
-  //             />
-  //           }
-  //         </TouchableOpacity>
-
-  //         <TouchableOpacity onPress={this.selectPhoto3Tapped.bind(this)}>
-  //           {this.state.ImageSource2 === null ?
-  //             <ImageBackground
-  //               style={styles.imageStyle}
-  //               value={'value'}>
-  //               <View style={{ alignSelf: 'center', flex: 1, margin: 5, padding: 10, marginTop: 14 }}>
-  //                 <Image
-  //                   source={require('../assets/Complaints/add_image_plus.png')}
-  //                   style={{ height: 30, width: 30, }} />
-  //                 <Text style={styles.textStyle}>Image</Text>
-  //               </View>
-  //             </ImageBackground>
-  //             :
-  //             <Image style={styles.imageStyle}
-  //               source={this.state.ImageSource2}
-  //             />
-  //           }
-  //         </TouchableOpacity>
-  //       </View>
-  //     )
-  //   }
-  // }
-
 
   _handlePhotoViews1 = () => {
     return (
@@ -619,54 +482,59 @@ class AddComplaintNew extends Component {
   }
 
   renderVerifyFileds() {
-    return (
-      <View style={{ flex: 1 }}>
 
-        <TitleInput
-          titleChange={(text) => this.props.titleChanged(text)}
-          value={this.props.auth.title} />
+    console.log("loader complaints "+this.props.auth.loading)
+    if (this.state.loader) {
+      return (
+        <ActivityIndicator
+          style={{justifyContent: 'center',marginTop: '55.55%'}}
+          size="large" color={pink}
+          text="Loading.."
+          animating />
+      )
+    } else {
+      return (
+        <View style={{ flex: 1 }}>
 
-        <Text style={styles.errorStyle}>{this.state.errorTitle}</Text>
+          <TitleInput
+            titleChange={(text) => this.props.titleChanged(text)}
+            value={this.props.auth.title} />
 
-        <CommentsInput
-          commentsChange={(text) => this.props.commentsChanged(text)}
-          value={this.props.auth.comments} />
+          <Text style={styles.errorStyle}>{this.state.errorTitle}</Text>
 
-        <Text style={styles.errorStyle}>{this.state.errorComments}</Text>
+          <CommentsInput
+            commentsChange={(text) => this.props.commentsChanged(text)}
+            value={this.props.auth.comments} />
 
-        <View style={{ flexDirection: 'row' }}>
-          {/* call image view  */}
-          {this._handlePhotoView()}
+          <Text style={styles.errorStyle}>{this.state.errorComments}</Text>
 
+          <View style={{ flexDirection: 'row' }}>
+            {/* call image view  */}
+            {this._handlePhotoView()}
+          </View>
+
+          <View style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'center', paddingBottom: 40 }}>
+            {this.renderButton()}
+          </View>
         </View>
-
-        <View style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'center', paddingBottom: 40 }}>
-          {this.renderButton()}
-        </View>
-
-      </View>
-    );
+      );
+    }
   }
 
   componentWillUnmount() {
     this.props.auth.title = ''
     this.props.auth.comments = ''
 
-    //Actions.pop('Complaints');
-    // Actions.popTo('Complaints');
-    //Actions.refresh()
-
     BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
     return true;
   }
 
-  handleBackPress() {  
+  handleBackPress() {
     this.props.navigation.goBack(null);
     return true;
   }
 
   componentDidMount() {
-
     this._getUserStorageValue()
   }
 
@@ -677,17 +545,16 @@ class AddComplaintNew extends Component {
           keyboardShouldPersistTaps={'handled'}
           keyboardDismissMode='none'
           contentContainerStyle={{ position: 'absolute', justifyContent: 'flex-start', height: '100%', width: '100%' }}> */}
-          <View style={styles.containerStyle}>
-            <View style={styles.card}>
-                {this.renderVerifyFileds()}
-            </View>
+        <View style={styles.containerStyle}>
+          <View style={styles.card}>
+            {this.renderVerifyFileds()}
           </View>
+        </View>
         {/* </ScrollView> */}
-      </TouchableWithoutFeedback>      
+      </TouchableWithoutFeedback>
     );
   }
 }
-//export default AddVisiorRequestNew;
 
 const styles = {
   errorStyle: {
@@ -736,7 +603,7 @@ const styles = {
   //   borderColor: grey_lighter,
   // }
   imageStyle: {
-    alignItems:'center',
+    alignItems: 'center',
     alignSelf: 'center',
     margin: 5,
     // marginLeft: 20,

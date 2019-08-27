@@ -50,6 +50,7 @@ export const Add_Request = 'ADD REQUEST';
 
 export const Home = 'Home'; 
 export const SwitchProperty = 'Switch Property'; 
+export const Maintenance = 'Maintenance'; 
 export const Notifications = 'Notifications'; 
 export const AboutGuardOmni = 'About GuardOmni'; 
 export const Logout = 'Logout';

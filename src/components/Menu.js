@@ -5,7 +5,7 @@ import { Actions } from 'react-native-router-flux';
 import axios from 'axios' 
 import { Dialog } from 'react-native-simple-dialogs';
 import { SInput } from './common/SInput';
-import { Home, SwitchProperty, Logout, AboutGuardOmni, Notifications, red_lighter, App_Name, App_Version, black } from './common';
+import { Home, SwitchProperty, Logout, AboutGuardOmni, Notifications, red_lighter, App_Name, App_Version, black, Maintenance } from './common';
 import SimpleToast from 'react-native-simple-toast';
 
 class Menu extends Component {
@@ -51,6 +51,16 @@ class Menu extends Component {
                             </ListItem>
 
                             <ListItem onPress={() => 
+                           { Actions.drawerClose(), Actions.maintenance()}
+                        }
+                                noBorder={true}>
+
+                                <Image style={styles.thumbnail}
+                                    source={require('./assets/Drawer/maintenance_icn.png')} />
+                                <Text style={styles.drawerText}>{Maintenance}</Text>
+                            </ListItem>
+
+                            <ListItem onPress={() => 
                             { Actions.drawerClose(), Actions.notification()}
                             }
                                 noBorder={true}>
@@ -86,7 +96,7 @@ class Menu extends Component {
                                                     LoginData = data[0][1];
                                                     var res = JSON.parse(LoginData)
 
-                                                axios.post('http://192.168.0.32:8000/api/logoutUser',
+                                                axios.post('http://18.188.253.46:8000/api/logoutUser',
                                                 {
                                                     "userId": res.data[0].user_details.user_id
                                                 })
@@ -290,7 +300,7 @@ const styles = {
 //                                                     LoginData = data[0][1];
 //                                                     var res = JSON.parse(LoginData)
 
-//                                                 axios.post('http://192.168.0.32:8000/api/logoutUser',
+//                                                 axios.post('http://18.188.253.46:8000/api/logoutUser',
 //                                                 {
 //                                                     "userId": res.data[0].user_details.user_id
 //                                                 })

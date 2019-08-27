@@ -85,7 +85,7 @@ class NewEditVisitorRequest extends Component {
      renderVisitorDetails() {
           //pass complaintIs
           // console.log("inside com edit", this.state.userId)
-          callPostApi('http://192.168.0.32:8000/api/getVisitorDetailsAdmin?', {
+          callPostApi('http://18.188.253.46:8000/api/getVisitorDetailsAdmin?', {
                "userId": this.state.userId,
                "visitorId": this.state.visitorRequestId,
                "flatId": this.state.flatId

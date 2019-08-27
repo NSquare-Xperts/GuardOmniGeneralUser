@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { Text, View, Image, AsyncStorage, DeviceEventEmitter, BackHandler, TouchableWithoutFeedback, FlatList,TouchableOpacity, Platform,Alert } from 'react-native'
-import { red_lighter, white_Original, grey, black, grey_lighter } from './common'
+import { Text, View, Image, AsyncStorage, DeviceEventEmitter, BackHandler, TouchableWithoutFeedback, ActivityIndicator, FlatList, TouchableOpacity, Platform, Alert } from 'react-native'
+import { red_lighter, white_Original, grey, black, grey_lighter, pink } from './common'
 import { ScrollView } from 'react-native-gesture-handler';
 import { callPostApi } from './Util/APIManager';
 import ImageLoad from 'react-native-image-placeholder'
@@ -8,10 +8,9 @@ import Dialog from "react-native-dialog";
 import HTML from 'react-native-render-html';
 import ActionSheet from 'react-native-action-sheet';
 import { Actions } from 'react-native-router-flux';
+import Video from 'react-native-video'
 
-
-
-// http://192.168.0.32:8000
+// http://18.188.253.46:8000
 //1 : resolved 
 //0 : not
 
@@ -34,6 +33,7 @@ class ComplaintDetail extends Component {
     constructor(props) {
         super(props)
         this.handleBackPress = this.handleBackPress.bind(this)
+
         this.state = {
             complaintId: props.complaintID,
             refreshing: true,
@@ -42,8 +42,10 @@ class ComplaintDetail extends Component {
             isVisibleImg3: false,
             dialogVisible: false,
             userId: '',
+            opacity: 0,
             errorComment: '',
             newComment: '',
+
             text: '',
             complaintsCommentArray: [
                 {
@@ -89,57 +91,57 @@ class ComplaintDetail extends Component {
                 console.log('button clicked :', buttonIndex);
                 switch (buttonIndex) {
                     case 0:
-                    console.log("Edit Button Pressed")                    
-                    Actions.newedit()
-                    break;
+                        console.log("Edit Button Pressed")
+                        Actions.newedit()
+                        break;
                     case 1:
-                    console.log("Delete Button Pressed")
-                    Alert.alert(
-                        'Want to Delete this complaint ?',
-                        'Complaint will be deleted permantly',
-                        [
-                            {
-                                text: 'No', onPress: () =>
-                                    console.log('Cancel Pressed')
-    
-                            },
-                            {
-                                text: 'Yes', onPress: () => {
-    
-                                    AsyncStorage.multiGet(["LoginData"]).then((data) => {
-                                        LoginData = data[0][1];
-                                        var res = JSON.parse(LoginData)    
-                                        AsyncStorage.getItem('complaintID').then((data) => {                                            
-                                            var complaintID = JSON.parse(data)    
-                                            callPostApi('http://192.168.0.32:8000/api/complaintDelete', {
-                                                "userId": res.data[0].user_details.user_id,
-                                                "complaintId": complaintID,
-                                            })
-                                                .then((response) => {
-                                                    // Continue your code here...
-                                                    res = JSON.parse(response)
-                                                    //console.log("response : ", res)
-                                                    if (res.status == 200) {    
-                                                        AsyncStorage.removeItem('complaintID')
-                                                        AsyncStorage.removeItem('userID')
-                                                        //Actions.pop('Complaints');
-                                                        DeviceEventEmitter.emit('eventDeletedComplaint',{isDeletedSuccessFully: true});
-                                                        Actions.popTo('Complaints');
-    
-                                                        SimpleToast.show(res.message)
-                                                    } else {
-                                                        SimpleToast.show(res.message)
-                                                    }
-                                                });
-    
+                        console.log("Delete Button Pressed")
+                        Alert.alert(
+                            'Want to Delete this complaint ?',
+                            'Complaint will be deleted permantly',
+                            [
+                                {
+                                    text: 'No', onPress: () =>
+                                        console.log('Cancel Pressed')
+
+                                },
+                                {
+                                    text: 'Yes', onPress: () => {
+
+                                        AsyncStorage.multiGet(["LoginData"]).then((data) => {
+                                            LoginData = data[0][1];
+                                            var res = JSON.parse(LoginData)
+                                            AsyncStorage.getItem('complaintID').then((data) => {
+                                                var complaintID = JSON.parse(data)
+                                                callPostApi('http://18.188.253.46:8000/api/complaintDelete', {
+                                                    "userId": res.data[0].user_details.user_id,
+                                                    "complaintId": complaintID,
+                                                })
+                                                    .then((response) => {
+                                                        // Continue your code here...
+                                                        res = JSON.parse(response)
+                                                        //console.log("response : ", res)
+                                                        if (res.status == 200) {
+                                                            AsyncStorage.removeItem('complaintID')
+                                                            AsyncStorage.removeItem('userID')
+                                                            //Actions.pop('Complaints');
+                                                            DeviceEventEmitter.emit('eventDeletedComplaint', { isDeletedSuccessFully: true });
+                                                            Actions.popTo('Complaints');
+
+                                                            SimpleToast.show(res.message)
+                                                        } else {
+                                                            SimpleToast.show(res.message)
+                                                        }
+                                                    });
+
+                                            });
                                         });
-                                    });
+                                    }
                                 }
-                            }
-                        ],
-                        { cancelable: true }
-                    )
-                    break;
+                            ],
+                            { cancelable: true }
+                        )
+                        break;
                     default:
                 }
             });
@@ -155,14 +157,14 @@ class ComplaintDetail extends Component {
 
             this.setState({ userId: res.data[0].user_details.user_id })
 
-            callPostApi('http://192.168.0.32:8000/api/complaintDetails', {
+            callPostApi('http://18.188.253.46:8000/api/complaintDetails', {
                 "userId": this.state.userId,
                 "complaintId": this.state.complaintId
             })
                 .then((response) => {
                     // Continue your code here...
-                    res = JSON.parse(response)                   
-
+                    res = JSON.parse(response)
+                    console.log("detail res : " + JSON.stringify(res))
                     if (res.status == "200") {
                         this.setState({
                             details: res.data, refreshing: false, complaintsCommentArray: res.complaint_comments
@@ -222,63 +224,221 @@ class ComplaintDetail extends Component {
         );
     }
 
+
+
+    onLoadStart = () => {
+        this.setState({ opacity: 1 });
+    }
+
+    onLoad = () => {
+        this.setState({ opacity: 0 });
+    }
+
+    onBuffer = ({ isBuffering }) => {
+        this.setState({ opacity: isBuffering ? 1 : 0 });
+    }
+
     _hideShowImageView() {
+
         if (this.state.details[0].complaint_image_1 != "" && this.state.details[0].complaint_image_2 != "" && this.state.details[0].complaint_image_3 != "") {
             return (
                 <View>
 
-                    <ImageLoad
-                        style={styles.thumbnail}
-                        loadingStyle={{ size: 'large', color: 'blue' }}
-                        source={{ uri: this.state.details[0].complaint_image_1 }}
-                    />
+                    {this.state.details[0].complaint_image_1.includes('mp4')
+                        ?
+                        <View>
+                            <Video
+                                style={styles.thumbnail}
+                                controls={true}
+                                source={{ uri: this.state.details[0].complaint_image_1 }}
+                                ref={(ref) => {
+                                    this.player = ref
+                                }}                                      // Store reference
+                                onBuffer={this.onBuffer}
+                                onLoadStart={this.onLoadStart}
+                                onLoad={this.onLoad}
+                                onError={this.videoError}
+                            />
+                            <ActivityIndicator
+                                animating
+                                size="large"
+                                color={pink}
+                                style={[styles.activityIndicator, { opacity: this.state.opacity }]}
+                            />
+                        </View>
+                        :
+                        <ImageLoad
+                            style={styles.thumbnail}
+                            loadingStyle={{ size: 'large', color: 'blue' }}
+                            source={{ uri: this.state.details[0].complaint_image_1 }}
+                        />
+                    }
 
-                    <ImageLoad
-                        style={styles.thumbnail}
-                        loadingStyle={{ size: 'large', color: 'blue' }}
-                        source={{ uri: this.state.details[0].complaint_image_2 }}
-                    />
+                    {this.state.details[0].complaint_image_2.includes('mp4')
+                        ?
 
-                    <ImageLoad
-                        style={styles.thumbnail}
-                        loadingStyle={{ size: 'large', color: 'blue' }}
-                        source={{ uri: this.state.details[0].complaint_image_3 }}
-                    />
-                
+                        <View>
+                            <Video
+                                style={styles.thumbnail}
+                                controls={true}
+                                source={{ uri: this.state.details[0].complaint_image_2 }}
+                                ref={(ref) => {
+                                    this.player = ref
+                                }}                                      // Store reference
+                                onBuffer={this.onBuffer}
+                                onLoadStart={this.onLoadStart}
+                                onLoad={this.onLoad}
+                                onError={this.videoError}
+                            />
+                            <ActivityIndicator
+                                animating
+                                size="large"
+                                color={pink}
+                                style={[styles.activityIndicator, { opacity: this.state.opacity }]}
+                            />
+                        </View>
+                        :
+                        <ImageLoad
+                            style={styles.thumbnail}
+                            loadingStyle={{ size: 'large', color: 'blue' }}
+                            source={{ uri: this.state.details[0].complaint_image_2 }}
+                        />
+                    }
+                    {this.state.details[0].complaint_image_3.includes('mp4')
+                        ?
+                        <View>
+                            <Video
+                                style={styles.thumbnail}
+                                controls={true}
+                                source={{ uri: this.state.details[0].complaint_image_3 }}
+                                ref={(ref) => {
+                                    this.player = ref
+                                }}                                      // Store reference
+                                onBuffer={this.onBuffer}
+                                onLoadStart={this.onLoadStart}
+                                onLoad={this.onLoad}
+                                onError={this.videoError}
+                            />
+                            <ActivityIndicator
+                                animating
+                                size="large"
+                                color={pink}
+                                style={[styles.activityIndicator, { opacity: this.state.opacity }]}
+                            />
+                        </View>
+                        :
+                        <ImageLoad
+                            style={styles.thumbnail}
+                            loadingStyle={{ size: 'large', color: 'blue' }}
+                            source={{ uri: this.state.details[0].complaint_image_3 }}
+                        />
+                    }
                 </View>
-
             )
         } else if (this.state.details[0].complaint_image_1 != "" && this.state.details[0].complaint_image_2 != "") {
             return (
                 <View>
+                    {this.state.details[0].complaint_image_1.includes('mp4')
+                        ?
+                        <View>
+                            <Video
+                                style={styles.thumbnail}
+                                controls={true}
+                                source={{ uri: this.state.details[0].complaint_image_1 }}
+                                ref={(ref) => {
+                                    this.player = ref
+                                }}                                      // Store reference
+                                onBuffer={this.onBuffer}
+                                onLoadStart={this.onLoadStart}
+                                onLoad={this.onLoad}
+                                onError={this.videoError}
+                            />
+                            <ActivityIndicator
+                                animating
+                                size="large"
+                                color={pink}
+                                style={[styles.activityIndicator, { opacity: this.state.opacity }]}
+                            />
 
-                    <ImageLoad
-                        style={styles.thumbnail}
-                        loadingStyle={{ size: 'large', color: 'blue' }}
-                        source={{ uri: this.state.details[0].complaint_image_1 }}
-                    />
+                        </View>
+                        :
+                        <ImageLoad
+                            style={styles.thumbnail}
+                            loadingStyle={{ size: 'large', color: 'blue' }}
+                            source={{ uri: this.state.details[0].complaint_image_1 }}
+                        />
+                    }
 
-                    <ImageLoad
-                        style={styles.thumbnail}
-                        loadingStyle={{ size: 'large', color: 'blue' }}
-                        source={{ uri: this.state.details[0].complaint_image_2 }}
-                    />
-                 
+                    {this.state.details[0].complaint_image_2.includes('mp4')
+                        ?
+                        <View>
+                            <Video
+                                style={styles.thumbnail}
+                                controls={true}
+                                source={{ uri: this.state.details[0].complaint_image_2 }}
+                                ref={(ref) => {
+                                    this.player = ref
+                                }}                                      // Store reference
+                                onBuffer={this.onBuffer}
+                                onLoadStart={this.onLoadStart}
+                                onLoad={this.onLoad}
+                                onError={this.videoError}
+                            />
+                            <ActivityIndicator
+                                animating
+                                size="large"
+                                color={pink}
+                                style={[styles.activityIndicator, { opacity: this.state.opacity }]}
+                            />
+                        </View>
+                        :
+                        <ImageLoad
+                            style={styles.thumbnail}
+                            loadingStyle={{ size: 'large', color: 'blue' }}
+                            source={{ uri: this.state.details[0].complaint_image_2 }}
+                        />
+                    }
                 </View>
             )
         } else if (this.state.details[0].complaint_image_1 != "") {
             return (
                 <View>
-                 
-                    <ImageLoad
-                        style={styles.thumbnail}
-                        loadingStyle={{ size: 'large', color: 'blue' }}
-                        source={{ uri: this.state.details[0].complaint_image_1 }} />
+                    {console.log("--- " + this.state.details[0].complaint_image_1)}
+                    {this.state.details[0].complaint_image_1.includes('mp4')
+                        ?
+                        <View>
+                            <Video
+                                style={styles.thumbnail}
+                                controls={true}
+                                onLoad
+                                onVideoLoad={{ size: 'large', color: 'blue' }}
+                                source={{ uri: this.state.details[0].complaint_image_1 }}
+                                ref={(ref) => {
+                                    this.player = ref
+                                }}
+                                onBuffer={this.onBuffer}
+                                onLoadStart={this.onLoadStart}
+                                onLoad={this.onLoad}
+                                onError={this.videoError}  />
+                            <ActivityIndicator
+                                animating
+                                size="large"
+                                color={pink}
+                                style={[styles.activityIndicator, { opacity: this.state.opacity }]}
+                            />
+                        </View>
+                        :
+                        <ImageLoad
+                            style={styles.thumbnail}
+                            loadingStyle={{ size: 'large', color: 'blue' }}
+                            source={{ uri: this.state.details[0].complaint_image_1 }}
+                        />
+                    }
                 </View>
             )
         }
-
     }
+
     render() {
         return (
             <View style={{ backgroundColor: red_lighter, flex: 1 }}>
@@ -354,13 +514,11 @@ class ComplaintDetail extends Component {
     handleAddComment = () => {
         console.log("New Comment: ", this.state.newComment)
 
-
-
         if (this.state.newComment.length > 0) {
             this.setState({ dialogVisible: false });
             this.setState({ newComment: '' })
             console.log("UserID: ", this.state.userId, "ComplaintID:", this.state.complaintId, "Comment: ", this.state.newComment)
-            callPostApi('http://192.168.0.32:8000/api/addComplaintComment', {
+            callPostApi('http://18.188.253.46:8000/api/addComplaintComment', {
                 "userId": this.state.userId,
                 "complaintId": this.state.complaintId,
                 "comment": this.state.newComment
@@ -523,9 +681,15 @@ const styles = {
         borderBottomColor: '#000',
         margin: 5,
         marginRight: 5,
-        borderBottomColor: '#000', // Add this to specify bottom border color
-        borderBottomWidth: 1     // Add this to specify bottom border thickness
+        borderBottomColor: '#000',
+        borderBottomWidth: 1
+    },
+    activityIndicator: {
+        position: 'absolute',
+        top: 70,
+        left: 70,
+        right: 70,
+        height: 50
     }
-
 }
 

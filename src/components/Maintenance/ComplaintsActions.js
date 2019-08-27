@@ -9,6 +9,10 @@ export const addComplaint_ = (title, comments, uri1, type1, name1, uri2, type2, 
     return (dispatch) => {
         dispatch({ type: ADD_COMPLAINT });
 
+        // console.log("video uri  "+uri1)
+        // console.log("video name "+name1)
+        // console.log("video type "+type1)
+
         callFormDataPostApi('http://18.188.253.46:8000/api/complaintRequest', {
             "userId": userId,
             "complaintTitle": title,
@@ -33,14 +37,7 @@ export const addComplaint_ = (title, comments, uri1, type1, name1, uri2, type2, 
 
                     DeviceEventEmitter.emit('eventNewComplaintAdded', { isAddeddSuccessFully: true });
                     addComplaintSuccess(dispatch, data)
-                }else if(res.status == 401) {
-
-                    AsyncStorage.removeItem('propertyDetails');
-                    AsyncStorage.removeItem('userDetail');
-                    AsyncStorage.removeItem('LoginData');
-                    //SimpleToast.show(response.message)
-                    Actions.reset('Login')
-                  }  else {
+                } else {
                     addComplaintFailed(dispatch, response.message)
                 }
             });

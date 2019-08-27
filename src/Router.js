@@ -57,11 +57,13 @@ import CountrycodeEditVR from './components/CountryCodeEditVR'
 import TimePicker from './components/TimePicker'
 import ComplaintDetailTextAlert from './components/ComplaintDetailTextAlert'
 import ComplaintDetailDoNotEdit from './components/ComplaintDetailDoNotEdit';
+import Maintaince from './components/Maintenance/Maintaince';
 
 const MoreIcon = require('./components/assets/Complaints/more_options.png');
 // import { Right } from 'native-base';
 class RouterComponent extends Component {
 
+    //Latest Code 
     componentDidMount() {        
         BackHandler.addEventListener('hardwareBackPress', () => {
             if (Actions.currentScene == 'Login') {
@@ -207,6 +209,7 @@ class RouterComponent extends Component {
                         hideNavBar>
 
                         <Scene title="GuardOmni" key="homepage" component={Homepage} />
+                        <Scene title="Maintenance" key="maintenance" component={Maintaince} renderRightButton={false}/>
                         <Scene title="Notifications" key="notification" component={Notifications} renderRightButton={false}/>
                         <Scene title="Switch Property" key="SwitchProperty" component={SwitchProperty} renderRightButton={false}/>
                         <Scene title="About Us" key="Aboutus" component={Aboutus} renderRightButton={false}/>

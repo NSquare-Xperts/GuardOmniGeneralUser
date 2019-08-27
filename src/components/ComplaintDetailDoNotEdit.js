@@ -48,7 +48,7 @@ class ComplaintDetailDoNotEdit extends Component {
 
             this.setState({ userId: res.data[0].user_details.user_id })
 
-            callPostApi('http://192.168.0.32:8000/api/complaintDetails', {
+            callPostApi('http://18.188.253.46:8000/api/complaintDetails', {
                 "userId": this.state.userId,
                 "complaintId": this.state.complaintId
             })
@@ -137,16 +137,7 @@ class ComplaintDetailDoNotEdit extends Component {
                         loadingStyle={{ size: 'large', color: 'blue' }}
                         source={{ uri: this.state.details[0].complaint_image_3}}
                     />
-                    {/* <Image
-                        style={styles.thumbnail}
-                        source={{ uri: this.state.details[0].complaint_image_1 }} />
-
-
-                    <Image style={styles.thumbnail}
-                        source={{ uri: this.state.details[0].complaint_image_2 }} />
-
-                    <Image style={styles.thumbnail}
-                        source={{ uri: this.state.details[0].complaint_image_3 }} /> */}
+                
                 </View>
 
             )
@@ -165,20 +156,12 @@ class ComplaintDetailDoNotEdit extends Component {
                         loadingStyle={{ size: 'large', color: 'blue' }}
                         source={{ uri: this.state.details[0].complaint_image_2 }}
                     />
-                    {/* <Image
-                        style={styles.thumbnail}
-                        source={{ uri: this.state.details[0].complaint_image_1 }} />
-
-                    <Image style={styles.thumbnail}
-                        source={{ uri: this.state.details[0].complaint_image_2 }} /> */}
+                    
                 </View>
             )
         } else if (this.state.details[0].complaint_image_1 != "") {
             return (
                 <View>
-                    {/* <Image
-                        style={styles.thumbnail}
-                        source={{ uri: this.state.details[0].complaint_image_1 }} /> */}
 
                     <ImageLoad
                         style={styles.thumbnail}

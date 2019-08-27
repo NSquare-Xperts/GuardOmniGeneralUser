@@ -237,37 +237,37 @@ class NewEditComplaints extends Component {
                }
           });
      }
-     
+
      renderButton() {
-     return(
-     <Button 
-          onPress={() => {          
-          if(this.props.auth.title.length <= 0) {
-          this.setState({
-          errorTitle: '* Please Enter title .'
-     })
-     } else if (this.props.auth.comments.length <= 0) {
-                         this.setState({
-                              errorComments: '* Please Enter comment.'
-                         })
-         } else {
-     
-          
-               title = this.props.auth.title
-               comments = this.props.auth.comments
+          return (
+               <Button
+                    onPress={() => {
+                         if (this.props.auth.title.length <= 0) {
+                              this.setState({
+                                   errorTitle: '* Please Enter title .'
+                              })
+                         } else if (this.props.auth.comments.length <= 0) {
+                              this.setState({
+                                   errorComments: '* Please Enter comment.'
+                              })
+                         } else {
+
+
+                              title = this.props.auth.title
+                              comments = this.props.auth.comments
 
                               uri1 = this.state.uriToSend
                               type1 = this.state.type
                               name1 = this.state.imageName
-     
+
                               uri2 = this.state.uriTo1Send
                               type2 = this.state.type1
                               name2 = this.state.imageName1
-                    
+
                               uri3 = this.state.uriTo2Send
                               type3 = this.state.type2
                               name3 = this.state.imageName2
-                         
+
                               userId = this.state.userId
                               //this.state.userId
                               complaintId = this.state.complaintId
@@ -286,9 +286,9 @@ class NewEditComplaints extends Component {
      //call async data
      renderUsersComplaints() {
           //pass complaintIs
-          console.log("Complaint Edit: UserID:",this.state.userId,"Complaint ID: ", this.state.complaintId)
+          console.log("Complaint Edit: UserID:", this.state.userId, "Complaint ID: ", this.state.complaintId)
 
-          callPostApi('http://192.168.0.32:8000/api/complaintDetails?', {
+          callPostApi('http://18.188.253.46:8000/api/complaintDetails?', {
                //"userId": this.state.userId,
                "userId": this.state.userId,
                "complaintId": this.state.complaintId
@@ -303,67 +303,67 @@ class NewEditComplaints extends Component {
                          this.props.auth.comments = res.data[0].complaint_description
 
                          this.setState({
-                         refreshing: false,
-                         url1: res.data[0].complaint_image_1,
-                         url2: res.data[0].complaint_image_2,
-                         url3: res.data[0].complaint_image_3
-                    })
-               } else {
-                    this.setState({
-                         refreshing: false
-                    })
-               }
+                              refreshing: false,
+                              url1: res.data[0].complaint_image_1,
+                              url2: res.data[0].complaint_image_2,
+                              url3: res.data[0].complaint_image_3
+                         })
+                    } else {
+                         this.setState({
+                              refreshing: false
+                         })
+                    }
                });
-} 
-     
+     }
+
      async _getUserStorageValue() {
-     
-     var value = await AsyncStorage.getItem('propertyDetails')
-     var data = JSON.parse(value);
-     
+
+          var value = await AsyncStorage.getItem('propertyDetails')
+          var data = JSON.parse(value);
+
           var valueUser = await AsyncStorage.getItem('userDetail')
-               var dataUser = JSON.parse(valueUser);
-               
-               var complaintId = await AsyncStorage.getItem('complaintID')
-               var dataComplaintID = JSON.parse(complaintId);
-               console.log("***** complaintId",dataComplaintID)
-               
-               if (dataUser !=  '' || dataUser != null) {
+          var dataUser = JSON.parse(valueUser);
+
+          var complaintId = await AsyncStorage.getItem('complaintID')
+          var dataComplaintID = JSON.parse(complaintId);
+          console.log("***** complaintId", dataComplaintID)
+
+          if (dataUser != '' || dataUser != null) {
                this.setState({
-                    userId:dataUser.user_id,
+                    userId: dataUser.user_id,
                     complaintId: dataComplaintID
-                         //flatId: data.flat_id,
-                         
-                    }, this.renderUsersComplaints())
-          } 
-                    this.renderUsersComplaints()
-               // this.setState({ loadMore: true }, this.renderUsersList)
-               //this.renderUsersList()
+                    //flatId: data.flat_id,
+
+               }, this.renderUsersComplaints())
           }
-               
-               //check url 3 first 
-               _handlePhotoView = () => {
-                    
+          this.renderUsersComplaints()
+          // this.setState({ loadMore: true }, this.renderUsersList)
+          //this.renderUsersList()
+     }
+
+     //check url 3 first 
+     _handlePhotoView = () => {
+
           //url3 if present : show all 3 url
           if (this.state.url3 != '') {
-                    return (
-          <View style={{ flexDirection: 'row' }}>
-     <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
+               return (
+                    <View style={{ flexDirection: 'row' }}>
+                         <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
                               {
                                    this.state.ImageSource === null ?
-                         <Image style={styles.imageStyle}
+                                        <Image style={styles.imageStyle}
                                              source={{ uri: this.state.url1 }} />
-                         :
-                         <Image style={styles.imageStyle}
-                              source={this.state.ImageSource} />
-               }
-          </TouchableOpacity>
-          
-          <TouchableOpacity onPress={this.selectPhoto2Tapped.bind(this)}>
-          
-               {this.state.ImageSource1 === null ?
-                    <Image style={styles.imageStyle}
-                         source={{ uri: this.state.url2 }} />
+                                        :
+                                        <Image style={styles.imageStyle}
+                                             source={this.state.ImageSource} />
+                              }
+                         </TouchableOpacity>
+
+                         <TouchableOpacity onPress={this.selectPhoto2Tapped.bind(this)}>
+
+                              {this.state.ImageSource1 === null ?
+                                   <Image style={styles.imageStyle}
+                                        source={{ uri: this.state.url2 }} />
                                    :
                                    <Image style={styles.imageStyle}
                                         source={this.state.ImageSource2}
@@ -392,279 +392,279 @@ class NewEditComplaints extends Component {
                                    this.state.ImageSource === null ?
                                         <Image style={styles.imageStyle}
                                              source={{ uri: this.state.url1 }} />
-                                   :
-                                   <Image style={styles.imageStyle}
-                                        source={this.state.ImageSource} />
-                         }
-                         </TouchableOpacity>
-                    
-                         <TouchableOpacity onPress={this.selectPhoto2Tapped.bind(this)}>
-                              
-                         {this.state.ImageSource1 === null ?
-                              <Image style={styles.imageStyle}
-                                   source={{ uri: this.state.url2 }} />
-                              :
-                              <Image style={styles.imageStyle}
-                                   source={this.state.ImageSource2}
-                                   />
-                         }
+                                        :
+                                        <Image style={styles.imageStyle}
+                                             source={this.state.ImageSource} />
+                              }
                          </TouchableOpacity>
 
-                         
-                              < TouchableOpacity onPress={this.selectPhoto3Tapped.bind(this)}>
-                         {this.state.ImageSource2 === null ?
+                         <TouchableOpacity onPress={this.selectPhoto2Tapped.bind(this)}>
+
+                              {this.state.ImageSource1 === null ?
+                                   <Image style={styles.imageStyle}
+                                        source={{ uri: this.state.url2 }} />
+                                   :
+                                   <Image style={styles.imageStyle}
+                                        source={this.state.ImageSource2}
+                                   />
+                              }
+                         </TouchableOpacity>
+
+
+                         < TouchableOpacity onPress={this.selectPhoto3Tapped.bind(this)}>
+                              {this.state.ImageSource2 === null ?
                                    <ImageBackground
-                                   style={styles.imageStyle}
-                                   value={'value'}>
-                                   <View style={{ alignSelf: 'center', flex: 1, margin: 5, padding: 10, marginTop: 14 }}>
+                                        style={styles.imageStyle}
+                                        value={'value'}>
+                                        <View style={{ alignSelf: 'center', flex: 1, margin: 5, padding: 10, marginTop: 14 }}>
                                              <Image
-                                             source={require('../assets/Complaints/add_image_plus.png')}
-                                             style={{ height: 30, width: 30, }} />
-                                        <Text style={styles.textStyle}>Image</Text>
+                                                  source={require('../assets/Complaints/add_image_plus.png')}
+                                                  style={{ height: 30, width: 30, }} />
+                                             <Text style={styles.textStyle}>Image</Text>
                                         </View>
-                              </ImageBackground>
-                              :
-                              <Image style={styles.imageStyle}
+                                   </ImageBackground>
+                                   :
+                                   <Image style={styles.imageStyle}
                                         source={this.state.ImageSource2}
                                    />
                               }
                          </TouchableOpacity>
                     </View>
                )
-                    } else if (this.state.url1 != '') {
-                         return (
+          } else if (this.state.url1 != '') {
+               return (
                     <View style={{ flexDirection: 'row' }}>
                          <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
                               {
                                    this.state.ImageSource === null ?
-                                   <Image style={styles.imageStyle}
-                                        source={{ uri: this.state.url1 }} />
-                                   :
-                                   <Image style={styles.imageStyle}
-                                        source={this.state.ImageSource} />
-                         }
-                    </TouchableOpacity>
-          
-                    <TouchableOpacity onPress={this.selectPhoto2Tapped.bind(this)}>
-          
-                         {this.state.ImageSource1 === null ?
-                              <ImageBackground
-                                   style={styles.imageStyle}
-                                   value={'value'}>
-                                        <View style={{ alignSelf: 'center', flex: 1, margin: 5, padding: 10, marginTop: 14 }}>
-                                        <Image
-                                             source={require('../assets/Complaints/add_image_plus.png')}
-                                                  style={{ height: 30, width: 30, }} />
-                                        <Text style={styles.textStyle}>Image</Text>
-                                   </View>
-                              </ImageBackground>
-                              :
-                              <Image style={styles.imageStyle}
-                                   source={this.state.ImageSource1}
-                              />
-                         }
-                         </TouchableOpacity>
-                    
-                    {this.state.ImageSource1 != null ?
-                         <TouchableOpacity onPress={this.selectPhoto3Tapped.bind(this)}>
-                              {this.state.ImageSource2 === null ?
-                                        <ImageBackground
-                                        style={styles.imageStyle}
-                                             value={'value'}>
-                                        <View style={{ alignSelf: 'center', flex: 1, margin: 5, padding: 10, marginTop: 14 }}>
-                                             <Image
-                                                       source={require('../assets/Complaints/add_image_plus.png')}
-                                                  style={{ height: 30, width: 30, }} />
-                                             <Text style={styles.textStyle}>Image</Text>
-                                             </View>
-                                   </ImageBackground>
-                                   :
                                         <Image style={styles.imageStyle}
-                                        source={this.state.ImageSource2} />
+                                             source={{ uri: this.state.url1 }} />
+                                        :
+                                        <Image style={styles.imageStyle}
+                                             source={this.state.ImageSource} />
                               }
-               
                          </TouchableOpacity>
-                         :
-                              null
-                    }
-               </View>
-          )
-     }
-}
 
-
-_handlePhotoView_emptyURLs = () => {
-     //all 3 views 
-     if (this.state.ImageSource === null) {
-          //only + View 1 
-          return (
-               <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
-                    {this.state.ImageSource === null ?
-                         <ImageBackground
-                              style={styles.imageStyle}
-                                   value = {'value'}>
-                         <View style={{ alignSelf: 'center', flex: 1, margin: 5, padding: 10, marginTop: 14 }}>
-                         <Image
-                                             source={require('../assets/Complaints/add_image_plus.png')}
-                              style={{ height: 30, width: 30, }} />
-                                   <Text style={styles.textStyle}>Image</Text>
-                                   </View>
-                              </ImageBackground>
-                         :
-                              <Image style={styles.imageStyle}
-                              source={this.state.ImageSource}
-                              />
-                         }
-                    </TouchableOpacity>
-                    )
-          } else if (this.state.ImageSource !== null && this.state.ImageSource1 === null) {
-                    //only 2 view : 1st and 2nd
-                    return (
-
-                    <View style={{ flexDirection: 'row' }}>
-               
-                    <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
-                         
-                              {this.state.ImageSource === null ?
-               <ImageBackground
-                                        style={styles.imageStyle}
-                         value={'value'}>
-                         <View style={{ alignSelf: 'center', flex: 1, margin: 5, padding: 10, marginTop: 14 }}>
-                                   <Image
-                                                  source={require('../assets/Complaints/add_image_plus.png')}
-                                                   style={{ height: 30, width: 30, }} />
-                                             <Text style={styles.textStyle}>Image</Text>
-                                        </View>
-                              </ImageBackground>
-                              :
-                              <Image style={styles.imageStyle}
-                                   source={this.state.ImageSource}
-                              />
-                         }
-                         </TouchableOpacity>
-                    
                          <TouchableOpacity onPress={this.selectPhoto2Tapped.bind(this)}>
-                    
-                         {this.state.ImageSource1 === null ?  
+
+                              {this.state.ImageSource1 === null ?
                                    <ImageBackground
                                         style={styles.imageStyle}
                                         value={'value'}>
                                         <View style={{ alignSelf: 'center', flex: 1, margin: 5, padding: 10, marginTop: 14 }}>
                                              <Image
+                                                  source={require('../assets/Complaints/add_image_plus.png')}
+                                                  style={{ height: 30, width: 30, }} />
+                                             <Text style={styles.textStyle}>Image</Text>
+                                        </View>
+                                   </ImageBackground>
+                                   :
+                                   <Image style={styles.imageStyle}
+                                        source={this.state.ImageSource1}
+                                   />
+                              }
+                         </TouchableOpacity>
+
+                         {this.state.ImageSource1 != null ?
+                              <TouchableOpacity onPress={this.selectPhoto3Tapped.bind(this)}>
+                                   {this.state.ImageSource2 === null ?
+                                        <ImageBackground
+                                             style={styles.imageStyle}
+                                             value={'value'}>
+                                             <View style={{ alignSelf: 'center', flex: 1, margin: 5, padding: 10, marginTop: 14 }}>
+                                                  <Image
+                                                       source={require('../assets/Complaints/add_image_plus.png')}
+                                                       style={{ height: 30, width: 30, }} />
+                                                  <Text style={styles.textStyle}>Image</Text>
+                                             </View>
+                                        </ImageBackground>
+                                        :
+                                        <Image style={styles.imageStyle}
+                                             source={this.state.ImageSource2} />
+                                   }
+
+                              </TouchableOpacity>
+                              :
+                              null
+                         }
+                    </View>
+               )
+          }
+     }
+
+
+     _handlePhotoView_emptyURLs = () => {
+          //all 3 views 
+          if (this.state.ImageSource === null) {
+               //only + View 1 
+               return (
+                    <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
+                         {this.state.ImageSource === null ?
+                              <ImageBackground
+                                   style={styles.imageStyle}
+                                   value={'value'}>
+                                   <View style={{ alignSelf: 'center', flex: 1, margin: 5, padding: 10, marginTop: 14 }}>
+                                        <Image
                                              source={require('../assets/Complaints/add_image_plus.png')}
                                              style={{ height: 30, width: 30, }} />
                                         <Text style={styles.textStyle}>Image</Text>
                                    </View>
                               </ImageBackground>
-                                   : 
-                         <Image style={styles.imageStyle}
-                              source={this.state.ImageSource1}
+                              :
+                              <Image style={styles.imageStyle}
+                                   source={this.state.ImageSource}
+                              />
+                         }
+                    </TouchableOpacity>
+               )
+          } else if (this.state.ImageSource !== null && this.state.ImageSource1 === null) {
+               //only 2 view : 1st and 2nd
+               return (
+
+                    <View style={{ flexDirection: 'row' }}>
+
+                         <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
+
+                              {this.state.ImageSource === null ?
+                                   <ImageBackground
+                                        style={styles.imageStyle}
+                                        value={'value'}>
+                                        <View style={{ alignSelf: 'center', flex: 1, margin: 5, padding: 10, marginTop: 14 }}>
+                                             <Image
+                                                  source={require('../assets/Complaints/add_image_plus.png')}
+                                                  style={{ height: 30, width: 30, }} />
+                                             <Text style={styles.textStyle}>Image</Text>
+                                        </View>
+                                   </ImageBackground>
+                                   :
+                                   <Image style={styles.imageStyle}
+                                        source={this.state.ImageSource}
+                                   />
+                              }
+                         </TouchableOpacity>
+
+                         <TouchableOpacity onPress={this.selectPhoto2Tapped.bind(this)}>
+
+                              {this.state.ImageSource1 === null ?
+                                   <ImageBackground
+                                        style={styles.imageStyle}
+                                        value={'value'}>
+                                        <View style={{ alignSelf: 'center', flex: 1, margin: 5, padding: 10, marginTop: 14 }}>
+                                             <Image
+                                                  source={require('../assets/Complaints/add_image_plus.png')}
+                                                  style={{ height: 30, width: 30, }} />
+                                             <Text style={styles.textStyle}>Image</Text>
+                                        </View>
+                                   </ImageBackground>
+                                   :
+                                   <Image style={styles.imageStyle}
+                                        source={this.state.ImageSource1}
                                    />
                               }
                          </TouchableOpacity>
                     </View>
-                    )
+               )
           } else if (this.state.ImageSource !== null && this.state.ImageSource1 !== null) {
-                         //only 3 view : 1st , 2nd , 3rd 
-                         return (
+               //only 3 view : 1st , 2nd , 3rd 
+               return (
                     <View style={{ flexDirection: ' row' }}>
                          <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
-                              {    
+                              {
                                    this.state.ImageSource === null ?
                                         <ImageBackground
                                              style={styles.imageStyle}
-                                             value={ 'value'}>
+                                             value={'value'}>
                                              <View style={{ alignSelf: 'center', flex: 1, margin: 5, padding: 10, marginTop: 14 }}>
-                         <Image
-                              source={require('../assets/Complaints/add_image_plus.png')}
-                              style={{ height: 30, width: 30, }} />
-                         <Text style={styles.textStyle}>Image</Text>
-                                              </View>
-                                         </ImageBackground>
+                                                  <Image
+                                                       source={require('../assets/Complaints/add_image_plus.png')}
+                                                       style={{ height: 30, width: 30, }} />
+                                                  <Text style={styles.textStyle}>Image</Text>
+                                             </View>
+                                        </ImageBackground>
                                         :
-                              <Image style={styles.imageStyle}
-                                   source={this.state.ImageSource}
-                              />
-                    }
-                         </TouchableOpacity>
-               
-                         <TouchableOpacity onPress={this.selectPhoto2Tapped.bind(this)}>
-                    
-               {this.state.ImageSource === null ?
-               <ImageBackground
-                    style={styles.imageStyle}
-                         value={'value'}>
-                                        <View style={{ alignSelf: 'center', flex: 1, margin: 5, padding: 10, marginTop: 14 }}>
-                                             <Image
-                                   source={require('../assets/Complaints/add_image_plus.png')}
-                                                  style={{ height: 30, width: 30, }} />
-                              <Text style={styles.textStyle}>Image</Text>
-                         </View>
-                                   </ImageBackground>
-               :
-                                   <Image style={styles.imageStyle}
-                    source={this.state.ImageSource1}
-                    />
-                    }
+                                        <Image style={styles.imageStyle}
+                                             source={this.state.ImageSource}
+                                        />
+                              }
                          </TouchableOpacity>
 
-          <TouchableOpacity onPress={this.selectPhoto3Tapped.bind(this)}>
-               {this.state.ImageSource2 === null ?
-               <ImageBackground
-                    style={styles.imageStyle}
-                    value={'value'}>
-                         <View style={{ alignSelf: 'center', flex: 1, margin: 5, padding: 10, marginTop: 14 }}>
+                         <TouchableOpacity onPress={this.selectPhoto2Tapped.bind(this)}>
+
+                              {this.state.ImageSource === null ?
+                                   <ImageBackground
+                                        style={styles.imageStyle}
+                                        value={'value'}>
+                                        <View style={{ alignSelf: 'center', flex: 1, margin: 5, padding: 10, marginTop: 14 }}>
                                              <Image
                                                   source={require('../assets/Complaints/add_image_plus.png')}
-                          
-                                  style={{ height: 30, width: 30, }} />
-                              <Text style={styles.textStyle}>Image</Text>
-                         </View>
+                                                  style={{ height: 30, width: 30, }} />
+                                             <Text style={styles.textStyle}>Image</Text>
+                                        </View>
                                    </ImageBackground>
-                                   : 
-                    <Image style={styles.imageStyle}
-                         source={this.state.ImageSource2}
-                              />
+                                   :
+                                   <Image style={styles.imageStyle}
+                                        source={this.state.ImageSource1}
+                                   />
+                              }
+                         </TouchableOpacity>
+
+                         <TouchableOpacity onPress={this.selectPhoto3Tapped.bind(this)}>
+                              {this.state.ImageSource2 === null ?
+                                   <ImageBackground
+                                        style={styles.imageStyle}
+                                        value={'value'}>
+                                        <View style={{ alignSelf: 'center', flex: 1, margin: 5, padding: 10, marginTop: 14 }}>
+                                             <Image
+                                                  source={require('../assets/Complaints/add_image_plus.png')}
+
+                                                  style={{ height: 30, width: 30, }} />
+                                             <Text style={styles.textStyle}>Image</Text>
+                                        </View>
+                                   </ImageBackground>
+                                   :
+                                   <Image style={styles.imageStyle}
+                                        source={this.state.ImageSource2}
+                                   />
                               }
                          </TouchableOpacity>
                     </View>
-                    )
-          }  
+               )
+          }
 
-} 
-     
-_handlePhotoViews1 = () => { 
+     }
+
+     _handlePhotoViews1 = () => {
           return (
-this.setState({
-     isView1Visible: false,
-     isView2Visible: false
+               this.setState({
+                    isView1Visible: false,
+                    isView2Visible: false
                })
-          )  
+          )
      }
 
      _handlePhotoViews2 = () => {
           this.setState({
                isView2Visible: true
-     })
-}
+          })
+     }
 
      renderVerifyFileds() {
-     return (
-          <View style={{ flex: 1 }}>
-               
+          return (
+               <View style={{ flex: 1 }}>
+
                     <TitleInput
                          titleChange={(text) => this.props.titleChanged(text)}
                          value={this.props.auth.title} />
-                              
+
                     <Text style={styles.errorStyle}>{this.state.errorTitle}</Text>
 
                     <CommentsInput
                          commentsChange={(text) => this.props.editCommentsChanged(text)}
-                                   value={this.props.auth.comments} />
+                         value={this.props.auth.comments} />
 
-                              <Text style={styles.errorStyle}>{this.state.errorComments}</Text>
-                    
-                    <View style={{ flexDirection: 'row' }}>  
+                    <Text style={styles.errorStyle}>{this.state.errorComments}</Text>
+
+                    <View style={{ flexDirection: 'row' }}>
                          {/* call image view  */}
 
                          {this.state.url1 == '' ?
@@ -685,7 +685,7 @@ this.setState({
      componentWillUnmount() {
           this.props.auth.title = ''
           this.props.auth.comments = ''
-        //  AsyncStorage.removeItem('complaintID')
+          //  AsyncStorage.removeItem('complaintID')
           //Actions.pop('Complaints');
           Actions.popTo('ComplaintDetail');
           //Actions.refresh()

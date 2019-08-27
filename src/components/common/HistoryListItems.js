@@ -64,7 +64,7 @@ class HistoryListItem extends Component {
                     //call report API
                     console.log("userID VID", this.props.userId, this.props.visitorId)
 
-                    callPostApi('http://192.168.0.32:8000/api/visitorReport', {
+                    callPostApi('http://18.188.253.46:8000/api/visitorReport', {
                       "userId": this.props.userId,
                       "visitorId": this.props.id,
                     })
@@ -161,13 +161,13 @@ const styles = {
     justifyContent: 'center'
   },
   textStyle: {
-    fontFamily: 'OpenSans',
+    fontFamily: 'OpenSans-Regular',
     fontSize: 14,
     color: black,
     alignSelf: 'flex-start',
   },
   textStylePopup: {
-    fontFamily: 'OpenSans',
+    fontFamily: 'OpenSans-Regular',
     fontSize: 14,
     color: black,
     alignSelf: 'center',
@@ -181,7 +181,7 @@ const styles = {
     alignSelf: 'center',
   },
   textStyleTime: {
-    fontFamily: 'OpenSans',
+    fontFamily: 'OpenSans-Regular',
     fontSize: 12,
     color: black,
     alignSelf: 'flex-start',

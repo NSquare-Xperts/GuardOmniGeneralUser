@@ -29,9 +29,10 @@ class Homepage extends Component {
     if (Actions.currentScene == 'Login') {
       //Actions.refresh({ key: Math.random() })
       BackHandler.exitApp()
-    }
-    else if (Actions.currentScene == 'splash') {
+    }else if (Actions.currentScene == 'splash') {
       BackHandler.exitApp()
+    }else if (Actions.currentScene == '_maintenance') {
+      Actions.popTo('_homepage')
     } else if (Actions.currentScene == '_homepage') {
       BackHandler.exitApp()
     } else if (Actions.currentScene == 'drawer') {
@@ -105,15 +106,16 @@ class Homepage extends Component {
         .android.setChannelId(1)
     });
 
-    this.notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen) => {
+      this.notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen) => {
       const { title, body, data } = notificationOpen.notification;
 
       // 0 => notice detail
       // 1 => manual in : general user 
       // 2 => Reported Visitor request REported inout list in guard 
       // 3 => Complaint resolved
-     // console.log("Notification type : " + data.notification_category)
-     // console.log("Notification ID: " + data.id)
+      // 4 => Maintenance
+      // console.log("Notification type : " + data.notification_category)
+      // console.log("Notification ID: " + data.id)
 
       if (data.notification_category == "3") {
         Actions.ComplaintDetailDelete({ complaintID: data.id })
@@ -121,7 +123,10 @@ class Homepage extends Component {
         Actions.visitors()
       } else if (data.notification_category == "0") {        
         Actions.NoticeDetail({ noticeID: data.id })
-      }      
+      }
+      // } else if (data.notification_category == "4") {        
+      //   Actions.maintenance({ noticeID: data.id })
+      // }      
       firebase.notifications().removeDeliveredNotification(notificationOpen.notification.notificationId)
     })
   }
