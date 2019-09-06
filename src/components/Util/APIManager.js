@@ -114,7 +114,7 @@ export function callFormDataUpdateProfilePostApi(urlStr, params) {
 
 export function callPostApi(urlStr, params) {
 
-    console.log("function **: ", urlStr, params)
+    //console.log("function **: ", urlStr, params)
     return fetch(urlStr, {
         method: "POST",
         headers: {
@@ -128,6 +128,7 @@ export function callPostApi(urlStr, params) {
         .then((response) => response.json())
         .then((responseData) => {
             result = JSON.stringify(responseData)
+            console.log("function result**: "+result)
             return result
         })
         .catch((error) => {

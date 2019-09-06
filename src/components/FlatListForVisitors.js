@@ -23,7 +23,7 @@ class FlatListForVisitors extends Component {
 
     renderUsersList() {
 
-        callPostApi('http://192.168.0.32:8000/api/visitorList', {
+        callPostApi('http://18.188.253.46:8000/api/visitorList', {
             "userId": this.state.userId,
             "pageNumber": this.state.page,
             "flatId": this.state.flatId
@@ -349,7 +349,7 @@ const styles = {
 //     }
 
 //     renderUsersList() {
-//         callPostApi('http://192.168.0.32:8000/api/visitorList', {
+//         callPostApi('http://18.188.253.46:8000/api/visitorList', {
 //             "userId": '2',
 //             "pageNumber": this.state.page,
 //             "flatId": '1'

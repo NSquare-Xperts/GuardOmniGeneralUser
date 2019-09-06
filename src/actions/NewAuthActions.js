@@ -8,14 +8,16 @@ export const loginUser = (phone) => {
         dispatch({ type: LOGIN_USER });
         console.log("phone :: ", phone)
         
-        //aws : http://guardomni.dutique.coYYYYYYYYYm:8000
-        //local : http://1uuuuuuuuuu92.168.0.32:8000
-        
-        axios.post('http://192.168.0.32:8000/api/validateUser',
+         //Live : http://guardomni.dutiqueIIIIIIIII.com:8000
+        //aws : http://18.temp188.253.46:8000temp
+        //local : http://19LLLLLL2.168.0.32:8000
+
+        console.log("call validate user ")
+        axios.post('http://18.188.253.46:8000/api/validateUser',
             { "mobileNumber": phone,
             "loginType": '4' 
         })
-            .then((response) => {
+        .then((response) => {
                 var data = response.data
                 //Actions.homepage()
                 console.log("response :: ", data)
@@ -32,7 +34,6 @@ export const loginUser = (phone) => {
                   }else {
                     console.log("inside success : 200")
                 loginPressed(dispatch, data)
-                
                 }
             })
             .catch(error => {
@@ -49,7 +50,7 @@ export const loginUser = (phone) => {
 export const VerifyOtp = ({ phone, otp, token, platform }) => {
     return (dispatch) => {
        dispatch({ type: LOGIN_USER });
-        axios.post('http://192.168.0.32:8000/api/validateOTP', {
+        axios.post('http://18.188.253.46:8000/api/validateOTP', {
             "mobileNumber": phone,
             "otp": otp,
             "cloudId":token,

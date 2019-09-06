@@ -10,7 +10,7 @@ export const editVisitorRequest_ = (userId, visitorName, visitorMobileNumber, re
     return (dispatch) => {
         dispatch({ type: EDIT_VISITOR_REQUEST });
 
-        callPostApi('http://192.168.0.32:8000/api/visitorRequestEdit', {
+        callPostApi('http://18.188.253.46:8000/api/visitorRequestEdit', {
 
             "userId": userId,
             "visitorName": visitorName,

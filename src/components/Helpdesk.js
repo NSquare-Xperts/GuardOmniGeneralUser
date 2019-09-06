@@ -30,7 +30,7 @@ class Helpdesk extends Component {
             this.setState({ userId: res.data[0].user_details.user_id })
             console.log('userId :: ', this.state.userId,this.state.flatId)
 
-            callPostApi('http://192.168.0.32:8000/api/helpdeskList', {
+            callPostApi('http://18.188.253.46:8000/api/helpdeskList', {
                 "userId": this.state.userId,
                 "flatId": this.state.flatId
             })
@@ -258,7 +258,6 @@ class Helpdesk extends Component {
     }
 
     componentWillUnmount() {
-
         BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress)
         return true;
     }

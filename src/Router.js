@@ -57,11 +57,14 @@ import CountrycodeEditVR from './components/CountryCodeEditVR'
 import TimePicker from './components/TimePicker'
 import ComplaintDetailTextAlert from './components/ComplaintDetailTextAlert'
 import ComplaintDetailDoNotEdit from './components/ComplaintDetailDoNotEdit';
-import Maintaince from './components/Maintaince/Maintaince';
+import Maintaince from './components/Maintenance/Maintaince';
+import VideoSample from './components/VideoSample';
+
 const MoreIcon = require('./components/assets/Complaints/more_options.png');
 // import { Right } from 'native-base';
 class RouterComponent extends Component {
 
+    //Latest Code 
     componentDidMount() {        
         BackHandler.addEventListener('hardwareBackPress', () => {
             if (Actions.currentScene == 'Login') {
@@ -93,6 +96,7 @@ class RouterComponent extends Component {
             }
         })
     }
+
     componentWillUnmount() {
         BackHandler.removeEventListener()
     }
@@ -104,12 +108,12 @@ class RouterComponent extends Component {
         return (
             <Router>
                 <Scene key="root">
-                {/* <Scene title="Maintaince" key="maintaince" component={Maintaince} init={true}
-                       /> */}
-                    {/* <Scene title="splash" key="flat" component={FlatListSample}  /> */}
+
                     <Scene title="Splash" key="splashome" component={SplashScreenNoLogin} left={() => null} hideNavBar />
 
                     <Scene title="Login" key="Login" component={Login} hideNavBar />
+
+                    <Scene title="Play Video" key="fullscreen" component={VideoSample} hideNavBar/>
 
                     <Scene title="Splash" key="splash" component={SplashScreen} left={() => null} hideNavBar />
 
@@ -207,6 +211,7 @@ class RouterComponent extends Component {
                         hideNavBar>
 
                         <Scene title="GuardOmni" key="homepage" component={Homepage} />
+                        <Scene title="Maintenance" key="maintenance" component={Maintaince} renderRightButton={false}/>
                         <Scene title="Notifications" key="notification" component={Notifications} renderRightButton={false}/>
                         <Scene title="Switch Property" key="SwitchProperty" component={SwitchProperty} renderRightButton={false}/>
                         <Scene title="About Us" key="Aboutus" component={Aboutus} renderRightButton={false}/>
