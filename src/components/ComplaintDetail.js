@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, Image, AsyncStorage, DeviceEventEmitter, BackHandler, TouchableWithoutFeedback, ActivityIndicator, FlatList, TouchableOpacity, Platform, Alert } from 'react-native'
+import { Text, View, Image, AsyncStorage, DeviceEventEmitter, BackHandler,Dimensions,TouchableHighlight ,TouchableWithoutFeedback, ActivityIndicator, FlatList, TouchableOpacity, Platform, Alert } from 'react-native'
 import { red_lighter, white_Original, grey, black, grey_lighter, pink } from './common'
 import { ScrollView } from 'react-native-gesture-handler';
 import { callPostApi } from './Util/APIManager';
@@ -10,10 +10,10 @@ import ActionSheet from 'react-native-action-sheet';
 import { Actions } from 'react-native-router-flux';
 import Video from 'react-native-video'
 
-// http://18.188.253.46:8000
+
+// http://192.168.0.32:8000
 //1 : resolved 
 //0 : not
-
 var BUTTONSiOS = [
     'Edit',
     'Delete',
@@ -33,6 +33,8 @@ class ComplaintDetail extends Component {
     constructor(props) {
         super(props)
         this.handleBackPress = this.handleBackPress.bind(this)
+        this.renderUrl = this.renderUrl.bind(this)
+
 
         this.state = {
             complaintId: props.complaintID,
@@ -42,6 +44,7 @@ class ComplaintDetail extends Component {
             isVisibleImg3: false,
             dialogVisible: false,
             userId: '',
+            urlToSend: '',
             opacity: 0,
             errorComment: '',
             newComment: '',
@@ -145,12 +148,11 @@ class ComplaintDetail extends Component {
                     default:
                 }
             });
-
     }
-
-
+   
     renderComplaintDetails() {
 
+        console.log("list complaint details")
         AsyncStorage.multiGet(["LoginData"]).then((data) => {
             LoginData = data[0][1];
             var res = JSON.parse(LoginData)
@@ -163,13 +165,13 @@ class ComplaintDetail extends Component {
             })
                 .then((response) => {
                     // Continue your code here...
+                    console.log("---------detail res :---------")
                     res = JSON.parse(response)
                     console.log("detail res : " + JSON.stringify(res))
-                    if (res.status == "200") {
+                    if (res.status == 200) {
                         this.setState({
                             details: res.data, refreshing: false, complaintsCommentArray: res.complaint_comments
                         })
-
                     } else if (res.status == 401) {
 
                         AsyncStorage.removeItem('propertyDetails');
@@ -224,8 +226,6 @@ class ComplaintDetail extends Component {
         );
     }
 
-
-
     onLoadStart = () => {
         this.setState({ opacity: 1 });
     }
@@ -238,18 +238,30 @@ class ComplaintDetail extends Component {
         this.setState({ opacity: isBuffering ? 1 : 0 });
     }
 
+
+    //MOVE TO FULL SCREEN ON VIDEO CLICK 
+    renderUrl = () => {
+        console.log("************* ----url : "+this.state.urlToSend)
+        //Actions.temp({ videoUrl: url })
+    }
+
+    videoPressed(url) {
+        console.log("Video pressed"+url);
+        Actions.fullscreen({ url: url })
+      }
+
     _hideShowImageView() {
 
         if (this.state.details[0].complaint_image_1 != "" && this.state.details[0].complaint_image_2 != "" && this.state.details[0].complaint_image_3 != "") {
             return (
                 <View>
-
                     {this.state.details[0].complaint_image_1.includes('mp4')
                         ?
                         <View>
-                            <Video
+                             <TouchableHighlight
+                                    onPress={() => this.videoPressed(this.state.details[0].complaint_image_1 )}>
+                            {/* <Video
                                 style={styles.thumbnail}
-                                controls={true}
                                 source={{ uri: this.state.details[0].complaint_image_1 }}
                                 ref={(ref) => {
                                     this.player = ref
@@ -258,58 +270,75 @@ class ComplaintDetail extends Component {
                                 onLoadStart={this.onLoadStart}
                                 onLoad={this.onLoad}
                                 onError={this.videoError}
-                            />
-                            <ActivityIndicator
+                            /> */}
+                             <Image
+                                            style={styles.thumbnail}
+                                            loadingStyle={{ size: 'large', color: 'blue' }}
+                                            source={require('../components/assets/Common/video_play_button.png')}
+                                            //source={{ uri: this.state.details[0].complaint_image_1 }}
+                                        />
+                            </TouchableHighlight>
+                            {/* <ActivityIndicator
                                 animating
                                 size="large"
                                 color={pink}
                                 style={[styles.activityIndicator, { opacity: this.state.opacity }]}
-                            />
+                            /> */}
                         </View>
                         :
                         <ImageLoad
                             style={styles.thumbnail}
-                            loadingStyle={{ size: 'large', color: 'blue' }}
+                            loadingStyle={{ size: 'large', color: pink }}
                             source={{ uri: this.state.details[0].complaint_image_1 }}
                         />
                     }
 
                     {this.state.details[0].complaint_image_2.includes('mp4')
                         ?
-
                         <View>
-                            <Video
+                             <TouchableHighlight
+                                    onPress={() => this.videoPressed(this.state.details[0].complaint_image_2)}>
+                            {/* <Video
                                 style={styles.thumbnail}
-                                controls={true}
                                 source={{ uri: this.state.details[0].complaint_image_2 }}
                                 ref={(ref) => {
                                     this.player = ref
-                                }}                                      // Store reference
+                                }}  
+                                fullscreen={true}
+                                resizeMode={"none"}                                    
                                 onBuffer={this.onBuffer}
                                 onLoadStart={this.onLoadStart}
                                 onLoad={this.onLoad}
                                 onError={this.videoError}
-                            />
-                            <ActivityIndicator
+                            /> */}
+                             <Image
+                                            style={styles.thumbnail}
+                                            loadingStyle={{ size: 'large', color: 'blue' }}
+                                            source={require('../components/assets/Common/video_play_button.png')}
+                                            //source={{ uri: this.state.details[0].complaint_image_1 }}
+                                        />
+                            </TouchableHighlight>
+                            {/* <ActivityIndicator
                                 animating
                                 size="large"
                                 color={pink}
                                 style={[styles.activityIndicator, { opacity: this.state.opacity }]}
-                            />
+                            /> */}
                         </View>
                         :
                         <ImageLoad
                             style={styles.thumbnail}
-                            loadingStyle={{ size: 'large', color: 'blue' }}
+                            loadingStyle={{ size: 'large', color: pink }}
                             source={{ uri: this.state.details[0].complaint_image_2 }}
                         />
                     }
                     {this.state.details[0].complaint_image_3.includes('mp4')
                         ?
                         <View>
-                            <Video
+                             <TouchableHighlight
+                                    onPress={() => this.videoPressed(this.state.details[0].complaint_image_3 )}>
+                            {/* <Video
                                 style={styles.thumbnail}
-                                controls={true}
                                 source={{ uri: this.state.details[0].complaint_image_3 }}
                                 ref={(ref) => {
                                     this.player = ref
@@ -318,18 +347,25 @@ class ComplaintDetail extends Component {
                                 onLoadStart={this.onLoadStart}
                                 onLoad={this.onLoad}
                                 onError={this.videoError}
+                            /> */}
+                             <Image
+                                  style={styles.thumbnail}
+                                  loadingStyle={{ size: 'large', color: 'blue' }}
+                                  source={require('../components/assets/Common/video_play_button.png')}
+                                  //source={{ uri: this.state.details[0].complaint_image_1 }}
                             />
-                            <ActivityIndicator
+                            </TouchableHighlight>
+                            {/* <ActivityIndicator
                                 animating
                                 size="large"
                                 color={pink}
                                 style={[styles.activityIndicator, { opacity: this.state.opacity }]}
-                            />
+                            /> */}
                         </View>
                         :
                         <ImageLoad
                             style={styles.thumbnail}
-                            loadingStyle={{ size: 'large', color: 'blue' }}
+                            loadingStyle={{ size: 'large', color: pink }}
                             source={{ uri: this.state.details[0].complaint_image_3 }}
                         />
                     }
@@ -341,55 +377,73 @@ class ComplaintDetail extends Component {
                     {this.state.details[0].complaint_image_1.includes('mp4')
                         ?
                         <View>
-                            <Video
-                                style={styles.thumbnail}
-                                controls={true}
-                                source={{ uri: this.state.details[0].complaint_image_1 }}
-                                ref={(ref) => {
-                                    this.player = ref
-                                }}                                      // Store reference
-                                onBuffer={this.onBuffer}
-                                onLoadStart={this.onLoadStart}
-                                onLoad={this.onLoad}
-                                onError={this.videoError}
-                            />
-                            <ActivityIndicator
+                            <TouchableHighlight
+                                    onPress={() => this.videoPressed(this.state.details[0].complaint_image_1 )}
+                                >
+                                {/* <Video
+                                    style={styles.thumbnail}
+                                    controls={true}
+                                    source={{ uri: this.state.details[0].complaint_image_1 }}
+                                    ref={(ref) => {
+                                        this.player = ref
+                                    }}
+                                    presentFullscreenPlayer
+                                    resizeMode={'cover'}     
+                                    onBuffer={this.onBuffer}
+                                    onLoadStart={this.onLoadStart}
+                                    onLoad={this.onLoad}
+                                    onError={this.videoError}/> */}
+                                  <Image
+                                            style={styles.thumbnail}
+                                            loadingStyle={{ size: 'large', color: 'blue' }}
+                                            source={require('../components/assets/Common/video_play_button.png')}
+                                            //source={{ uri: this.state.details[0].complaint_image_1 }}
+                                 />
+                            </TouchableHighlight>
+                            {/* <ActivityIndicator
                                 animating
                                 size="large"
                                 color={pink}
-                                style={[styles.activityIndicator, { opacity: this.state.opacity }]}
-                            />
-
-                        </View>
+                                style={[styles.activityIndicator, { opacity: this.state.opacity }]} />                           */}
+                         </View>
                         :
                         <ImageLoad
                             style={styles.thumbnail}
                             loadingStyle={{ size: 'large', color: 'blue' }}
-                            source={{ uri: this.state.details[0].complaint_image_1 }}
-                        />
+                            source={{ uri: this.state.details[0].complaint_image_1 }} />
                     }
-
                     {this.state.details[0].complaint_image_2.includes('mp4')
                         ?
                         <View>
-                            <Video
+                             <TouchableHighlight
+                                    onPress={() => this.videoPressed(this.state.details[0].complaint_image_2)}>
+                            {/* <Video
                                 style={styles.thumbnail}
                                 controls={true}
+                                fullscreen={true} 
+                                resizeMode={'cover'}   
                                 source={{ uri: this.state.details[0].complaint_image_2 }}
                                 ref={(ref) => {
                                     this.player = ref
-                                }}                                      // Store reference
+                                }}                                      
                                 onBuffer={this.onBuffer}
                                 onLoadStart={this.onLoadStart}
                                 onLoad={this.onLoad}
                                 onError={this.videoError}
-                            />
-                            <ActivityIndicator
+                            /> */}
+                             <Image
+                                            style={styles.thumbnail}
+                                            loadingStyle={{ size: 'large', color: 'blue' }}
+                                            source={require('../components/assets/Common/video_play_button.png')}
+                                            //source={{ uri: this.state.details[0].complaint_image_1 }}
+                                        />
+                            </TouchableHighlight>
+                            {/* <ActivityIndicator
                                 animating
                                 size="large"
                                 color={pink}
                                 style={[styles.activityIndicator, { opacity: this.state.opacity }]}
-                            />
+                            /> */}
                         </View>
                         :
                         <ImageLoad
@@ -403,29 +457,38 @@ class ComplaintDetail extends Component {
         } else if (this.state.details[0].complaint_image_1 != "") {
             return (
                 <View>
-                    {console.log("--- " + this.state.details[0].complaint_image_1)}
                     {this.state.details[0].complaint_image_1.includes('mp4')
                         ?
                         <View>
-                            <Video
-                                style={styles.thumbnail}
-                                controls={true}
-                                onLoad
-                                onVideoLoad={{ size: 'large', color: 'blue' }}
-                                source={{ uri: this.state.details[0].complaint_image_1 }}
-                                ref={(ref) => {
-                                    this.player = ref
-                                }}
-                                onBuffer={this.onBuffer}
-                                onLoadStart={this.onLoadStart}
-                                onLoad={this.onLoad}
-                                onError={this.videoError}  />
-                            <ActivityIndicator
+                             <TouchableHighlight
+                                    onPress={() => this.videoPressed(this.state.details[0].complaint_image_1 )}>
+                                    {/* <Video
+                                        style={styles.thumbnail}
+                                        //onVideoLoad={{ size: 'large', color: 'blue' }}
+                                        source={{ uri: this.state.details[0].complaint_image_1 }}
+                                        ref={(ref) => {
+                                            this.player = ref
+                                        }}
+                                        onBuffer={this.onBuffer}
+                                        onLoadStart={this.onLoadStart}
+                                        onLoad={this.onLoad}
+                                        onError={this.videoError}  /> */}
+                                    <Image
+                                            style={styles.thumbnail}
+                                            loadingStyle={{ size: 'large', color: 'blue' }}
+                                            source={require('../components/assets/Common/video_play_button.png')}
+                                            //source={{ uri: this.state.details[0].complaint_image_1 }}
+                                        />
+
+                             </TouchableHighlight>
+                           
+                            {/* <ActivityIndicator
                                 animating
                                 size="large"
                                 color={pink}
                                 style={[styles.activityIndicator, { opacity: this.state.opacity }]}
                             />
+                       */}
                         </View>
                         :
                         <ImageLoad
@@ -438,7 +501,6 @@ class ComplaintDetail extends Component {
             )
         }
     }
-
     render() {
         return (
             <View style={{ backgroundColor: red_lighter, flex: 1 }}>
@@ -513,7 +575,6 @@ class ComplaintDetail extends Component {
 
     handleAddComment = () => {
         console.log("New Comment: ", this.state.newComment)
-
         if (this.state.newComment.length > 0) {
             this.setState({ dialogVisible: false });
             this.setState({ newComment: '' })
@@ -553,7 +614,6 @@ class ComplaintDetail extends Component {
 
     };
 
-
     componentWillMount() {
         BackHandler.addEventListener('hardwareBackPress', this.handleBackPress)
     }
@@ -566,7 +626,6 @@ class ComplaintDetail extends Component {
         this.props.navigation.goBack(null);
         return true;
     }
-
 }
 export default ComplaintDetail;
 
@@ -575,12 +634,8 @@ const styles = {
         height: 23,
         width: 23,
         marginTop: 5,
-        // paddingTop:15, 
-        //   justifyContent: 'spa',
         alignSelf: 'center',
-        // marginTop: 5,
         marginRight: 8
-        // position:'absolute'
     },
     container: {
         backgroundColor: white_Original,
@@ -602,12 +657,8 @@ const styles = {
         position: 'absolute',
         bottom: 0,
         right: 0,
-        //padding: 20,
-        //flex: 1,
         justifyContent: 'flex-end',
-        //alignItems: 'flex-end',
         marginRight: 10,
-        //alignSelf: 'flex-end',
         marginLeft: 10,
         marginBottom: 8
     },
@@ -615,6 +666,7 @@ const styles = {
         height: 155,
         width: '100%',
         marginTop: 10,
+        backgroundColor:grey_lighter,
         marginBottom: 10,
     },
     gridRowStyle: {
@@ -630,7 +682,6 @@ const styles = {
         color: black,
         padding: 3,
         marginLeft: 5
-
     },
     commentTitleStyle: {
         fontFamily: 'OpenSans-Bold.ttf',
@@ -658,7 +709,6 @@ const styles = {
     },
     inputStyleComment: {
         textAlignVertical: 'top',
-        //height: 100,
         width: '95%',
         color: black,
         multiline: true,

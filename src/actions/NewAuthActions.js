@@ -10,12 +10,14 @@ export const loginUser = (phone) => {
         
          //Live : http://guardomni.dutiqueIIIIIIIII.com:8000
         //aws : http://18.temp188.253.46:8000temp
-        //local : http://18.188.253.46:8000
+        //local : http://19LLLLLL2.168.0.32:8000
+
+        console.log("call validate user ")
         axios.post('http://18.188.253.46:8000/api/validateUser',
             { "mobileNumber": phone,
             "loginType": '4' 
         })
-            .then((response) => {
+        .then((response) => {
                 var data = response.data
                 //Actions.homepage()
                 console.log("response :: ", data)
@@ -32,7 +34,6 @@ export const loginUser = (phone) => {
                   }else {
                     console.log("inside success : 200")
                 loginPressed(dispatch, data)
-                
                 }
             })
             .catch(error => {

@@ -258,7 +258,6 @@ class Helpdesk extends Component {
     }
 
     componentWillUnmount() {
-
         BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress)
         return true;
     }

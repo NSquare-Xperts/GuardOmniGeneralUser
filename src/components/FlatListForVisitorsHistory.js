@@ -39,7 +39,6 @@ class FlatListForVisitorsHistory extends Component {
                         status: res.status
                     })
                 } else if (res.status == 401) {
-
                     AsyncStorage.removeItem('propertyDetails');
                     AsyncStorage.removeItem('userDetail');
                     AsyncStorage.removeItem('LoginData');

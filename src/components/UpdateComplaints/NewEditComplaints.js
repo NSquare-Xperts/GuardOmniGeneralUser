@@ -1,19 +1,19 @@
 import React, { Component } from 'react'
-import { Text, View, ImageBackground, Image, TouchableOpacity, PixelRatio, DeviceEventEmitter, AsyncStorage } from 'react-native'
+import { Text, View, ImageBackground, Image, TouchableOpacity, PixelRatio, DeviceEventEmitter,ActivityIndicator, AsyncStorage } from 'react-native'
 import { connect } from 'react-redux'
 import Button from '../common/Button'
 import { titleChanged, editCommentsChanged, editComplaint_ } from './EditComplaintActions'
-import { white_Original, red_lighter, grey_lighter, grey_light, Add_Complaint, Save } from '../common';
+import { white_Original, red_lighter, grey_lighter, grey_light, Add_Complaint, Save, pink } from '../common';
 import TitleInput from './TitleInput'
 import CommentsInput from './CommentsInput'
 import ImagePicker from 'react-native-image-picker'
 import { Actions } from 'react-native-router-flux'
-import { callPostApi } from '../Util/APIManager';
+import { callPostApi } from '../Util/APIManager'
+import Video from 'react-native-video'
 
 class NewEditComplaints extends Component {
 
      state = {
-
           refreshing: true,
           errorTitle: '',
           errorComments: '',
@@ -22,6 +22,7 @@ class NewEditComplaints extends Component {
           ImageSource2: null,
           isView1Visible: false,
           isView2Visible: false,
+          isLoading: false,
 
           userId: '',
           flatId: '',
@@ -29,6 +30,8 @@ class NewEditComplaints extends Component {
           uriToSend: '',
           uriTo1Send: '',
           uriTo2Send: '',
+
+          opacity: 0,
 
           imageName: '',
           imageName1: '',
@@ -54,6 +57,7 @@ class NewEditComplaints extends Component {
                quality: 1.0,
                maxWidth: 500,
                maxHeight: 500,
+               
                customButtons: [{ name: 'image', title: 'Take a Photo' }, { name: 'video', title: 'Take a Video' }, { name: 'library', title: 'Choose from Library' }],
                storageOptions: {
                     skipBackup: true
@@ -84,19 +88,18 @@ class NewEditComplaints extends Component {
                                    isFile1: '1'
                               });
                          } else {
+                              console.log("name >> " + response.fileName)
                               this.setState({
                                    uriToSend: response.uri,
                                    ImageSource: source,
-                                   imageName2: response.fileName,
+                                   imageName: response.fileName,
                                    type: response.type,
                                    isFile1: '1'
                               });
                          }
                     });
-               } else {
-
+               } else if(!res.didCancel) {
                     console.log("responseon from gallery >> " + JSON.stringify(res))
-
                     const source = { uri: 'data:image/jpeg;base64,' + res.data };
                     console.log("source : " + JSON.stringify(source))
                     console.log("URI >> " + res.uri)
@@ -117,6 +120,7 @@ class NewEditComplaints extends Component {
                quality: 1.0,
                maxWidth: 500,
                maxHeight: 500,
+               
                customButtons: [{ name: 'image', title: 'Take a Photo' }, { name: 'video', title: 'Take a Video' }, { name: 'library', title: 'Choose from Library' }],
                storageOptions: {
                     skipBackup: true
@@ -152,15 +156,14 @@ class NewEditComplaints extends Component {
                                    uriTo1Send: response.uri,
                                    ImageSource1: source,
                                    imageName1: response.fileName,
-                                   type2: response.type,
+                                   type1: response.type,
                                    isFile2: '1'
                               });
                          }
                     });
-               } else {
-
+               } 
+               else if(!res.didCancel){
                     console.log("responseon from gallery >> " + JSON.stringify(res))
-
                     const source = { uri: 'data:image/jpeg;base64,' + res.data };
                     console.log("source : " + JSON.stringify(source))
                     console.log("URI >> " + res.uri)
@@ -180,6 +183,7 @@ class NewEditComplaints extends Component {
                quality: 1.0,
                maxWidth: 500,
                maxHeight: 500,
+               
                customButtons: [{ name: 'image', title: 'Take a Photo' }, { name: 'video', title: 'Take a Video' }, { name: 'library', title: 'Choose from Library' }],
                storageOptions: {
                     skipBackup: true
@@ -220,7 +224,7 @@ class NewEditComplaints extends Component {
                               });
                          }
                     });
-               } else {
+               } else if(!res.didCancel) {
 
                     console.log("responseon from gallery >> " + JSON.stringify(res))
 
@@ -239,6 +243,14 @@ class NewEditComplaints extends Component {
      }
 
      renderButton() {
+          if (this.state.isLoading) {              
+               return (
+                   <ActivityIndicator
+                       size="large" color={grey_light}
+                       animating
+                   />
+               )
+           } else {
           return (
                <Button
                     onPress={() => {
@@ -251,7 +263,6 @@ class NewEditComplaints extends Component {
                                    errorComments: '* Please Enter comment.'
                               })
                          } else {
-
 
                               title = this.props.auth.title
                               comments = this.props.auth.comments
@@ -269,20 +280,20 @@ class NewEditComplaints extends Component {
                               name3 = this.state.imageName2
 
                               userId = this.state.userId
-                              //this.state.userId
                               complaintId = this.state.complaintId
 
-                              // title, comments, uri1, type1, name1, uri2, type2, name2, uri3, type3, name3,userId,complaintId,isFile1,isFile2,isFile3) => {
+                              this.setState({
+                                   isLoading: true
+                              })
 
                               this.props.editComplaint_(title, comments, uri1, type1, name1, uri2, type2, name2, uri3, type3, name3, complaintId, this.state.isFile1, this.state.isFile2, this.state.isFile3, userId)
-
                          }
-                    }}
-               >{Save}
+                    }}> 
+                    <Text>{Save}</Text>
                </Button>
           );
+        }
      }
-
      //call async data
      renderUsersComplaints() {
           //pass complaintIs
@@ -341,16 +352,50 @@ class NewEditComplaints extends Component {
           //this.renderUsersList()
      }
 
+     onLoadStart = () => {
+          this.setState({ opacity: 1 });
+      }
+  
+      onLoad = () => {
+          this.setState({ opacity: 0 });
+      }
+  
+      onBuffer = ({ isBuffering }) => {
+          this.setState({ opacity: isBuffering ? 1 : 0 });
+      }
      //check url 3 first 
      _handlePhotoView = () => {
-
           //url3 if present : show all 3 url
+          console.log("inside handlePhotoView")
           if (this.state.url3 != '') {
-               return (
+               console.log("inside url3 !=  "+this.state.url3) 
+               return (                   
                     <View style={{ flexDirection: 'row' }}>
                          <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
                               {
                                    this.state.ImageSource === null ?
+                                   this.state.url1.includes('.mp4') ?
+                                   <View>
+                                        <Video 
+                                             style={styles.imageStyle}
+                                             controls={false}
+                                             source={{ uri: this.state.url1 }}
+                                             ref={(ref) => {
+                                                  this.player = ref
+                                             }}
+                                             onBuffer={this.onBuffer}
+                                             onLoadStart={this.onLoadStart}
+                                             onLoad={this.onLoad}
+                                             onError={this.videoError}                       
+                                        />
+                                        <ActivityIndicator
+                                                  animating
+                                                  size="large"
+                                                  color={grey_lighter}
+                                                  style={[styles.activityIndicator, { opacity: this.state.opacity }]}/>
+                                   </View>
+                                        :
+
                                         <Image style={styles.imageStyle}
                                              source={{ uri: this.state.url1 }} />
                                         :
@@ -360,8 +405,28 @@ class NewEditComplaints extends Component {
                          </TouchableOpacity>
 
                          <TouchableOpacity onPress={this.selectPhoto2Tapped.bind(this)}>
-
                               {this.state.ImageSource1 === null ?
+                              this.state.url2.includes('.mp4')?
+                              <View>
+                                   <Video 
+                                        style={styles.imageStyle}
+                                        controls={false}
+                                        source={{ uri: this.state.url2 }}
+                                        ref={(ref) => {
+                                             this.player = ref
+                                        }}
+                                        onBuffer={this.onBuffer}
+                                        onLoadStart={this.onLoadStart}
+                                        onLoad={this.onLoad}
+                                        onError={this.videoError}                       
+                                   />
+                                   <ActivityIndicator
+                                             animating
+                                             size="large"
+                                             color={grey_lighter}
+                                             style={[styles.activityIndicator, { opacity: this.state.opacity }]}/>
+                                </View>
+                                :
                                    <Image style={styles.imageStyle}
                                         source={{ uri: this.state.url2 }} />
                                    :
@@ -373,6 +438,27 @@ class NewEditComplaints extends Component {
 
                          <TouchableOpacity onPress={this.selectPhoto3Tapped.bind(this)}>
                               {this.state.ImageSource2 === null ?
+                              this.state.url3.includes('.mp4') ?
+                              <View>
+                                   <Video 
+                                        style={styles.imageStyle}
+                                        controls={false}
+                                        source={{ uri: this.state.url3 }}
+                                        ref={(ref) => {
+                                             this.player = ref
+                                        }}
+                                        onBuffer={this.onBuffer}
+                                        onLoadStart={this.onLoadStart}
+                                        onLoad={this.onLoad}
+                                        onError={this.videoError}                       
+                                   />
+                                   <ActivityIndicator
+                                             animating
+                                             size="large"
+                                             color={grey_lighter}
+                                             style={[styles.activityIndicator, { opacity: this.state.opacity }]}/>
+                                </View>
+                                :
                                    <Image style={styles.imageStyle}
                                         source={{ uri: this.state.url3 }} />
                                    :
@@ -383,35 +469,111 @@ class NewEditComplaints extends Component {
                          </TouchableOpacity>
                     </View>
                )
-
           } else if (this.state.url2 != '') {
+               // console.log("inside url2 != ImageSource"+this.state.ImageSource)
+               // console.log("inside url1 != url1"+this.state.url1) 
+               console.log("inside url2 !=  "+this.state.url2) 
                return (
                     <View style={{ flexDirection: 'row' }}>
                          <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
                               {
                                    this.state.ImageSource === null ?
+                                   this.state.url1.includes('.mp4') ?
+                                   <View>
+                                        <Video 
+                                             style={styles.imageStyle}
+                                             controls={false}
+                                             source={{ uri: this.state.url1 }}
+                                             ref={(ref) => {
+                                                  this.player = ref
+                                             }}
+                                             onBuffer={this.onBuffer}
+                                             onLoadStart={this.onLoadStart}
+                                             onLoad={this.onLoad}
+                                             onError={this.videoError}                       
+                                          />
+                                           <ActivityIndicator
+                                                  animating
+                                                  size="large"
+                                                  color={grey_lighter}
+                                                  style={[styles.activityIndicator, { opacity: this.state.opacity }]}/>
+                                          </View>
+                                        :                                        
                                         <Image style={styles.imageStyle}
                                              source={{ uri: this.state.url1 }} />
                                         :
+                                       <View>
                                         <Image style={styles.imageStyle}
                                              source={this.state.ImageSource} />
+                                       </View>
                               }
                          </TouchableOpacity>
+                                 
 
                          <TouchableOpacity onPress={this.selectPhoto2Tapped.bind(this)}>
+                        { 
+                    
+                                   this.state.ImageSource1 === null ?
+                                   this.state.url2.includes('.mp4') ? 
+                                  <View>
+                                        <Video 
+                                             style={styles.imageStyle}
+                                             controls={false}
+                                             source={{ uri: this.state.url1 }}
+                                             ref={(ref) => {
+                                                  this.player = ref
+                                             }}
+                                             onBuffer={this.onBuffer}
+                                             onLoadStart={this.onLoadStart}
+                                             onLoad={this.onLoad}
+                                             onError={this.videoError}                       
+                                          />
+                                           <ActivityIndicator
+                                                  animating
+                                                  size="large"
+                                                  color={grey_lighter}
+                                                  style={[styles.activityIndicator, { opacity: this.state.opacity }]}/>
 
-                              {this.state.ImageSource1 === null ?
-                                   <Image style={styles.imageStyle}
-                                        source={{ uri: this.state.url2 }} />
+                                  </View>
                                    :
-                                   <Image style={styles.imageStyle}
-                                        source={this.state.ImageSource2}
-                                   />
-                              }
+                                   <Image style={styles.imageStyle} source={{ uri: this.state.url2 }} />
+                                   :
+                                   <Image style={styles.imageStyle} source={this.state.ImageSource1} />
+                         }
                          </TouchableOpacity>
+                   
+                         {/* <TouchableOpacity onPress={this.selectPhoto2Tapped.bind(this)}> {
+                                  
+                               
+                                  this.state.ImageSource1 === null ?
+                                  this.state.url2.includes('.mp4') ? 
+                                  <View>
+                                   <Video 
+                                        style={styles.imageStyle}
+                                        controls={false}
+                                        source={{ uri: this.state.url2 }}
+                                        ref={(ref) => {
+                                             this.player = ref
+                                        }}
+                                        onBuffer={this.onBuffer}
+                                        onLoadStart={this.onLoadStart}
+                                        onLoad={this.onLoad}
+                                        onError={this.videoError}                       
+                                        />
+                                        <ActivityIndicator
+                                             animating
+                                             size="large"
+                                             color={grey_lighter}
+                                             style={[styles.activityIndicator, { opacity: this.state.opacity }]}/>
+                                   </View> 
+                                    :
+                                   <Image style={styles.imageStyle} source={{ uri: this.state.url2 }} />
+                                   :
+                                   <Image style={styles.imageStyle} source={this.state.ImageSource1} />
+                               }
+                         </TouchableOpacity>  */}
 
-
-                         < TouchableOpacity onPress={this.selectPhoto3Tapped.bind(this)}>
+                         < TouchableOpacity onPress={this.selectPhoto3Tapped.bind(this)}> 
                               {this.state.ImageSource2 === null ?
                                    <ImageBackground
                                         style={styles.imageStyle}
@@ -425,22 +587,43 @@ class NewEditComplaints extends Component {
                                    </ImageBackground>
                                    :
                                    <Image style={styles.imageStyle}
-                                        source={this.state.ImageSource2}
-                                   />
+                                        source={this.state.ImageSource2}/>
                               }
                          </TouchableOpacity>
                     </View>
                )
           } else if (this.state.url1 != '') {
+              //when 1 img or video is available 
+               console.log("inside url1 != empty")
                return (
                     <View style={{ flexDirection: 'row' }}>
                          <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
                               {
                                    this.state.ImageSource === null ?
-                                        <Image style={styles.imageStyle}
+                                   this.state.url1.includes('.mp4') ? 
+                                   <View>
+                                        <Video 
+                                             style={styles.imageStyle}
+                                             controls={false}
+                                             source={{ uri: this.state.url1 }}
+                                             ref={(ref) => {
+                                                  this.player = ref
+                                             }}
+                                             onBuffer={this.onBuffer}
+                                             onLoadStart={this.onLoadStart}
+                                             onLoad={this.onLoad}
+                                             onError={this.videoError} />
+                                        <ActivityIndicator
+                                                  animating
+                                                  size="large"
+                                                  color={grey_lighter}
+                                                  style={[styles.activityIndicator, { opacity: this.state.opacity }]}/>
+                                  </View>
+                                   :
+                                   <Image style={styles.imageStyle}
                                              source={{ uri: this.state.url1 }} />
                                         :
-                                        <Image style={styles.imageStyle}
+                                   <Image style={styles.imageStyle}
                                              source={this.state.ImageSource} />
                               }
                          </TouchableOpacity>
@@ -485,13 +668,12 @@ class NewEditComplaints extends Component {
 
                               </TouchableOpacity>
                               :
-                              null
+                              <View></View>
                          }
                     </View>
                )
           }
      }
-
 
      _handlePhotoView_emptyURLs = () => {
           //all 3 views 
@@ -755,9 +937,16 @@ const styles = {
           marginTop: 15,
           marginLeft: 15,
           borderColor: grey_lighter,
-     }
+     },
+     activityIndicator: {
+          position: 'absolute',
+          marginTop:35,
+          marginLeft: 10,
+          justifyContent: 'center',
+          alignSelf:'center',
+          alignItems: 'center'
+      }
 }
-
 const mapStateToProps = (state) => {
      return {
           auth: state.editComplaint

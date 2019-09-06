@@ -5,34 +5,45 @@ import Button from '../common/Button';
 
 //make component 
 const Paysection = (props) => {
-  const { gridRowStyle, container, textTitleStyle, thumbnail, textNoStyle, gridColStyle, textStyle } = styles;
+
+  const { gridRowStyle, container, textTitleStyle,gridColFullStyle, textgreenStyle,textRedStyle,textNoStyle, gridColStyle, textStyle } = styles;
+  
+  //get current date 
+  var today = new Date();
+  dateParsed =  today.getDate()+ '-' +(today.getMonth() + 1) + '-' + today.getFullYear()
+  // console.log("Todays date : "+dateParsed)
+  // console.log("Due date : "+props.dueDate)
+  // console.log("compare date > "+dateParsed > props.dueDate)
   return (
     <View style={container}>
-      {/* <View style={gridRowStyle}> */}
       
+      <View style={gridColFullStyle}>
           <View style={gridRowStyle}>
             
             <View style={gridColStyle}>
               <Text style={textTitleStyle}>Maintaince Amount</Text>
-              <Text style={textTitleStyle}> $1000 </Text>
+              <Text style={textTitleStyle}>{props.amount}</Text>
             </View>
            
             <View style={{ height: 25, width: 1, marginLeft: 4, backgroundColor: grey_light, alignSelf: 'center' }} />
 
             <View style={gridColStyle}>
               <Text style={textTitleStyle}>Due Date</Text>
-              <Text style={textTitleStyle}> 10-10-2019 </Text>
+              {dateParsed > props.dueDate == true? 
+              <Text style={textRedStyle}>{props.dueDate}</Text>
+              :
+              <Text style={textgreenStyle}>{props.dueDate}</Text>
+              }
             </View>
-          </View>
-         
-          {/* <Button style={{ marginLeft: 20, alignSelf:'center' ,justifyitems: 'center'}}>{"PAY NOW"}</Button> */}
-
+          </View>         
+          <Button style={{marginTop:15}}>{"PAY NOW"}</Button>
+        </View>
         <Text style={textNoStyle}></Text>
       </View>
   );
 };
-const styles = {
 
+const styles = {
   container: {
     backgroundColor: white_Original,
     width: '95.55%',
@@ -74,10 +85,30 @@ const styles = {
     flexDirection: 'column',
     justifyContent: 'center'
   },
+  gridColFullStyle: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center'
+  },
+  textRedStyle: {
+    fontFamily: 'OpenSans-Bold',
+    fontSize: 14,
+    color: 'red',
+    alignSelf: 'flex-start',
+    marginLeft: 15
+  },
+  textgreenStyle: {
+    fontFamily: 'OpenSans-Bold',
+    fontSize: 14,
+    color: 'green',
+    alignSelf: 'flex-start',
+    marginLeft: 15
+  },
   textTitleStyle: {
     fontFamily: 'OpenSans-Bold.ttf',
     fontSize: 14,
-    color: black,
+    color: 'black',
     alignSelf: 'flex-start',
     marginLeft: 15
   },

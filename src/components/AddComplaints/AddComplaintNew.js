@@ -48,6 +48,7 @@ class AddComplaintNew extends Component {
       quality: 1.0,
       maxWidth: 500,
       maxHeight: 500,
+      durationLimit: 2,
       title: 'Choose Image or Video',
       customButtons: [{ name: 'image', title: 'Take a Photo' }, { name: 'video', title: 'Take a Video' }, { name: 'library', title: 'Choose from Library' }],
       //smediaType: "mixed",
@@ -55,7 +56,7 @@ class AddComplaintNew extends Component {
         skipBackup: true
       }
     };
-
+    
     ImagePicker.showImagePicker({
       title: 'Choose Image or Video',
       customButtons: [{ name: 'image', title: 'Take a Photo' }, { name: 'video', title: 'Take a Video' }, { name: 'library', title: 'Choose from Library' }],
@@ -63,7 +64,6 @@ class AddComplaintNew extends Component {
       takePhotoButtonTitle: null,
     }, (res) => {
       if (res.customButton) {
-
         console.log("responseon  >> " + JSON.stringify(res))
         ImagePicker.launchCamera({
           mediaType: res.customButton,
@@ -91,7 +91,7 @@ class AddComplaintNew extends Component {
             });
           }
         });
-      } else {
+      } else if(!res.didCancel){
         console.log("responseon from gallery >> " + JSON.stringify(res))
         const source = { uri: 'data:image/jpeg;base64,' + res.data };
         console.log("source : " + JSON.stringify(source))
@@ -111,6 +111,7 @@ class AddComplaintNew extends Component {
       quality: 1.0,
       maxWidth: 500,
       maxHeight: 500,
+      durationLimit: 2,
       title: 'Choose Image or Video',
       customButtons: [{ name: 'image', title: 'Take a Photo' }, { name: 'video', title: 'Take a Video' }, { name: 'library', title: 'Choose from Library' }],
       storageOptions: {
@@ -151,7 +152,7 @@ class AddComplaintNew extends Component {
             });
           }
         });
-      } else {
+      } else if(!res.didCancel) {
         console.log("responseon from gallery >> " + JSON.stringify(res))
 
         const source = { uri: 'data:image/jpeg;base64,' + res.data };
@@ -173,6 +174,7 @@ class AddComplaintNew extends Component {
       quality: 1.0,
       maxWidth: 500,
       maxHeight: 500,
+      durationLimit: 2,
       customButtons: [{ name: 'image', title: 'Take a Photo' }, { name: 'video', title: 'Take a Video' }, { name: 'library', title: 'Choose from Library' }],
       storageOptions: {
         skipBackup: true
@@ -211,7 +213,7 @@ class AddComplaintNew extends Component {
             });
           }
         });
-      } else {
+      } else if(!res.didCancel){
         console.log("responseon from gallery >> " + JSON.stringify(res))
 
         const source = { uri: 'data:image/jpeg;base64,' + res.data };
@@ -261,8 +263,8 @@ class AddComplaintNew extends Component {
               type3 = this.state.type2,
               name3 = this.state.imageName2
 
-            userId = this.state.userId
-            flatId = this.state.flatId
+              userId = this.state.userId
+              flatId = this.state.flatId
 
             //this.props.addComplaint_(title, comments,uri1,type1,name1)
             this.setState({
@@ -483,7 +485,7 @@ class AddComplaintNew extends Component {
 
   renderVerifyFileds() {
 
-    console.log("loader complaints "+this.props.auth.loading)
+    console.log("loader complaints "+this.state.loader)
     if (this.state.loader) {
       return (
         <ActivityIndicator

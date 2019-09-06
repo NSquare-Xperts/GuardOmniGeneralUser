@@ -1,15 +1,12 @@
 import React, { Component } from 'react'
-import { Text, View,FlatList, ImageBackground,Dimensions, Image, ActivityIndicator, PixelRatio, AsyncStorage } from 'react-native'
-import { connect } from 'react-redux'
-import Button from '../common/Button'
-import { titleChanged, commentsChanged, addComplaint_ } from './ComplaintsActions'
-import { white_Original, red_lighter, grey_lighter, grey_light, Add_Complaint } from '../common';
-import ImagePicker from 'react-native-image-picker'
-import { Actions } from 'react-native-router-flux'
-import HOmeMaintaince from '../common/HOmeMaintaince'
-import Paysection from './Paysection'
-import { callPostApi } from '../Util/APIManager'
-import ComplaintListItems from '../common/ComplaintListItem'
+import { Text, View, FlatList, Dimensions, ActivityIndicator,AsyncStorage } from 'react-native'
+import Placeholder from 'rn-placeholder'
+import { white_Original, red_lighter, grey_lighter, grey_light,grey } from '../common';
+import axios from 'axios';
+import { callPostApi } from '../Util/APIManager';
+import HOmeMaintaince from '../common/HOmeMaintaince';
+import Paysection from './Paysection';
+import TransactionHistoryListItems from '../common/TransactionHistoryListItems';
 
 class Maintaince extends Component {
 
@@ -22,8 +19,11 @@ class Maintaince extends Component {
     page: 0,
     userId: '',
     flatId: '',
+    maintenanInfo:'',
+    flatno:'',
+    amount:'NA',
+    dueDate:'NA'
   }
-
   //call async data
   async _getUserStorageValue() {
 
@@ -37,166 +37,168 @@ class Maintaince extends Component {
       this.setState({
         userId: dataUser.user_id,
         flatId: data.flat_id,
-
-      }, this.renderList)
+      },this.renderList)
     }
-  }
-
-  componentWillUnmount() {
-    //return true;
   }
 
   componentDidMount() {
     this._getUserStorageValue()
   }
 
-
   _handleRefresh = () => {
     this.setState({
-        refreshing: true,
-        loadMore: false,
-        page: 0,
-        history: []
+      refreshing: true,
+      loadMore: false,
+      page: 0,
+      history: []
     },
-        () => {
-            this.renderList();
-        })
-}
+      () => {
+        this.renderList();
+      })
+  }
 
-FlatListItemSeparator = () => {
+  FlatListItemSeparator = () => {
     return (
-        <View
-            style={{
-                height: 0.4,
-                width: "95%",
-                backgroundColor: grey,
-                marginLeft: 10,
-                marginRight: 10,
-            }}
-        />
+      <View
+        style={{
+          height: 0.4,
+          width: "95%",
+          backgroundColor: grey,
+          marginLeft: 10,
+          marginRight: 10,
+        }}
+      />
     )
-}
+  }
 
-handleLoadMore = () => {
-
+  handleLoadMore = () => {
     this.setState(
-        { page: this.state.page + 1, loadMore: true },
-        this.renderList
+      { page: this.state.page + 1, loadMore: true },
+      this.renderList
     )
-}
-renderFooter = () => {
+  }
+  renderFooter = () => {
     return (
-        this.state.loadMore ?
-            <View style={styles.loader}>
-                <ActivityIndicator
-                    size="large" />
-            </View> : null
+      this.state.loadMore ?
+        <View style={styles.loader}>
+          <ActivityIndicator
+            size="large" />
+        </View> : null
     )
-}
+  }
 
   _emptyList = () => {
     //call for empty component or error
     if (this.state.loadMore || this.state.refreshing) {
-        return (
-            <View style={{ backgroundColor: red_lighter, display: 'flex', flex: 1, justifyContent: 'center', alignSelf: 'center', marginTop: Dimensions.get('window').height / 4 }}>
+      return (
+        <View style={{ backgroundColor: red_lighter, display: 'flex', flex: 1, justifyContent: 'center', alignSelf: 'center', marginTop: Dimensions.get('window').height / 4 }}>
 
-            </View>
-        )
+        </View>
+      )
     } else {
-        return (
-            <View style={{ backgroundColor: red_lighter, display: 'flex', flex: 1, justifyContent: 'center', alignSelf: 'center', marginTop: Dimensions.get('window').height / 4 }}>
-                <Text style={styles.textStyle}>No Complaints Added Yet</Text>
-            </View>
-        )
+      return (
+        <View style={{ backgroundColor: 'white', display: 'flex', flex: 1, justifyContent: 'center', alignSelf: 'center', marginTop: Dimensions.get('window').height / 4 }}>
+          <Text style={styles.textStyle}>No History Found</Text>
+        </View>
+      )
     }
-}
+  }
 
-renderList() {
-  callPostApi('http://18.188.253.46:8000/api/complaintList', {
+  renderList() {
+    
+    console.log("response : Complaints ", this.state.userId)
+    console.log("response : Complaints ", this.state.page)
+    
+    callPostApi('http://18.188.253.46:8000/api/userMaintenance', {
       "userId": this.state.userId,
-      "pageNumber": this.state.page,
-      "flatId": this.state.flatId
-  }).then((response) => {
+      //"pageNumber": 0,
+       "pageNumber": this.state.page,
+      "flatId": 96
+      // "flatId": this.state.flatId
+      //
+    }).then((response) => {
       // Continue your code here...
       res = JSON.parse(response)
+      
       console.log("response : Complaints ", res.status)
-      console.log("response : Complaints length ", res.data)
+      console.log("response : Complaints main info ",res.data.maintenanInfo)
       if (res.status == 200) {
-          this.setState({
-              history: this.state.history.concat(res.data), loadMore: false, refreshing: false, 
-              status: res.status
-          })
+
+        console.log("maintenance res " + JSON.stringify(res))
+        this.setState({
+          maintenanInfo: res.data.maintenanInfo[0],
+          history: this.state.history.concat(res.data.transactions), loadMore: false, refreshing: false,
+          status: res.status
+        })
       } else if (res.status == 400) {
-          this.setState({
-              refreshing: false,
-              loadMore: false
-          })
+        this.setState({
+          refreshing: false,
+          loadMore: false
+        })
       } else {
-          this.setState({
-              refreshing: false
-          })
+        this.setState({
+          refreshing: false
+        })
       }
-  });
-}
+    });
+  }
 
   render() {
     return (
       <View style={styles.containerStyle}>
+ 
+        <HOmeMaintaince
+           flatno={this.state.maintenanInfo.site_structure_name +'-'+this.state.maintenanInfo.flat_no}/>
        
-          <HOmeMaintaince/>
-          <Paysection/>
+       <Paysection 
+         amount={this.state.maintenanInfo.maintenanceAmount}
+         dueDate={this.state.maintenanInfo.dueDate} />
 
-          <View style={styles.container}>
-                        <FlatList
-                            ListEmptyComponent={this._emptyList}
-                            ItemSeparatorComponent={this.FlatListItemSeparator}
-                            data={this.state.notices}
-                            nestedScrollEnabled={true}
-                            renderItem={({ item }) =>
-                                <Placeholder.Paragraph>
-                                    <ComplaintListItems
-                                        //notice_image={'1'}
-                                        //index={item.index}
-                                        sendData={(item, status) => this._sendData(item, status)}
-                                        complaintId={item.id}
-                                        complaint_title={item.complaint_title}
-                                        complaint_description={item.complaint_description}
-                                        complaint_status={item.complaint_status}
-                                        complaint_status_img={item.complaint_status_image}
-                                        //out_date_time={item.out_date_time}
-                                    />
-                                </Placeholder.Paragraph>
-                            }
-                            keyExtractor={(item, index) => index.toString()}
-                            onEndReached={this.handleLoadMore}
-                            refreshing={this.state.refreshing}
-                            onRefresh={this._handleRefresh}
-                            ListFooterComponent={this.renderFooter}
-                        />
-                    </View>
-
+        <View style={styles.container}>
+          <FlatList
+            ListEmptyComponent={this._emptyList}
+            ItemSeparatorComponent={this.FlatListItemSeparator}
+            data={this.state.history}
+            nestedScrollEnabled={true}
+            renderItem={({ item }) =>
+              
+                  <TransactionHistoryListItems
+                 // notice_image={'1'}
+                 // index={item.index}
+                  transactionId={item.transactionId}
+                  paidAmount={item.paidAmount}
+                  transactionDate={item.transactionDate}
+                /> 
+             
+            }
+            keyExtractor={(item, index) => index.toString()}
+            onEndReached={this.handleLoadMore}
+            refreshing={this.state.refreshing}
+            onRefresh={this._handleRefresh}
+            ListFooterComponent={this.renderFooter}
+          />
+        </View>
       </View>
     );
   }
 }
 
 const styles = {
-
-    container: {
-      backgroundColor: white_Original,
-      width: '95.55%',
-      height: '100%',
-      display: 'flex',
-      flex: 1,
-      justifyContent: 'space-between',
-      flexDirection: 'row',
-      padding: 5,
-      scrollEnabled: true,
-      marginLeft: 10,
-      justifyitems: 'center',
-      elevation: 4,
-      marginTop: 12,
-      borderRadius: 2
+  container: {
+    backgroundColor: white_Original,
+    width: '95.55%',
+    height: '100%',
+    display: 'flex',
+    flex: 1,
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    padding: 5,
+    scrollEnabled: true,
+    marginLeft: 10,
+    justifyitems: 'center',
+    elevation: 4,
+    marginTop: 12,
+    borderRadius: 2
   },
   errorStyle: {
     fontSize: 14,
@@ -246,7 +248,6 @@ const styles = {
   loader: {
     marginTop: 20,
     alignItems: 'center'
-}
+  }
 }
 export default Maintaince;
-//connect(mapStateToProps, { titleChanged, commentsChanged, addComplaint_ })(AddComplaintNew)
