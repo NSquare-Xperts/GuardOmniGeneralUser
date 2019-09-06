@@ -1,15 +1,20 @@
-import { COMPLAINT_TITLE, COMPLAINT_COMMENTS, EDIT_PROFILE, EDIT_COMPLAINT, EDIT_COMPLAINT_FAILED } from '../../actions/types'
+import { COMPLAINT_TITLE, EDIT_COMPLAINT_COMMENTS, EDIT_PROFILE, EDIT_COMPLAINT, EDIT_COMPLAINT_FAILED } from '../../actions/types'
 import { Actions } from 'react-native-router-flux'
 import { callFormDataUpdateComplaintPostApi } from '../Util/APIManager'
 import { DeviceEventEmitter } from 'react-native'
+import SimpleToast from 'react-native-simple-toast'
 
 export const editComplaint_ = (title, comments, uri1, type1, name1, uri2, type2, name2, uri3, type3, name3, complaintId,isFile1,isFile2,isFile3,userId) => {
 
     return (dispatch) => {
         dispatch({ type: EDIT_PROFILE });
 
-        console.log("title ",title)
-        callFormDataUpdateComplaintPostApi('http://192.168.0.32:8000/api/complaintUpdate', {
+        console.log("uri1 + ",uri1)
+        console.log("uri2 + ",uri2)
+        console.log("uri3 + ",uri3)
+        console.log("type2 + ",type2)
+        
+        callFormDataUpdateComplaintPostApi('http://18.188.253.46:8000/api/complaintUpdate', {
 
             "userId": userId,
             "complaintTitle": title,
@@ -35,16 +40,25 @@ export const editComplaint_ = (title, comments, uri1, type1, name1, uri2, type2,
         })
         .then((response) => {
                 // Continue your code here...
-                res = JSON.parse(response)
-                console.log("edit profileUpdate response : ", res)
-                if (res.status == 200) {
+                data = JSON.parse(response)
+                console.log("edit profileUpdate response : ", data)
+                
+                if (data.status == 200) {
                     Actions.popTo('ComplaintDetail');
                     DeviceEventEmitter.emit('eventEditedComplaint',{isEditedSuccessFully: true});
                     editComplaintSuccess(dispatch, data)
-                }else{
-                    SimpleToast.show(res.message)
-                }
-                editComplaintFailed(dispatch, data)
+                }else if(data.status == 401) {
+                    AsyncStorage.removeItem('propertyDetails');
+                    AsyncStorage.removeItem('userDetail');
+                    AsyncStorage.removeItem('LoginData');
+                    //SimpleToast.show(response.message)
+                    Actions.reset('Login')
+                    editComplaintFailed(dispatch, data.message)
+                  } else{
+                    SimpleToast.show(data.message)
+                    editComplaintFailed(dispatch, data.message)
+                }                
+                
             }).catch((error)=>{
                 SimpleToast.show(error)
             })
@@ -73,9 +87,9 @@ export const titleChanged = (text) => {
         payload: text
     }
 }
-export const commentsChanged = (text) => {
+export const editCommentsChanged = (text) => {
     return {
-        type: COMPLAINT_COMMENTS,
+        type: EDIT_COMPLAINT_COMMENTS,
         payload: text
     }
 }

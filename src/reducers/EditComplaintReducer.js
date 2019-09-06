@@ -12,10 +12,9 @@ export default (state = INITIAL_STATE, action) => {
             case EDIT_COMPLAINT_COMMENTS:
             return {...state, comments: action.payload}
         case EDIT_COMPLAINT_FAILED: 
-            return{...state,loading: false,error: action.payload,displayModal: true}
+            return{...state,error: action.payload,displayModal: true}
         case EDIT_COMPLAINT: 
-            return {...state, data: action.payload, loading: false}
-      
+            return {...state, data: action.payload}
         default:
             return state
     }

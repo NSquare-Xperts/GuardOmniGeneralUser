@@ -24,7 +24,7 @@ class FlatListForVisitorsHistory extends Component {
 
     renderUsersList() {
 
-        callPostApi('http://192.168.0.32:8000/api/visitorHistory', {
+        callPostApi('http://18.188.253.46:8000/api/visitorHistory', {
             "userId": this.state.userId,
             "pageNumber": this.state.page,
             "flatId": this.state.flatId
@@ -39,7 +39,6 @@ class FlatListForVisitorsHistory extends Component {
                         status: res.status
                     })
                 } else if (res.status == 401) {
-
                     AsyncStorage.removeItem('propertyDetails');
                     AsyncStorage.removeItem('userDetail');
                     AsyncStorage.removeItem('LoginData');
@@ -268,7 +267,7 @@ const styles = {
 //     }
 
 //     renderUsersList() {
-//         callPostApi('http://192.168.0.32:8000/api/visitorHistory', {
+//         callPostApi('http://18.188.253.46:8000/api/visitorHistory', {
 //             "userId": '2',
 //             "pageNumber": this.state.page,
 //             "flatId": '1'

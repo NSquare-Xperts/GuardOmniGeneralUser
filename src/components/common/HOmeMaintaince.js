@@ -3,7 +3,7 @@ import {Text, View, Image} from 'react-native';
 import {  white_Original, pink,light_blue } from './color';
 
 //make component 
-const Maintaince = (props) => {
+const HOmeMaintaince = (props) => {
     const {gridRowStyle, container, textTitleStyle,thumbnail,textNoStyle,gridColStyle,textStyle} = styles;
     return(
       <View style={container}>
@@ -12,7 +12,7 @@ const Maintaince = (props) => {
                       source={require('../assets/Complaints/complaints_option_large.png')}/>
                       <View style={gridColStyle}>
                           <Text style={textTitleStyle}>Maintaince</Text>
-                          <Text style={textStyle}>Flat 101</Text>
+                          <Text style={textStyle}>{props.flatno}</Text>
                       </View>
                <Text style={textNoStyle}></Text>
                       
@@ -85,4 +85,4 @@ textStyle: {
   marginLeft: 15
 }
 }
-export default Maintaince;
+export default HOmeMaintaince;

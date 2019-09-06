@@ -66,7 +66,7 @@ class RequestListItems extends Component {
                 {
                   text: 'Yes', onPress: () => {
 
-                    callPostApi('http://192.168.0.32:8000/api/deleteVisitorRequestById', {
+                    callPostApi('http://18.188.253.46:8000/api/deleteVisitorRequestById', {
                       "userId": this.props.userId,
                       "visitorRequestId": this.props.id,
                       "isDeleted": '1'
