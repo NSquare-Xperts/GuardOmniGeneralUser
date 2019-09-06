@@ -72,7 +72,7 @@ class Menu extends Component {
                             </ListItem>
 
 
-                            {
+                            {/* {
                                 this.state.role_id === 4 ?
                                     <ListItem onPress={() => { Actions.drawerClose(), Actions.maintenance() }
                                     }
@@ -83,7 +83,7 @@ class Menu extends Component {
                                     </ListItem>
                                     :
                                     console.log("listitem")
-                            }
+                            } */}
 
                             <ListItem onPress={() => { Actions.drawerClose(), Actions.notification() }
                             }
