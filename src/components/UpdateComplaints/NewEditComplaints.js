@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Text, View, ImageBackground, Image, TouchableOpacity, PixelRatio, DeviceEventEmitter, AsyncStorage } from 'react-native'
 import { connect } from 'react-redux'
 import Button from '../common/Button'
-import { titleChanged, editCommentsChanged, editComplaint_ } from './EditComplaintActions'
+import { titleChanged, commentsChanged, editComplaint_ } from './EditComplaintActions'
 import { white_Original, red_lighter, grey_lighter, grey_light, Add_Complaint, Save } from '../common';
 import TitleInput from './TitleInput'
 import CommentsInput from './CommentsInput'
@@ -54,36 +54,86 @@ class NewEditComplaints extends Component {
                quality: 1.0,
                maxWidth: 500,
                maxHeight: 500,
+               customButtons: [{ name: 'image', title: 'Take a Photo' }, { name: 'video', title: 'Take a Video' }, { name: 'library', title: 'Choose from Library' }],
                storageOptions: {
                     skipBackup: true
                }
           };
 
-          ImagePicker.showImagePicker(options, (response) => {
-               console.log('Response = ', response);
+          ImagePicker.showImagePicker({
+               title: 'Choose Image or Video',
+               customButtons: [{ name: 'image', title: 'Take a Photo' }, { name: 'video', title: 'Take a Video' }, { name: 'library', title: 'Choose from Library' }],
+               chooseFromLibraryButtonTitle: null,
+               takePhotoButtonTitle: null,
+          }, (res) => {
+               if (res.customButton) {
+                    ImagePicker.launchCamera({
+                         mediaType: res.customButton,
+                         videoQuality: 'medium',
+                         quality: 1,
+                    }, (response) => {
+                         let source;
+                         source = { uri: response.uri };
 
-               if (response.didCancel) {
-                    console.log('User cancelled photo picker');
-               }
-               else if (response.error) {
-                    console.log('ImagePicker Error: ', response.error);
-               }
-               else if (response.customButton) {
-                    console.log('User tapped custom button: ', response.customButton);
-               }
-               else {
-                    let source = { uri: response.uri };
-                    // You can also display the image using data:
-                    // let source = { uri: 'data:image/jpeg;base64,' + response.data };
+                         if (res.customButton != "image") {
+                              this.setState({
+                                   uriToSend: response.uri,
+                                   ImageSource: source,
+                                   imageName: response.path,
+                                   type: "video/mp4",
+                                   isFile1: '1'
+                              });
+                         } else {
+                              this.setState({
+                                   uriToSend: response.uri,
+                                   ImageSource: source,
+                                   imageName2: response.fileName,
+                                   type: response.type,
+                                   isFile1: '1'
+                              });
+                         }
+                    });
+               } else {
+
+                    console.log("responseon from gallery >> " + JSON.stringify(res))
+
+                    const source = { uri: 'data:image/jpeg;base64,' + res.data };
+                    console.log("source : " + JSON.stringify(source))
+                    console.log("URI >> " + res.uri)
                     this.setState({
-                         uriToSend: response.uri,
+                         uriToSend: res.uri,
                          ImageSource: source,
-                         imageName: response.fileName,
-                         type: response.type,
+                         imageName: res.fileName,
+                         type: res.type,
                          isFile1: '1'
                     });
                }
           });
+          // ImagePicker.showImagePicker(options, (response) => {
+          //      console.log('Response = ', response);
+
+          //      if (response.didCancel) {
+          //           console.log('User cancelled photo picker');
+          //      }
+          //      else if (response.error) {
+          //           console.log('ImagePicker Error: ', response.error);
+          //      }
+          //      else if (response.customButton) {
+          //           console.log('User tapped custom button: ', response.customButton);
+          //      }
+          //      else {
+          //           let source = { uri: response.uri };
+          //           // You can also display the image using data:
+          //           // let source = { uri: 'data:image/jpeg;base64,' + response.data };
+          //           this.setState({
+          //                uriToSend: response.uri,
+          //                ImageSource: source,
+          //                imageName: response.fileName,
+          //                type: response.type,
+          //                isFile1: '1'
+          //           });
+          //      }
+          // });
      }
 
      selectPhoto2Tapped() {
@@ -91,38 +141,90 @@ class NewEditComplaints extends Component {
                quality: 1.0,
                maxWidth: 500,
                maxHeight: 500,
+               customButtons: [{ name: 'image', title: 'Take a Photo' }, { name: 'video', title: 'Take a Video' }, { name: 'library', title: 'Choose from Library' }],
                storageOptions: {
                     skipBackup: true
                }
           };
 
-          ImagePicker.showImagePicker(options, (response) => {
-               console.log('Response = ', response);
+          ImagePicker.showImagePicker({
+               title: 'Choose Image or Video',
+               customButtons: [{ name: 'image', title: 'Take a Photo' }, { name: 'video', title: 'Take a Video' }, { name: 'library', title: 'Choose from Library' }],
+               chooseFromLibraryButtonTitle: null,
+               takePhotoButtonTitle: null,
+          }, (res) => {
+               if (res.customButton) {
+                    ImagePicker.launchCamera({
+                         mediaType: res.customButton,
+                         videoQuality: 'medium',
+                         quality: 1,
+                    }, (response) => {
 
-               if (response.didCancel) {
-                    console.log('User cancelled photo picker');
-               }
-               else if (response.error) {
-                    console.log('ImagePicker Error: ', response.error);
-               }
-               else if (response.customButton) {
-                    console.log('User tapped custom button: ', response.customButton);
-               }
-               else {
-                    let source = { uri: response.uri };
-                    // You can also display the image using data:
-                    // let source = { uri: 'data:image/jpeg;base64,' + response.data };
+                         let source;
+                         source = { uri: response.uri };
+
+                         if (res.customButton != "image") {
+                              this.setState({
+                                   uriTo1Send: response.uri,
+                                   ImageSource1: source,
+                                   imageName1: response.path,
+                                   type1: "video/mp4",
+                                   isFile2: '1'
+                              });
+                         } else {
+                              this.setState({
+                                   uriTo1Send: response.uri,
+                                   ImageSource1: source,
+                                   imageName1: response.fileName,
+                                   type2: response.type,
+                                   isFile2: '1'
+                              });
+                         }
+                    });
+               } else {
+
+                    console.log("responseon from gallery >> " + JSON.stringify(res))
+
+                    const source = { uri: 'data:image/jpeg;base64,' + res.data };
+                    console.log("source : " + JSON.stringify(source))
+                    console.log("URI >> " + res.uri)
                     this.setState({
-                         uriTo1Send: response.uri,
+                         uriTo1Send: res.uri,
                          ImageSource1: source,
-                         imageName1: response.fileName,
-                         type1: response.type,
+                         imageName1: res.fileName,
+                         type1: res.type,
                          isFile2: '1'
                     });
-
                }
           });
 
+
+          // ImagePicker.showImagePicker(options, (response) => {
+          //      console.log('Response = ', response);
+
+          //      if (response.didCancel) {
+          //           console.log('User cancelled photo picker');
+          //      }
+          //      else if (response.error) {
+          //           console.log('ImagePicker Error: ', response.error);
+          //      }
+          //      else if (response.customButton) {
+          //           console.log('User tapped custom button: ', response.customButton);
+          //      }
+          //      else {
+          //           let source = { uri: response.uri };
+          //           // You can also display the image using data:
+          //           // let source = { uri: 'data:image/jpeg;base64,' + response.data };
+          //           this.setState({
+          //                uriTo1Send: response.uri,
+          //                ImageSource1: source,
+          //                imageName1: response.fileName,
+          //                type1: response.type,
+          //                isFile2: '1'
+          //           });
+
+          //      }
+          // });
      }
 
      selectPhoto3Tapped() {
@@ -130,35 +232,86 @@ class NewEditComplaints extends Component {
                quality: 1.0,
                maxWidth: 500,
                maxHeight: 500,
+               customButtons: [{ name: 'image', title: 'Take a Photo' }, { name: 'video', title: 'Take a Video' }, { name: 'library', title: 'Choose from Library' }],
                storageOptions: {
                     skipBackup: true
                }
           };
 
-          ImagePicker.showImagePicker(options, (response) => {
-               console.log('Response = ', response);
+          ImagePicker.showImagePicker({
+               title: 'Choose Image or Video',
+               customButtons: [{ name: 'image', title: 'Take a Photo' }, { name: 'video', title: 'Take a Video' }, { name: 'library', title: 'Choose from Library' }],
+               chooseFromLibraryButtonTitle: null,
+               takePhotoButtonTitle: null,
+          }, (res) => {
+               if (res.customButton) {
+                    ImagePicker.launchCamera({
+                         mediaType: res.customButton,
+                         videoQuality: 'medium',
+                         quality: 1,
+                    }, (response) => {
 
-               if (response.didCancel) {
-                    console.log('User cancelled photo picker');
-               }
-               else if (response.error) {
-                    console.log('ImagePicker Error: ', response.error);
-               }
-               else if (response.customButton) {
-                    console.log('User tapped custom button: ', response.customButton);
-               }
-               else {
-                    let source = { uri: response.uri };
-                    // You can also display the image using data:
-                    // let source = { uri: 'data:image/jpeg;base64,' + response.data };
+                         let source;
+                         source = { uri: response.uri };
+
+                         if (res.customButton != "image") {
+                              this.setState({
+                                   uriTo2Send: response.uri,
+                                   ImageSource2: source,
+                                   imageName2: response.path,
+                                   type2: "video/mp4",
+                                   isFile3: '1'
+                              });
+                         } else {
+                              this.setState({
+                                   uriTo2Send: response.uri,
+                                   ImageSource2: source,
+                                   imageName2: response.fileName,
+                                   type2: response.type,
+                                   isFile3: '1'
+                              });
+                         }
+                    });
+               } else {
+
+                    console.log("responseon from gallery >> " + JSON.stringify(res))
+
+                    const source = { uri: 'data:image/jpeg;base64,' + res.data };
+                    console.log("source : " + JSON.stringify(source))
+                    console.log("URI >> " + res.uri)
                     this.setState({
-                         uriTo2Send: response.uri,
+                         uriTo2Send: res.uri,
                          ImageSource2: source,
-                         imageName2: response.fileName,
-                         type2: response.type,
+                         imageName2: res.fileName,
+                         type2: res.type,
                          isFile3: '1'
                     });
                }
+
+               // ImagePicker.showImagePicker(options, (response) => {
+               //      console.log('Response = ', response);
+
+               //      if (response.didCancel) {
+               //           console.log('User cancelled photo picker');
+               //      }
+               //      else if (response.error) {
+               //           console.log('ImagePicker Error: ', response.error);
+               //      }
+               //      else if (response.customButton) {
+               //           console.log('User tapped custom button: ', response.customButton);
+               //      }
+               //      else {
+               //           let source = { uri: response.uri };
+               //           // You can also display the image using data:
+               //           // let source = { uri: 'data:image/jpeg;base64,' + response.data };
+               //           this.setState({
+               //                uriTo2Send: response.uri,
+               //                ImageSource2: source,
+               //                imageName2: response.fileName,
+               //                type2: response.type,
+               //                isFile3: '1'
+               //           });
+               //      }
           });
      }
 
@@ -210,9 +363,8 @@ class NewEditComplaints extends Component {
      //call async data
      renderUsersComplaints() {
           //pass complaintIs
-          console.log("Complaint Edit: UserID:",this.state.userId,"Complaint ID: ", this.state.complaintId)
-
-          callPostApi('http://18.188.253.46:8000/api/complaintDetails?', {
+          console.log("inside com edit", this.state.userId)
+          callPostApi('http://192.168.0.32:8000/api/complaintDetails?', {
                //"userId": this.state.userId,
                "userId": this.state.userId,
                "complaintId": this.state.complaintId
@@ -228,9 +380,9 @@ class NewEditComplaints extends Component {
 
                          this.setState({
                               refreshing: false,
-                              url1: res.data[0].complaint_image_1,
-                              url2: res.data[0].complaint_image_2,
-                              url3: res.data[0].complaint_image_3
+                              url1: res.data[0].media1,
+                              url2: res.data[0].media2,
+                              url3: res.data[0].media3
                          })
                     } else {
                          this.setState({
@@ -249,13 +401,12 @@ class NewEditComplaints extends Component {
           var dataUser = JSON.parse(valueUser);
 
           var complaintId = await AsyncStorage.getItem('complaintID')
-          var dataComplaintID = JSON.parse(complaintId);
-          console.log("***** complaintId",dataComplaintID)
-         
+          console.log("***** complaintId", complaintId)
+
           if (dataUser != '' || dataUser != null) {
                this.setState({
                     userId: dataUser.user_id,
-                    complaintId: dataComplaintID
+                    complaintId: complaintId
                     //flatId: data.flat_id,
 
                }, this.renderUsersComplaints())
@@ -581,7 +732,7 @@ class NewEditComplaints extends Component {
                     <Text style={styles.errorStyle}>{this.state.errorTitle}</Text>
 
                     <CommentsInput
-                         commentsChange={(text) => this.props.editCommentsChanged(text)}
+                         commentsChange={(text) => this.props.commentsChanged(text)}
                          value={this.props.auth.comments} />
 
                     <Text style={styles.errorStyle}>{this.state.errorComments}</Text>
@@ -607,7 +758,7 @@ class NewEditComplaints extends Component {
      componentWillUnmount() {
           this.props.auth.title = ''
           this.props.auth.comments = ''
-        //  AsyncStorage.removeItem('complaintID')
+          //  AsyncStorage.removeItem('complaintID')
           //Actions.pop('Complaints');
           Actions.popTo('ComplaintDetail');
           //Actions.refresh()
@@ -687,4 +838,4 @@ const mapStateToProps = (state) => {
           auth: state.editComplaint
      }
 }
-export default connect(mapStateToProps, { titleChanged, editCommentsChanged, editComplaint_ })(NewEditComplaints)
+export default connect(mapStateToProps, { titleChanged, commentsChanged, editComplaint_ })(NewEditComplaints)
