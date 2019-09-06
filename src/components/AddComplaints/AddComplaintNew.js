@@ -43,64 +43,223 @@ class AddComplaintNew extends Component {
     type2: ''
   }
 
+  // selectPhotoTapped() {
+  //   const options = {
+  //     quality: 1.0,
+  //     maxWidth: 500,
+  //     maxHeight: 500,
+  //     durationLimit: 2,
+  //     title: 'Choose Image or Video',
+  //     customButtons: [{ name: 'image', title: 'Take a Photo' }, { name: 'video', title: 'Take a Video' }, { name: 'library', title: 'Choose from Library' }],
+  //     //smediaType: "mixed",
+  //     storageOptions: {
+  //       skipBackup: true
+  //     }
+  //   };
+    
+  //   ImagePicker.showImagePicker({
+  //     title: 'Choose Image or Video',
+  //     customButtons: [{ name: 'image', title: 'Take a Photo' }, { name: 'video', title: 'Take a Video' }, { name: 'library', title: 'Choose from Library' }],
+  //     chooseFromLibraryButtonTitle: null,
+  //     takePhotoButtonTitle: null,
+  //   }, (res) => {
+  //     if (res.customButton) {
+  //       console.log("responseon  >> " + JSON.stringify(res))
+  //       ImagePicker.launchCamera({
+  //         mediaType: res.customButton,
+  //         videoQuality: 'medium',
+  //         quality: 1,
+  //       }, (response) => {
+
+  //         let source;
+  //         source = { uri: response.uri };
+
+  //         console.log("response > " + JSON.stringify(response))
+  //         if (res.customButton != "image") {
+  //           this.setState({
+  //             uriToSend: response.uri,
+  //             ImageSource: source,
+  //             imageName: response.path,
+  //             type: "video/mp4"
+  //           });
+  //         } else {
+  //           this.setState({
+  //             uriToSend: response.uri,
+  //             ImageSource: source,
+  //             imageName: response.fileName,
+  //             type: response.type
+  //           });
+  //         }
+  //       });
+  //     } else if(!res.didCancel){
+  //       console.log("responseon from gallery >> " + JSON.stringify(res))
+  //       const source = { uri: 'data:image/jpeg;base64,' + res.data };
+  //       console.log("source : " + JSON.stringify(source))
+  //       console.log("URI >> " + res.uri)
+  //       this.setState({
+  //         uriToSend: res.uri,
+  //         ImageSource: source,
+  //         imageName: res.fileName,
+  //         type: res.type
+  //       });
+  //     }
+  //   });
+  // }
+
+  // selectPhoto2Tapped() {
+  //   const options = {
+  //     quality: 1.0,
+  //     maxWidth: 500,
+  //     maxHeight: 500,
+  //     durationLimit: 2,
+  //     title: 'Choose Image or Video',
+  //     customButtons: [{ name: 'image', title: 'Take a Photo' }, { name: 'video', title: 'Take a Video' }, { name: 'library', title: 'Choose from Library' }],
+  //     storageOptions: {
+  //       skipBackup: true
+  //     }
+  //   };
+
+  //   ImagePicker.showImagePicker({
+  //     title: 'Choose Image or Video',
+  //     customButtons: [{ name: 'image', title: 'Take a Photo' }, { name: 'video', title: 'Take a Video' }, { name: 'library', title: 'Choose from Library' }],
+  //     chooseFromLibraryButtonTitle: null,
+  //     takePhotoButtonTitle: null,
+  //   }, (res) => {
+  //     if (res.customButton) {
+  //       ImagePicker.launchCamera({
+  //         mediaType: res.customButton,
+  //         videoQuality: 'medium',
+  //         quality: 1,
+  //       }, (response) => {
+
+  //         let source;
+  //         source = { uri: response.uri };
+
+  //         console.log("photo 2  >> " + JSON.stringify(response))
+  //         if (res.customButton != "image") {
+  //           this.setState({
+  //             uriTo1Send: response.uri,
+  //             ImageSource1: source,
+  //             imageName1: response.path,
+  //             type1: "video/mp4"
+  //           });
+  //         } else {
+  //           this.setState({
+  //             uriTo1Send: response.uri,
+  //             ImageSource1: source,
+  //             imageName1: response.fileName,
+  //             type1: response.type
+  //           });
+  //         }
+  //       });
+  //     } else if(!res.didCancel) {
+  //       console.log("responseon from gallery >> " + JSON.stringify(res))
+
+  //       const source = { uri: 'data:image/jpeg;base64,' + res.data };
+  //       // console.log("source : " + JSON.stringify(source))
+  //       //console.log("source uri : " + JSON.stringify(source.uri))
+  //       console.log("URI >> " + res.uri)
+  //       this.setState({
+  //         uriTo1Send: res.uri,
+  //         ImageSource1: source,
+  //         imageName1: res.fileName,
+  //         type1: res.type
+  //       });
+  //     }
+  //   })
+  // }
+
+  // selectPhoto3Tapped() {
+  //   const options = {
+  //     quality: 1.0,
+  //     maxWidth: 500,
+  //     maxHeight: 500,
+  //     durationLimit: 2,
+  //     customButtons: [{ name: 'image', title: 'Take a Photo' }, { name: 'video', title: 'Take a Video' }, { name: 'library', title: 'Choose from Library' }],
+  //     storageOptions: {
+  //       skipBackup: true
+  //     }
+  //   };
+
+  //   ImagePicker.showImagePicker({
+  //     title: 'Choose Image or Video',
+  //     customButtons: [{ name: 'image', title: 'Take a Photo' }, { name: 'video', title: 'Take a Video' }, { name: 'library', title: 'Choose from Library' }],
+  //     chooseFromLibraryButtonTitle: null,
+  //     takePhotoButtonTitle: null,
+  //   }, (res) => {
+  //     if (res.customButton) {
+  //       ImagePicker.launchCamera({
+  //         mediaType: res.customButton,
+  //         videoQuality: 'medium',
+  //         quality: 1,
+  //       }, (response) => {
+
+  //         let source;
+  //         source = { uri: response.uri };
+
+  //         if (res.customButton != "image") {
+  //           this.setState({
+  //             uriTo2Send: response.uri,
+  //             ImageSource2: source,
+  //             imageName2: response.path,
+  //             type2: "video/mp4"
+  //           });
+  //         } else {
+  //           this.setState({
+  //             uriTo2Send: response.uri,
+  //             ImageSource2: source,
+  //             imageName2: response.fileName,
+  //             type2: response.type
+  //           });
+  //         }
+  //       });
+  //     } else if(!res.didCancel){
+  //       console.log("responseon from gallery >> " + JSON.stringify(res))
+
+  //       const source = { uri: 'data:image/jpeg;base64,' + res.data };
+  //       console.log("source : " + JSON.stringify(source))
+  //       console.log("URI >> " + res.uri)
+  //       this.setState({
+  //         uriTo2Send: res.uri,
+  //         ImageSource2: source,
+  //         imageName2: res.fileName,
+  //         type2: res.type
+  //       });
+  //     }
+  //   })
+  // }
+
   selectPhotoTapped() {
     const options = {
       quality: 1.0,
       maxWidth: 500,
       maxHeight: 500,
-      durationLimit: 2,
-      title: 'Choose Image or Video',
-      customButtons: [{ name: 'image', title: 'Take a Photo' }, { name: 'video', title: 'Take a Video' }, { name: 'library', title: 'Choose from Library' }],
-      //smediaType: "mixed",
       storageOptions: {
         skipBackup: true
       }
     };
-    
-    ImagePicker.showImagePicker({
-      title: 'Choose Image or Video',
-      customButtons: [{ name: 'image', title: 'Take a Photo' }, { name: 'video', title: 'Take a Video' }, { name: 'library', title: 'Choose from Library' }],
-      chooseFromLibraryButtonTitle: null,
-      takePhotoButtonTitle: null,
-    }, (res) => {
-      if (res.customButton) {
-        console.log("responseon  >> " + JSON.stringify(res))
-        ImagePicker.launchCamera({
-          mediaType: res.customButton,
-          videoQuality: 'medium',
-          quality: 1,
-        }, (response) => {
 
-          let source;
-          source = { uri: response.uri };
+    ImagePicker.showImagePicker(options, (response) => {
+      console.log('Response = ', response);
 
-          console.log("response > " + JSON.stringify(response))
-          if (res.customButton != "image") {
-            this.setState({
-              uriToSend: response.uri,
-              ImageSource: source,
-              imageName: response.path,
-              type: "video/mp4"
-            });
-          } else {
-            this.setState({
-              uriToSend: response.uri,
-              ImageSource: source,
-              imageName: response.fileName,
-              type: response.type
-            });
-          }
-        });
-      } else if(!res.didCancel){
-        console.log("responseon from gallery >> " + JSON.stringify(res))
-        const source = { uri: 'data:image/jpeg;base64,' + res.data };
-        console.log("source : " + JSON.stringify(source))
-        console.log("URI >> " + res.uri)
+      if (response.didCancel) {
+        console.log('User cancelled photo picker');
+      }
+      else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      }
+      else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      }
+      else {
+        let source = { uri: response.uri };
+        // You can also display the image using data:
+        // let source = { uri: 'data:image/jpeg;base64,' + response.data };
         this.setState({
-          uriToSend: res.uri,
+          uriToSend: response.uri,
           ImageSource: source,
-          imageName: res.fileName,
-          type: res.type
+          imageName: response.fileName,
+          type: response.type
         });
       }
     });
@@ -111,62 +270,37 @@ class AddComplaintNew extends Component {
       quality: 1.0,
       maxWidth: 500,
       maxHeight: 500,
-      durationLimit: 2,
-      title: 'Choose Image or Video',
-      customButtons: [{ name: 'image', title: 'Take a Photo' }, { name: 'video', title: 'Take a Video' }, { name: 'library', title: 'Choose from Library' }],
       storageOptions: {
         skipBackup: true
       }
     };
 
-    ImagePicker.showImagePicker({
-      title: 'Choose Image or Video',
-      customButtons: [{ name: 'image', title: 'Take a Photo' }, { name: 'video', title: 'Take a Video' }, { name: 'library', title: 'Choose from Library' }],
-      chooseFromLibraryButtonTitle: null,
-      takePhotoButtonTitle: null,
-    }, (res) => {
-      if (res.customButton) {
-        ImagePicker.launchCamera({
-          mediaType: res.customButton,
-          videoQuality: 'medium',
-          quality: 1,
-        }, (response) => {
+    ImagePicker.showImagePicker(options, (response) => {
+      console.log('Response = ', response);
 
-          let source;
-          source = { uri: response.uri };
-
-          console.log("photo 2  >> " + JSON.stringify(response))
-          if (res.customButton != "image") {
-            this.setState({
-              uriTo1Send: response.uri,
-              ImageSource1: source,
-              imageName1: response.path,
-              type1: "video/mp4"
-            });
-          } else {
-            this.setState({
-              uriTo1Send: response.uri,
-              ImageSource1: source,
-              imageName1: response.fileName,
-              type1: response.type
-            });
-          }
-        });
-      } else if(!res.didCancel) {
-        console.log("responseon from gallery >> " + JSON.stringify(res))
-
-        const source = { uri: 'data:image/jpeg;base64,' + res.data };
-        // console.log("source : " + JSON.stringify(source))
-        //console.log("source uri : " + JSON.stringify(source.uri))
-        console.log("URI >> " + res.uri)
-        this.setState({
-          uriTo1Send: res.uri,
-          ImageSource1: source,
-          imageName1: res.fileName,
-          type1: res.type
-        });
+      if (response.didCancel) {
+        console.log('User cancelled photo picker');
       }
-    })
+      else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      }
+      else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      }
+      else {
+        let source = { uri: response.uri };
+        // You can also display the image using data:
+        // let source = { uri: 'data:image/jpeg;base64,' + response.data };
+        this.setState({
+          uriTo1Send: response.uri,
+          ImageSource1: source,
+          imageName1: response.fileName,
+          type1: response.type
+        });
+
+      }
+    });
+
   }
 
   selectPhoto3Tapped() {
@@ -174,59 +308,35 @@ class AddComplaintNew extends Component {
       quality: 1.0,
       maxWidth: 500,
       maxHeight: 500,
-      durationLimit: 2,
-      customButtons: [{ name: 'image', title: 'Take a Photo' }, { name: 'video', title: 'Take a Video' }, { name: 'library', title: 'Choose from Library' }],
       storageOptions: {
         skipBackup: true
       }
     };
 
-    ImagePicker.showImagePicker({
-      title: 'Choose Image or Video',
-      customButtons: [{ name: 'image', title: 'Take a Photo' }, { name: 'video', title: 'Take a Video' }, { name: 'library', title: 'Choose from Library' }],
-      chooseFromLibraryButtonTitle: null,
-      takePhotoButtonTitle: null,
-    }, (res) => {
-      if (res.customButton) {
-        ImagePicker.launchCamera({
-          mediaType: res.customButton,
-          videoQuality: 'medium',
-          quality: 1,
-        }, (response) => {
+    ImagePicker.showImagePicker(options, (response) => {
+      console.log('Response = ', response);
 
-          let source;
-          source = { uri: response.uri };
-
-          if (res.customButton != "image") {
-            this.setState({
-              uriTo2Send: response.uri,
-              ImageSource2: source,
-              imageName2: response.path,
-              type2: "video/mp4"
-            });
-          } else {
-            this.setState({
-              uriTo2Send: response.uri,
-              ImageSource2: source,
-              imageName2: response.fileName,
-              type2: response.type
-            });
-          }
-        });
-      } else if(!res.didCancel){
-        console.log("responseon from gallery >> " + JSON.stringify(res))
-
-        const source = { uri: 'data:image/jpeg;base64,' + res.data };
-        console.log("source : " + JSON.stringify(source))
-        console.log("URI >> " + res.uri)
+      if (response.didCancel) {
+        console.log('User cancelled photo picker');
+      }
+      else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      }
+      else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      }
+      else {
+        let source = { uri: response.uri };
+        // You can also display the image using data:
+        // let source = { uri: 'data:image/jpeg;base64,' + response.data };
         this.setState({
-          uriTo2Send: res.uri,
+          uriTo2Send: response.uri,
           ImageSource2: source,
-          imageName2: res.fileName,
-          type2: res.type
+          imageName2: response.fileName,
+          type2: response.type
         });
       }
-    })
+    });
   }
 
   componentWillMount() {
