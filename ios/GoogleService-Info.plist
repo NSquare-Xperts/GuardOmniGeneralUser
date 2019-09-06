@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>780857249892-spejnesk8qpaj9pnjmhuet35av8qcn3q.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.780857249892-spejnesk8qpaj9pnjmhuet35av8qcn3q</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>780857249892-661e26jhdfddbmus7cm6clegupfqdldu.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyD9Y4WTrm2uLHBLnVWM-RRsbTPazpUO2hE</string>
+	<key>GCM_SENDER_ID</key>
+	<string>780857249892</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.guardomni.generaluser</string>
+	<key>PROJECT_ID</key>
+	<string>guardomni-general-user</string>
+	<key>STORAGE_BUCKET</key>
+	<string>guardomni-general-user.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false/>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false/>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true/>
+	<key>IS_GCM_ENABLED</key>
+	<true/>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true/>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:780857249892:ios:b93769b20f4e2bb4</string>
+	<key>DATABASE_URL</key>
+	<string>https://guardomni-general-user.firebaseio.com</string>
+</dict>
+</plist>

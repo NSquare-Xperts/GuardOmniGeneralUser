@@ -82,7 +82,7 @@ textNoStyle: {
   alignSelf: 'center',
 },
 textStyle: {
-  fontFamily: 'OpenSans-Regular',
+  fontFamily: 'OpenSans',
   fontSize: 12,
   color: white_Original,
   alignSelf: 'flex-start',

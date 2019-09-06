@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, Image, AsyncStorage } from 'react-native'
+import { Text, View, Image, AsyncStorage,BackHandler } from 'react-native'
 import { red_lighter, white_Original, black, close } from './common'
 import Button from './common/Button';
 import { Actions } from 'react-native-router-flux'
@@ -12,6 +12,9 @@ class MyId extends Component {
         ImageSource: ''
     }
 
+    componentWillMount(){
+        BackHandler.addEventListener('hardwareBackPress', this.handleBackPress)
+    }
     componentDidMount() {
         this._getUserDetails()
     }
@@ -31,7 +34,6 @@ class MyId extends Component {
         })
     }
 
-
     async  _getUserDetails() {
 
         var value = await AsyncStorage.getItem('propertyDetails')
@@ -42,8 +44,6 @@ class MyId extends Component {
                 ImageSource: data.user_qr_code
             }, this.getUserName()
             )
-
-
         }
     }
 
@@ -77,13 +77,26 @@ class MyId extends Component {
         )
     }
 
-    render() {
-        console.log("render")
+    render() {        
         return (
             <View style={{ backgroundColor: red_lighter, flex: 1 }}>
                 {this.renderUserDetails()}
             </View>
         )
+    }
+
+    handleBackPress() {
+        console.log("---scene---" + Actions.currentScene)
+        if (Actions.currentScene == 'MyId') {
+            Actions.pop()
+        }
+        return true;
+    }
+
+    componentWillUnmount() {
+
+        BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress)
+        return true;
     }
 }
 export default MyId;
@@ -115,13 +128,13 @@ const styles = {
         marginBottom: 5
     },
     textStyle: {
-        fontFamily: 'OpenSans-Regular',
+        fontFamily: 'OpenSans',
         fontSize: 12,
         color: black,
         //alignSelf: 'flex-start',
     },
     textStyleMyId: {
-        fontFamily: 'OpenSans-Regular',
+        fontFamily: 'OpenSans',
         fontSize: 14,
         color: black,
         marginBottom: 2

@@ -29,7 +29,7 @@ const AddVisiorRequestInput = (props) => {
                         </View>
 
                         <TextInput
-                            style={{ fontFamily: 'OpenSans-Regular', fontSize: 12, color: black }}
+                            style={{ fontFamily: 'OpenSans', fontSize: 12, color: black }}
                             placeholder={Mobile_Number}
                             underlineColorAndroid='rgba(0,0,0,0)'
                             onChangeText={props.phoneChange}
@@ -159,7 +159,7 @@ const styles = {
         height: 55,
         width: '90%',
         color: black,
-        backgroundColor: white_Original,
+        backgroundColor: grey_lighter,
         borderRadius: 27,
         alignSelf: 'center',
         shadowRadius: 4,
@@ -167,7 +167,7 @@ const styles = {
         borderWidth: 2,
         marginTop: 15,
         paddingLeft: 25,
-        fontFamily: 'OpenSans-Regular',
+        fontFamily: 'OpenSans',
         fontSize: 12,
         color: black
     },
@@ -184,7 +184,7 @@ const styles = {
         marginTop: 15,
         marginRight: 10,
         paddingLeft: 25,
-        fontFamily: 'OpenSans-Regular',
+        fontFamily: 'OpenSans',
         fontSize: 12,
         color: black
     },
@@ -202,7 +202,7 @@ const styles = {
         alignItems: 'center'
     },
     textStyle: {
-        fontFamily: 'OpenSans-Regular',
+        fontFamily: 'OpenSans',
         fontSize: 12,
         color: black,
         marginLeft: 20,

@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import { Text, View, Image, AsyncStorage, DeviceEventEmitter } from 'react-native'
+import { Text, View, Image, AsyncStorage, DeviceEventEmitter,FlatList } from 'react-native'
 import { red_lighter, white_Original, grey, black } from './common'
 import { ScrollView } from 'react-native-gesture-handler';
 import { callPostApi } from './Util/APIManager';
 import ImageLoad from 'react-native-image-placeholder'
+import HTML from 'react-native-render-html'
 
 //1 : resolved 
 //0 : not
@@ -17,6 +18,14 @@ class ComplaintDetailDoNotEdit extends Component {
             isVisibleImg2: false,
             isVisibleImg3: false,
             text: '',
+            complaintsCommentArray:[
+                {
+                    "comment": "NA",
+                    "complaint_comment_id": "",
+                    "updated_at":"NA",
+                    "user_id":""
+                }
+            ],
             details: [
                 {
                     "complaint_title": "NA",
@@ -39,7 +48,7 @@ class ComplaintDetailDoNotEdit extends Component {
 
             this.setState({ userId: res.data[0].user_details.user_id })
 
-            callPostApi('http://guardomni.dutique.com:8000/api/complaintDetails', {
+            callPostApi('http://18.188.253.46:8000/api/complaintDetails', {
                 "userId": this.state.userId,
                 "complaintId": this.state.complaintId
             })
@@ -49,10 +58,16 @@ class ComplaintDetailDoNotEdit extends Component {
                     console.log("details : ", res)
                     if (res.status == "200") {
                         this.setState({
-                            details: res.data, refreshing: false
+                            details: res.data, refreshing: false,complaintsCommentArray:res.complaint_comments
                         })
+                    } else if (res.status == 401) {
 
-                    } else {
+                        AsyncStorage.removeItem('propertyDetails');
+                        AsyncStorage.removeItem('userDetail');
+                        AsyncStorage.removeItem('LoginData');
+                        //SimpleToast.show(response.message)
+                        Actions.reset('Login')
+                      }else {
                         console.log("stop calling")
                     }
 
@@ -161,7 +176,6 @@ class ComplaintDetailDoNotEdit extends Component {
         } else if (this.state.details[0].complaint_image_1 != "") {
             return (
                 <View>
-
                     {/* <Image
                         style={styles.thumbnail}
                         source={{ uri: this.state.details[0].complaint_image_1 }} /> */}
@@ -171,11 +185,9 @@ class ComplaintDetailDoNotEdit extends Component {
                         loadingStyle={{ size: 'large', color: 'blue' }}
                         source={{ uri: this.state.details[0].complaint_image_1 }}
                     />
-
                 </View>
             )
         }
-
     }
 
     render() {
@@ -200,6 +212,14 @@ class ComplaintDetailDoNotEdit extends Component {
 
                     <Text style={styles.textDetailStyle}>{this.state.details[0].complaint_description} </Text>
 
+                    <Text style={styles.commentTitleStyle }>Comments :</Text>
+                    <FlatList style={styles.flatListStyle} 
+                            data={this.state.complaintsCommentArray}
+                            // ItemSeparatorComponent={this.FlatListItemSeparator}
+                            renderItem={({ item }) =>                                                                
+                                    // < Text style={styles.textDetailStyle}>{item.comment}</Text>                                
+                                    <HTML html={item.comment +', Date : '+item.updated_at} />
+                            } />
                 </ScrollView>
             </View>
         )
@@ -243,7 +263,7 @@ const styles = {
 
     },
     textDetailStyle: {
-        fontFamily: 'OpenSans-Regular',
+        fontFamily: 'OpenSans',
         fontSize: 13,
         color: black,
         padding: 3,
@@ -384,7 +404,7 @@ const styles = {
 
 //       },
 //       textDetailStyle: {
-//         fontFamily: 'OpenSans-Regular',
+//         fontFamily: 'OpenSans',
 //         fontSize: 13,
 //         color: black,
 //         padding: 3,

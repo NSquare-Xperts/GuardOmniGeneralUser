@@ -133,20 +133,25 @@ export function callPostApi(urlStr, params) {
         .catch((error) => {
             //handle all errors
             // console.error(error);
-            Alert.alert('No internet connection. Please try again' + JSON.stringify(error))
-            // if (error instanceof TimeoutError) {
-            //     ((ParentActivity) context).showToast(context, context.getString(R.string.timeout_error));
-            // } else if (error instanceof NoConnectionError) {
-            //     ((ParentActivity) context).showToast(context, context.getString(R.string.connection_error));
-            // }  else if (error instanceof AuthFailureError) {
-            //     ((ParentActivity) context).showToast(context, context.getString(R.string.auth_error));
-            // } else if (error instanceof ServerError) {
-            //     ((ParentActivity) context).showToast(context, context.getString(R.string.common_error));
-            // } else if (error instanceof NetworkError) {
-            //     ((ParentActivity) context).showToast(context, context.getString(R.string.no_connection));
-            // } else if (error instanceof ParseError) {
-            //     ((ParentActivity) context).showToast(context, context.getString(R.string.parser_error));
-            // }
+            
+            var errorString;
+
+            if (error instanceof TimeoutError) {
+                errorString = 'Request timed out. Please try again';
+            } else if (error instanceof NoConnectionError) {
+                errorString = 'No connection. Please try again';
+            }  else if (error instanceof AuthFailureError) {
+                errorString = 'Authentication error. Please try again';
+            } else if (error instanceof ServerError) {
+                errorString = 'Server error. Please try again';
+            } else if (error instanceof NetworkError) {
+                errorString = 'Network error. Please try again';
+            } else if (error instanceof ParseError) {
+                errorString = 'Invalid data. Please try again';
+            }
+
+            Alert.alert(errorString)
+            console.log(errorString+" "+JSON.stringify(error))
             // ((ParentActivity) context).dismissProcessingDialog();
         });
 }

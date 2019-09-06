@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { FlatList, View, ActivityIndicator, AsyncStorage, Text, Dimensions, Linking } from 'react-native'
+import { FlatList, View, ActivityIndicator, AsyncStorage, Text, Dimensions, Linking,BackHandler } from 'react-native'
 import Placeholder from 'rn-placeholder'
 import { red_lighter, grey_lighter, white_Original, grey, Helpline, SiteContacts, black } from './common'
 import { callPostApi } from './Util/APIManager'
@@ -7,6 +7,7 @@ import HelpdeskListItem from './common/HelpdeskListItem'
 import HomeNumberOfHelpdesk from './common/HomeNumberOfHelpdesk'
 import SimpleToast from 'react-native-simple-toast';
 import { ScrollView } from 'react-native-gesture-handler';
+import {Actions} from 'react-native-router-flux'
 
 class Helpdesk extends Component {
     state = {
@@ -26,13 +27,10 @@ class Helpdesk extends Component {
             LoginData = data[0][1];
             var res = JSON.parse(LoginData)
 
-            this.setState({ userId: res.data[0].user_details.user_id 
-               
-            
-            })
+            this.setState({ userId: res.data[0].user_details.user_id })
             console.log('userId :: ', this.state.userId,this.state.flatId)
 
-            callPostApi('http://guardomni.dutique.com:8000/api/helpdeskList', {
+            callPostApi('http://18.188.253.46:8000/api/helpdeskList', {
                 "userId": this.state.userId,
                 "flatId": this.state.flatId
             })
@@ -45,9 +43,17 @@ class Helpdesk extends Component {
                     if (res.status == 200) {
                         this.setState({
                             notices: res.Helpdesk, loadMore: false, refreshing: false, totalRecords: res.totalRecords, month_count: res.month_count,
-                            status: res.status
+                            status: res.status,
+                            refreshing: false,
                         })
-                    } else {
+                    }else if (res.status == 401) {
+
+                        AsyncStorage.removeItem('propertyDetails');
+                        AsyncStorage.removeItem('userDetail');
+                        AsyncStorage.removeItem('LoginData');
+                        //SimpleToast.show(response.message)
+                        Actions.reset('Login')
+                      } else {
                         SimpleToast.show(res.message)
                         this.setState({
                             refreshing: false,
@@ -60,7 +66,16 @@ class Helpdesk extends Component {
     }
 
     componentWillMount() {
+
+        BackHandler.addEventListener('hardwareBackPress', this.handleBackPress)
         this._getUserStorageValue()
+    }
+    handleBackPress() {
+        console.log("---scene---" + Actions.currentScene)
+        if (Actions.currentScene == 'Helpdesk') {
+            Actions.pop()
+        }
+        return true;
     }
 
     async _getUserStorageValue() {
@@ -240,6 +255,12 @@ class Helpdesk extends Component {
                 </View>
             );
         }
+    }
+
+    componentWillUnmount() {
+
+        BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress)
+        return true;
     }
 }
 

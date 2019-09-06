@@ -159,7 +159,7 @@ const styles = {
         borderWidth: 2,
         marginTop: 15,
         paddingLeft: 25,
-        fontFamily: 'OpenSans-Regular',
+        fontFamily: 'OpenSans',
         fontSize: 12,
         color: black
     },

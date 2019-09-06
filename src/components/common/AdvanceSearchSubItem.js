@@ -61,14 +61,14 @@ const styles = {
     justifyContent: 'center'
   },
   textStyle: {
-    fontFamily: 'OpenSans-Regular',
+    fontFamily: 'OpenSans',
     fontSize: 12,
     color: 'black',
     //alignSelf: 'center',
     marginLeft: 15
   },
   textStyleDate: {
-    fontFamily: 'OpenSans-Regular',
+    fontFamily: 'OpenSans',
     fontSize: 12,
     color: 'black',
     alignSelf: 'flex-start',

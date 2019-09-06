@@ -89,7 +89,7 @@ const styles = {
   },
   textStyle: {
 
-    fontFamily: 'OpenSans-Regular',
+    fontFamily: 'OpenSans',
     color: black,
     fontSize: 12,
     flexWrap: 'wrap',

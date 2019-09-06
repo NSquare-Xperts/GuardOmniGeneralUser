@@ -134,7 +134,7 @@ const styles = {
     borderRadius: 2
   },
   SectionHeader: {
-    fontFamily: 'OpenSans-Semibold.ttf',
+    fontFamily: 'OpenSans-Semibold',
     fontSize: 14,
     padding: 5,
     color: black,

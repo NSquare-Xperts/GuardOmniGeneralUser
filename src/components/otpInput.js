@@ -4,7 +4,7 @@ import timer from 'react-native-timer';
 import { connect } from 'react-redux';
 import { loginUser } from '../actions';
 import { Enter_Otp, Resend } from './common';
-import { black, grey_lighter } from './common/color'
+import { black, grey_lighter, white_Original } from './common/color'
 import TimerCountdown from "react-native-timer-countdown";
 
 class OtpInput extends Component {
@@ -34,7 +34,7 @@ class OtpInput extends Component {
                     this.props.loginUser(this.props.auth.code + "-" + this.props.auth.phone)
                 }}>
                     <View>
-                        <Text style={{ color: black, fontFamily: 'OpenSans-Regular.ttf', paddingTop: 8, marginTop: 7, paddingLeft: 4, justifyContent: 'flex-end', alignSelf: 'center' }}>Resend?</Text>
+                        <Text style={{ color: black, fontFamily: 'OpenSans', paddingTop: 8, marginTop: 7, paddingLeft: 4, justifyContent: 'flex-end', alignSelf: 'center' }}>Resend?</Text>
                     </View>
                 </TouchableWithoutFeedback>
             )
@@ -59,7 +59,7 @@ class OtpInput extends Component {
                         }}
                         onExpire={() => this.changeState()}
                         allowFontScaling={true}
-                        style={{ marginLeft: 5, color: black, fontFamily: 'OpenSans-Regular.ttf', fontSize: 14 }}
+                        style={{ marginLeft: 5, color: white_Original, fontFamily: 'OpenSans', fontSize: 14 }}
                     />
                 </View>
             )

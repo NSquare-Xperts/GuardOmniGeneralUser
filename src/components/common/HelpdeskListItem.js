@@ -43,7 +43,7 @@ const styles = {
     justifyContent: 'space-between'
   },
   textStyle: {
-    fontFamily: 'OpenSans-Regular',
+    fontFamily: 'OpenSans',
     fontSize: 12,
     color: black,
     alignSelf: 'flex-start',

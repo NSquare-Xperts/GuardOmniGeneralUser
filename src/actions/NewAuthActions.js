@@ -8,7 +8,7 @@ export const loginUser = (phone) => {
         dispatch({ type: LOGIN_USER });
         console.log("phone :: ", phone)
         
-        axios.post('http://guardomni.dutique.com:8000/api/validateUser',
+        axios.post('http://18.188.253.46:8000/api/validateUser',
             { "mobileNumber": phone,
             "loginType": '4' 
         })
@@ -19,7 +19,14 @@ export const loginUser = (phone) => {
                 if (data.status == 400) {
                     console.log("inside failed : 400")
                     loginFailedMobileNumber(dispatch, data.message)
-                } else {
+                } else if (data.status == 401) {
+
+                    AsyncStorage.removeItem('propertyDetails');
+                    AsyncStorage.removeItem('userDetail');
+                    AsyncStorage.removeItem('LoginData');
+                    //SimpleToast.show(response.message)
+                    Actions.reset('Login')
+                  }else {
                     console.log("inside success : 200")
                 loginPressed(dispatch, data)
                 
@@ -36,29 +43,29 @@ export const loginUser = (phone) => {
     }
 }
 
-export const VerifyOtp = ({ phone, otp }) => {
+export const VerifyOtp = ({ phone, otp, token, platform }) => {
     return (dispatch) => {
-        dispatch({ type: LOGIN_USER });
-
-        console.log(" INSIDE verify ");
-        console.log(" PHONE OTP: ", phone, otp);
-
-        axios.post('http://guardomni.dutique.com:8000/api/validateOTP', {
+       dispatch({ type: LOGIN_USER });
+        axios.post('http://18.188.253.46:8000/api/validateOTP', {
             "mobileNumber": phone,
-            "otp": otp
+            "otp": otp,
+            "cloudId":token,
+            "deviceType":(platform=="android"?0:1),
+            "loginType": '4'
         })
             .then((response) => {
-
                 var data = response.data
-                var login = JSON.stringify(data)
-               
-               // console.log("LOGIN1 : ", data.data)
-                //console.log("LOGIN2 : ", data.data[0].property_details)
-                //console.log("login response : ",login.message)
-                
+                var login = JSON.stringify(data)               
+                               
                 if (data.status == 400) {
                     loginFailed(dispatch, data.message)
-                } else {
+                }else if (data.status == 401) {
+                    AsyncStorage.removeItem('propertyDetails');
+                    AsyncStorage.removeItem('userDetail');
+                    AsyncStorage.removeItem('LoginData');
+                    //SimpleToast.show(response.message)
+                    Actions.reset('Login')
+                  } else {
                    //data array
                    //1 .username 2. property details
                      AsyncStorage.multiSet([
@@ -75,7 +82,7 @@ export const VerifyOtp = ({ phone, otp }) => {
                 }
             }).catch(error => {
                 loginFailed(dispatch, error.message)
-               // console.log("response verify otp : ", error.message)
+                console.log("response verify otp : ", error.message)
             })
     }
 }

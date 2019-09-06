@@ -50,19 +50,19 @@ import AddComplaintNew from './components/AddComplaints/AddComplaintNew'
 import otpInputTimer from './components/otpInputTimer'
 import SplashScreenNoLogin from './components/SplashScreenNoLogin'
 import Aboutus from './components/Aboutus'
-
 import NewEditProfile from './components/UpdateProfile/NewEditProfile';
 import NewEditComplaints from './components/UpdateComplaints/NewEditComplaints';
 import NewEditVisitorRequest from './components/UpdateVisitorRequest/NewEditVisitorRequest';
 import CountrycodeEditVR from './components/CountryCodeEditVR'
 import TimePicker from './components/TimePicker'
+import ComplaintDetailTextAlert from './components/ComplaintDetailTextAlert'
+import ComplaintDetailDoNotEdit from './components/ComplaintDetailDoNotEdit';
 
 const MoreIcon = require('./components/assets/Complaints/more_options.png');
 // import { Right } from 'native-base';
 class RouterComponent extends Component {
 
-    componentDidMount() {
-        console.log("...componentWillMount...")
+    componentDidMount() {        
         BackHandler.addEventListener('hardwareBackPress', () => {
             if (Actions.currentScene == 'Login') {
                 //Actions.refresh({ key: Math.random() })
@@ -73,7 +73,6 @@ class RouterComponent extends Component {
             } else if (Actions.currentScene == '_homepage') {
                 BackHandler.exitApp()
             }
-
             return true;
         });
 
@@ -86,6 +85,7 @@ class RouterComponent extends Component {
             if (LoginData == null) {
                 //Actions.splash()
                 Actions.reset('splash')
+                // Actions.reset('Login')
             } else {
                 //console.log("...login...", LoginData);
                 //Actions.homepage()
@@ -97,13 +97,11 @@ class RouterComponent extends Component {
     componentWillUnmount() {
         BackHandler.removeEventListener()
     }
-
     render() {
         // const headerStyle = {
         //     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
         //     height: 56 + Platform.select({ 'android': StatusBar.currentHeight, 'ios': 110 }),
         // }
-
         return (
             <Router>
                 <Scene key="root">
@@ -145,8 +143,10 @@ class RouterComponent extends Component {
                     <Scene title="Property Details" key="PropertyDetails" component={PropertyDetails} />
                     <Scene title="Complaints" key="Complaints" component={Complaints} />
                     <Scene title="Helpdesk" key="Helpdesk" component={Helpdesk} />
-                    <Scene title="Complaint Detail" key="ComplaintDetail" component={ComplaintDetail} renderRightButton={OptionMenu} />
-                    <Scene title="Complaint Detail" key="ComplaintDetailDelete" component={ComplaintDetail} renderRightButton={OptionMenuDelete} />
+                    {/* <Scene title="Complaint Detail" key="ComplaintDetail" component={ComplaintDetail} renderRightButton={OptionMenu} /> */}
+                    <Scene title="Complaint Detail" key="ComplaintDetail" component={ComplaintDetail}/>
+                    {/* <Scene title="Complaint Detail" key="ComplaintDetailDelete" component={ComplaintDetail} renderRightButton={OptionMenuDelete} /> */}
+                    <Scene title="Complaint Detail" key="ComplaintDetailDelete" component={ComplaintDetailDoNotEdit} />
                     
                     <Scene title="Notifications" key="Notifications" component={Notifications} />
 
@@ -191,9 +191,9 @@ class RouterComponent extends Component {
                     <Scene title="LoadMore" key="Hii" component={PaginationLoadMore} />
 
                     <Scene title="Camera" key="camera" component={Camera} />
+                    <Scene title="" key ="ComplaintDetailTextAlert" component={ComplaintDetailTextAlert} />
 
                     {/* <Scene title="SwitchProperty" key="SwitchProperty" component={SwitchProperty}  /> */}
-
                     <Scene
                         key="drawer"
                         drawer={true}
@@ -207,9 +207,9 @@ class RouterComponent extends Component {
                         hideNavBar>
 
                         <Scene title="GuardOmni" key="homepage" component={Homepage} />
-                        <Scene title="Notifications" key="notification" component={Notifications} />
-                        <Scene title="Switch Property" key="SwitchProperty" component={SwitchProperty} />
-                        <Scene title="About Us" key="Aboutus" component={Aboutus} />
+                        <Scene title="Notifications" key="notification" component={Notifications} renderRightButton={false}/>
+                        <Scene title="Switch Property" key="SwitchProperty" component={SwitchProperty} renderRightButton={false}/>
+                        <Scene title="About Us" key="Aboutus" component={Aboutus} renderRightButton={false}/>
 
                     </Scene>
                 </Scene>

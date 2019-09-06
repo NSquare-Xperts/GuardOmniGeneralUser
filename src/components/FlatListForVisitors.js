@@ -5,6 +5,7 @@ import { red_lighter, white_Original, grey } from './common'
 import { callPostApi } from './Util/APIManager'
 import RequestListItems from './common/RequestListItems'
 import { Actions } from 'react-native-router-flux'
+import SimpleToast from 'react-native-simple-toast';
 
 class FlatListForVisitors extends Component {
     state = {
@@ -22,7 +23,7 @@ class FlatListForVisitors extends Component {
 
     renderUsersList() {
 
-        callPostApi('http://guardomni.dutique.com:8000/api/visitorList', {
+        callPostApi('http://18.188.253.46:8000/api/visitorList', {
             "userId": this.state.userId,
             "pageNumber": this.state.page,
             "flatId": this.state.flatId
@@ -36,7 +37,14 @@ class FlatListForVisitors extends Component {
                         notices: this.state.notices.concat(res.data), loadMore: false, refreshing: false, totalRecords: res.totalRecords, month_count: res.month_count,
                         status: res.status
                     })
-                } else {
+                } else if (res.status == 401) {
+
+                    AsyncStorage.removeItem('propertyDetails');
+                    AsyncStorage.removeItem('userDetail');
+                    AsyncStorage.removeItem('LoginData');
+                    //SimpleToast.show(response.message)
+                    Actions.reset('Login')
+                  }else {
                     this.setState({
                         refreshing: false,
                     })
@@ -70,6 +78,7 @@ class FlatListForVisitors extends Component {
         this.editRequestListener =
             DeviceEventEmitter.addListener('eventVisitorRequestEdited', (e) => {
                 if (e) {
+
                     this.setState({
                         refreshing: true,
                         loadMore: false,
@@ -78,6 +87,7 @@ class FlatListForVisitors extends Component {
                         notices: []
                     })
                     this._getUserStorageValue()
+                   SimpleToast.show("Visitor Request Updated Successfully!")
                 }
 
             })
@@ -339,7 +349,7 @@ const styles = {
 //     }
 
 //     renderUsersList() {
-//         callPostApi('http://guardomni.dutique.com:8000/api/visitorList', {
+//         callPostApi('http://18.188.253.46:8000/api/visitorList', {
 //             "userId": '2',
 //             "pageNumber": this.state.page,
 //             "flatId": '1'

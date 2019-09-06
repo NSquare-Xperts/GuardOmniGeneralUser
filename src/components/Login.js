@@ -1,20 +1,19 @@
 import React, { Component } from 'react'
-import { View, Text, Keyboard, TouchableWithoutFeedback, ActivityIndicator, KeyboardAvoidingView, Image } from 'react-native'
+import { View, Text, Keyboard, TouchableWithoutFeedback, ActivityIndicator, KeyboardAvoidingView, Image,Platform } from 'react-native'
 import LoginInput from './LoginInput'
 import Button from './common/Button'
 import { phoneChanged, otpChanged, loginUser, logoutPressed, VerifyOtp, closeBlackPopup } from '../actions'
 import { Login_label, Please_Select_Country_Code_Before_Mobile_Number, Didnot_received_otp_click_to_resend, App_Name } from './common/constants'
 import OtpInput from './otpInput'
 import { connect } from 'react-redux'
-//import { Actions } from 'react-native-router-flux'
 import timer from 'react-native-timer'
 import { red_lighter, black, grey, white_Original } from './common/color'
 import { GuardOmni_Version } from './common/constants'
-import { Actions } from 'react-native-router-flux';
+import { Actions } from 'react-native-router-flux'
 import BlackPopup from './BlackPopup'
-import { ScrollView } from 'react-native-gesture-handler';
-import ImageButton from './common/ImageButton';
-//import Toast from 'react-native-simple-toast';
+import { ScrollView } from 'react-native-gesture-handler'
+import ImageButton from './common/ImageButton'
+import firebase from 'react-native-firebase'
 
 class Login extends Component {
   state = {
@@ -23,9 +22,9 @@ class Login extends Component {
     error: '',
     errorOTP: '',
     edit: false,
-    uri: require('./assets/Login/login_submit_click.png')
+    uri: require('./assets/Login/login_submit_click.png'),
+    fcmToken: ''
   }
-
   onDecline() {
     this.props.closeBlackPopup()
   }
@@ -106,8 +105,11 @@ class Login extends Component {
               })
             }
             else {
-              this.props.VerifyOtp({ phone, otp })
 
+              token = this.state.fcmToken
+              platform = Platform.OS
+
+              this.props.VerifyOtp({ phone, otp,token,platform })
 
               this.setState({
                 edit: true
@@ -207,7 +209,6 @@ class Login extends Component {
               value={this.props.auth.phone}
               code={this.props.auth.code} />
 
-            {/* <Text style={styles.textStyle}>{Please_Select_Country_Code_Before_Mobile_Number}</Text> */}
 
             <Text style={styles.errorStyle}>{this.state.error}</Text>
             <View style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'center', paddingBottom: 40 }}>
@@ -244,10 +245,28 @@ class Login extends Component {
     }
   }
 
+  componentDidMount= async()=>{
+    const enabled = await firebase.messaging().hasPermission();
+    if(enabled){
+      //user has permissions 
+    }else{
+      try{
+        await firebase.messaging().requestPermission();
+
+      }catch(error){
+       // alert('No permission for notification')
+       console.log("No permission for notification")
+      }
+    }
+    this.state.fcmToken = await firebase.messaging().getToken()
+    console.log("FCM TOKEN "+this.state.fcmToken)  
+      
+    }
 
   componentWillMount() {
+
     this.props.auth.phone = ''
-    this.props.auth.code = '+91'
+    //this.props.auth.code = '+91'
   }
   render() {
     if (this.props.auth.phone.length > 5) {
@@ -274,18 +293,21 @@ class Login extends Component {
           </View>
         </ScrollView>
       </TouchableWithoutFeedback>
+      
     );
   }
 
   componentWillUnmount() {
+    this.notificationDisplayedListener();
+    this.notificationListener();    
+}
 
+  componentWillUnmount() {
     this.props.auth.phone = ''
     this.props.auth.isOTPVisible = false
     this.props.auth.toggle = false
-
     Actions.pop()
     return true;
-
   }
 }
 
@@ -336,7 +358,7 @@ const styles = {
     color: 'red',
   },
   textVersion: {
-    fontFamily: 'OpenSans-Regular',
+    fontFamily: 'OpenSans',
     color: grey,
     justifyContent: 'flex-end',
     alignSelf: 'center',
@@ -614,7 +636,7 @@ export default connect(mapStateToProps, { phoneChanged, otpChanged, loginUser, l
 
 //   },
 //   topText: {
-//     fontFamily: 'OpenSans-Bold.ttf',
+//     fontFamily: 'OpenSans-Bold',
 //     color: black,
 //     fontSize: 20,
 //     marginTop: 5,
@@ -628,7 +650,7 @@ export default connect(mapStateToProps, { phoneChanged, otpChanged, loginUser, l
 //     color: 'red',
 //   },
 //   textVersion: {
-//     fontFamily: 'OpenSans-Regular.ttf',
+//     fontFamily: 'OpenSans',
 //     color: grey,
 //     justifyContent: 'flex-end',
 //     alignSelf: 'center',

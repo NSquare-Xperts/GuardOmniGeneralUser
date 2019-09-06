@@ -24,7 +24,7 @@ const DecisionAlert = ({ label, value }) => {
 
 const styles = {
   labelStyle: {
-    fontFamily: 'OpenSans-Regular',
+    fontFamily: 'OpenSans',
     fontSize: 14,
     color: black,
   },

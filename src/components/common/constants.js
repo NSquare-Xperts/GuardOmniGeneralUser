@@ -3,8 +3,8 @@ export const baseURL = 'http://192.168.0.118:8080/api/'
 
 export const validateUser = 'validateUser'
 
-export const App_Name = 'GuardOmni';
-export const App_Version = 'v0.7';
+export const App_Name = 'GuardOmni ';
+export const App_Version = 'v2.3.2';
 export const GuardOmni_Version = 'GuardOmni' + App_Version;
 export const Redefining_Security_For_Gated_Properties = 'Redefining Security for Gated Properties'
 export const Login_label = 'Login';

@@ -60,7 +60,7 @@ const styles = {
         alignItems: 'center'
     },
     textStyle: {
-        fontFamily: 'OpenSans-Regular',
+        fontFamily: 'OpenSans',
         fontSize: 12,
         color: black,
         marginLeft: 20,

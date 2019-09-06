@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, ImageBackground, Image, TouchableOpacity, PixelRatio, AsyncStorage } from 'react-native'
+import { Text, View, ImageBackground, Image, TouchableOpacity, PixelRatio, AsyncStorage, BackHandler, TouchableWithoutFeedback,Keyboard } from 'react-native'
 import { connect } from 'react-redux'
 import Button from '../common/Button'
 import { titleChanged, commentsChanged, addComplaint_ } from './ComplaintsActions'
@@ -8,8 +8,14 @@ import TitleInput from './TitleInput'
 import CommentsInput from './CommentsInput'
 import ImagePicker from 'react-native-image-picker'
 import { Actions } from 'react-native-router-flux'
+import { ScrollView } from 'react-native-gesture-handler'
 
 class AddComplaintNew extends Component {
+
+  constructor(props) {
+    super(props);
+    this.handleBackPress = this.handleBackPress.bind(this)
+  }
 
   state = {
     errorTitle: '',
@@ -146,6 +152,11 @@ class AddComplaintNew extends Component {
     });
   }
 
+  componentWillMount(){
+    this.props.auth.title = ''
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
+  }
+
   renderButton() {
     return (
       <Button
@@ -207,6 +218,7 @@ class AddComplaintNew extends Component {
     //this.renderUsersList()
   }
 
+
   _handlePhotoView = () => {
     //all 3 views 
     if (this.state.ImageSource === null) {
@@ -214,42 +226,52 @@ class AddComplaintNew extends Component {
       return (
         <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
           {this.state.ImageSource === null ?
-            <ImageBackground
-              style={styles.imageStyle}
-              value={'value'}>
-              <View style={{ alignSelf: 'center', flex: 1, margin: 5, padding: 10, marginTop: 14 }}>
-                <Image
-                  source={require('../assets/Complaints/add_image_plus.png')}
-                  style={{ height: 30, width: 30, }} />
-                <Text style={styles.textStyle}>Image</Text>
-              </View>
-            </ImageBackground>
+            // <ImageBackground
+            //   style={styles.imageStyle}
+            //   value={'value'}>
+            <View style={styles.imageStyle}>
+              <Image
+                source={require('../assets/Complaints/add_image_plus.png')}
+                style={{ height: 30, width: 30, alignSelf: 'center' }} />
+              <Text style={{
+                fontSize: 14,
+                alignSelf: 'center',
+                // marginLeft: 20,
+                // paddingTop: 8,
+                color: grey_light
+
+              }}>Image</Text>
+            </View>
+            // </ImageBackground>
             :
             <Image style={styles.imageStyle}
-              source={this.state.ImageSource}
-            />
+              source={this.state.ImageSource} />
           }
         </TouchableOpacity>
       )
     } else if (this.state.ImageSource !== null && this.state.ImageSource1 === null) {
       //only 2 view : 1st and 2nd
       return (
-
         <View style={{ flexDirection: 'row' }}>
-
           <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
 
             {this.state.ImageSource === null ?
-              <ImageBackground
-                style={styles.imageStyle}
-                value={'value'}>
-                <View style={{ alignSelf: 'center', flex: 1, margin: 5, padding: 10, marginTop: 14 }}>
-                  <Image
-                    source={require('../assets/Complaints/add_image_plus.png')}
-                    style={{ height: 30, width: 30, }} />
-                  <Text style={styles.textStyle}>Image</Text>
-                </View>
-              </ImageBackground>
+              // <ImageBackground
+              //   style={styles.imageStyle}
+              //   value={'value'}>
+              <View style={styles.imageStyle}>
+                <Image
+                  source={require('../assets/Complaints/add_image_plus.png')}
+                  style={{ height: 30, width: 30, alignSelf:'center'}} />
+                <Text style={{
+                  fontSize: 14,
+                  alignSelf: 'center',
+                  // marginLeft: 20,
+                  // paddingTop: 8,
+                  color: grey_light
+                }}>Image</Text>
+              </View>
+              // </ImageBackground>
               :
               <Image style={styles.imageStyle}
                 source={this.state.ImageSource}
@@ -260,16 +282,22 @@ class AddComplaintNew extends Component {
           <TouchableOpacity onPress={this.selectPhoto2Tapped.bind(this)}>
 
             {this.state.ImageSource1 === null ?
-              <ImageBackground
-                style={styles.imageStyle}
-                value={'value'}>
-                <View style={{ alignSelf: 'center', flex: 1, margin: 5, padding: 10, marginTop: 14 }}>
-                  <Image
-                    source={require('../assets/Complaints/add_image_plus.png')}
-                    style={{ height: 30, width: 30, }} />
-                  <Text style={styles.textStyle}>Image</Text>
-                </View>
-              </ImageBackground>
+              // <ImageBackground
+              //   style={styles.imageStyle}
+              //   value={'value'}>
+              <View style={styles.imageStyle}>
+                <Image
+                  source={require('../assets/Complaints/add_image_plus.png')}
+                  style={{ height: 30, width: 30, }} />
+                <Text style={{
+                  fontSize: 14,
+                  alignSelf: 'center',
+                  // marginLeft: 20,
+                  // paddingTop: 8,
+                  color: grey_light
+                }}>Image</Text>
+              </View>
+              // </ImageBackground>
               :
               <Image style={styles.imageStyle}
                 source={this.state.ImageSource1}
@@ -285,16 +313,22 @@ class AddComplaintNew extends Component {
           <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
             {
               this.state.ImageSource === null ?
-                <ImageBackground
-                  style={styles.imageStyle}
-                  value={'value'}>
-                  <View style={{ alignSelf: 'center', flex: 1, margin: 5, padding: 10, marginTop: 14 }}>
-                    <Image
-                      source={require('../assets/Complaints/add_image_plus.png')}
-                      style={{ height: 30, width: 30, }} />
-                    <Text style={styles.textStyle}>Image</Text>
-                  </View>
-                </ImageBackground>
+                // <ImageBackground
+                //   style={styles.imageStyle}
+                //   value={'value'}>
+                <View style={styles.imageStyle}>
+                  <Image
+                    source={require('../assets/Complaints/add_image_plus.png')}
+                    style={{ height: 30, width: 30, }} />
+                  <Text style={{
+                    fontSize: 14,
+                    alignSelf: 'center',
+                    // marginLeft: 20,
+                    // paddingTop: 8,
+                    color: grey_light
+                  }}>Image</Text>
+                </View>
+                // </ImageBackground>
                 :
                 <Image style={styles.imageStyle}
                   source={this.state.ImageSource}
@@ -305,16 +339,22 @@ class AddComplaintNew extends Component {
           <TouchableOpacity onPress={this.selectPhoto2Tapped.bind(this)}>
 
             {this.state.ImageSource === null ?
-              <ImageBackground
-                style={styles.imageStyle}
-                value={'value'}>
-                <View style={{ alignSelf: 'center', flex: 1, margin: 5, padding: 10, marginTop: 14 }}>
-                  <Image
-                    source={require('../assets/Complaints/add_image_plus.png')}
-                    style={{ height: 30, width: 30, }} />
-                  <Text style={styles.textStyle}>Image</Text>
-                </View>
-              </ImageBackground>
+              // <ImageBackground
+              //   style={styles.imageStyle}
+              //   value={'value'}>
+              <View style={styles.imageStyle}>
+                <Image
+                  source={require('../assets/Complaints/add_image_plus.png')}
+                  style={{ height: 30, width: 30, }} />
+                <Text style={{
+                  fontSize: 14,
+                  alignSelf: 'center',
+                  // marginLeft: 20,
+                  // paddingTop: 8,
+                  color: grey_light
+                }}>Image</Text>
+              </View>
+              // </ImageBackground>
               :
               <Image style={styles.imageStyle}
                 source={this.state.ImageSource1}
@@ -324,16 +364,22 @@ class AddComplaintNew extends Component {
 
           <TouchableOpacity onPress={this.selectPhoto3Tapped.bind(this)}>
             {this.state.ImageSource2 === null ?
-              <ImageBackground
-                style={styles.imageStyle}
-                value={'value'}>
-                <View style={{ alignSelf: 'center', flex: 1, margin: 5, padding: 10, marginTop: 14 }}>
-                  <Image
-                    source={require('../assets/Complaints/add_image_plus.png')}
-                    style={{ height: 30, width: 30, }} />
-                  <Text style={styles.textStyle}>Image</Text>
-                </View>
-              </ImageBackground>
+              // <ImageBackground
+              //   style={styles.imageStyle}
+              //   value={'value'}>
+              <View style={styles.imageStyle}>
+                <Image
+                  source={require('../assets/Complaints/add_image_plus.png')}
+                  style={{ height: 30, width: 30, }} />
+                <Text style={{
+                  fontSize: 14,
+                  alignSelf: 'center',
+                  // marginLeft: 20,
+                  // paddingTop: 8,
+                  color: grey_light
+                }}>Image</Text>
+              </View>
+              // </ImageBackground>
               :
               <Image style={styles.imageStyle}
                 source={this.state.ImageSource2}
@@ -344,6 +390,143 @@ class AddComplaintNew extends Component {
       )
     }
   }
+  // _handlePhotoView = () => {
+  //   //all 3 views 
+  //   if (this.state.ImageSource === null) {
+  //     //only + View 1 
+  //     return (
+  //       <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
+  //         {this.state.ImageSource === null ?
+  //           <ImageBackground
+  //             style={styles.imageStyle}
+  //             value={'value'}>
+  //             <View style={{ alignSelf: 'center', flex: 1, margin: 5, padding: 10, marginTop: 14 }}>
+  //               <Image
+  //                 source={require('../assets/Complaints/add_image_plus.png')}
+  //                 style={{ height: 30, width: 30, }} />
+  //               <Text style={styles.textStyle}>Image</Text>
+  //             </View>
+  //           </ImageBackground>
+  //           :
+  //           <Image style={styles.imageStyle}
+  //             source={this.state.ImageSource}
+  //           />
+  //         }
+  //       </TouchableOpacity>
+  //     )
+  //   } else if (this.state.ImageSource !== null && this.state.ImageSource1 === null) {
+  //     //only 2 view : 1st and 2nd
+  //     return (
+
+  //       <View style={{ flexDirection: 'row' }}>
+
+  //         <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
+
+  //           {this.state.ImageSource === null ?
+  //             <ImageBackground
+  //               style={styles.imageStyle}
+  //               value={'value'}>
+  //               <View style={{ alignSelf: 'center', flex: 1, margin: 5, padding: 10, marginTop: 14 }}>
+  //                 <Image
+  //                   source={require('../assets/Complaints/add_image_plus.png')}
+  //                   style={{ height: 30, width: 30, }} />
+  //                 <Text style={styles.textStyle}>Image</Text>
+  //               </View>
+  //             </ImageBackground>
+  //             :
+  //             <Image style={styles.imageStyle}
+  //               source={this.state.ImageSource}
+  //             />
+  //           }
+  //         </TouchableOpacity>
+
+  //         <TouchableOpacity onPress={this.selectPhoto2Tapped.bind(this)}>
+
+  //           {this.state.ImageSource1 === null ?
+  //             <ImageBackground
+  //               style={styles.imageStyle}
+  //               value={'value'}>
+  //               <View style={{ alignSelf: 'center', flex: 1, margin: 5, padding: 10, marginTop: 14 }}>
+  //                 <Image
+  //                   source={require('../assets/Complaints/add_image_plus.png')}
+  //                   style={{ height: 30, width: 30, }} />
+  //                 <Text style={styles.textStyle}>Image</Text>
+  //               </View>
+  //             </ImageBackground>
+  //             :
+  //             <Image style={styles.imageStyle}
+  //               source={this.state.ImageSource1}
+  //             />
+  //           }
+  //         </TouchableOpacity>
+  //       </View>
+  //     )
+  //   } else if (this.state.ImageSource !== null && this.state.ImageSource1 !== null) {
+  //     //only 3 view : 1st , 2nd , 3rd 
+  //     return (
+  //       <View style={{ flexDirection: 'row' }}>
+  //         <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
+  //           {
+  //             this.state.ImageSource === null ?
+  //               <ImageBackground
+  //                 style={styles.imageStyle}
+  //                 value={'value'}>
+  //                 <View style={{ alignSelf: 'center', flex: 1, margin: 5, padding: 10, marginTop: 14 }}>
+  //                   <Image
+  //                     source={require('../assets/Complaints/add_image_plus.png')}
+  //                     style={{ height: 30, width: 30, }} />
+  //                   <Text style={styles.textStyle}>Image</Text>
+  //                 </View>
+  //               </ImageBackground>
+  //               :
+  //               <Image style={styles.imageStyle}
+  //                 source={this.state.ImageSource}
+  //               />
+  //           }
+  //         </TouchableOpacity>
+
+  //         <TouchableOpacity onPress={this.selectPhoto2Tapped.bind(this)}>
+
+  //           {this.state.ImageSource === null ?
+  //             <ImageBackground
+  //               style={styles.imageStyle}
+  //               value={'value'}>
+  //               <View style={{ alignSelf: 'center', flex: 1, margin: 5, padding: 10, marginTop: 14 }}>
+  //                 <Image
+  //                   source={require('../assets/Complaints/add_image_plus.png')}
+  //                   style={{ height: 30, width: 30, }} />
+  //                 <Text style={styles.textStyle}>Image</Text>
+  //               </View>
+  //             </ImageBackground>
+  //             :
+  //             <Image style={styles.imageStyle}
+  //               source={this.state.ImageSource1}
+  //             />
+  //           }
+  //         </TouchableOpacity>
+
+  //         <TouchableOpacity onPress={this.selectPhoto3Tapped.bind(this)}>
+  //           {this.state.ImageSource2 === null ?
+  //             <ImageBackground
+  //               style={styles.imageStyle}
+  //               value={'value'}>
+  //               <View style={{ alignSelf: 'center', flex: 1, margin: 5, padding: 10, marginTop: 14 }}>
+  //                 <Image
+  //                   source={require('../assets/Complaints/add_image_plus.png')}
+  //                   style={{ height: 30, width: 30, }} />
+  //                 <Text style={styles.textStyle}>Image</Text>
+  //               </View>
+  //             </ImageBackground>
+  //             :
+  //             <Image style={styles.imageStyle}
+  //               source={this.state.ImageSource2}
+  //             />
+  //           }
+  //         </TouchableOpacity>
+  //       </View>
+  //     )
+  //   }
+  // }
 
 
   _handlePhotoViews1 = () => {
@@ -396,8 +579,15 @@ class AddComplaintNew extends Component {
     this.props.auth.comments = ''
 
     //Actions.pop('Complaints');
-    Actions.popTo('Complaints');
+    // Actions.popTo('Complaints');
     //Actions.refresh()
+
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
+    return true;
+  }
+
+  handleBackPress() {  
+    this.props.navigation.goBack(null);
     return true;
   }
 
@@ -408,11 +598,18 @@ class AddComplaintNew extends Component {
 
   render() {
     return (
-      <View style={styles.containerStyle}>
-        <View style={styles.card}>
-          {this.renderVerifyFileds()}
-        </View>
-      </View>
+      <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss() }}>
+        {/* <ScrollView
+          keyboardShouldPersistTaps={'handled'}
+          keyboardDismissMode='none'
+          contentContainerStyle={{ position: 'absolute', justifyContent: 'flex-start', height: '100%', width: '100%' }}> */}
+          <View style={styles.containerStyle}>
+            <View style={styles.card}>
+                {this.renderVerifyFileds()}
+            </View>
+          </View>
+        {/* </ScrollView> */}
+      </TouchableWithoutFeedback>      
     );
   }
 }
@@ -455,14 +652,27 @@ const styles = {
     padding: 12,
     backgroundColor: red_lighter
   },
+  // imageStyle: {
+  //   width: 83,
+  //   height: 83,
+  //   borderRadius: 20,
+  //   borderWidth: 2,
+  //   marginTop: 15,
+  //   marginLeft: 15,
+  //   borderColor: grey_lighter,
+  // }
   imageStyle: {
-    width: 83,
-    height: 83,
+    alignItems:'center',
+    alignSelf: 'center',
+    margin: 5,
+    // marginLeft: 20,
+    padding: 10,
+    marginTop: 14,
+    borderColor: grey_lighter,
     borderRadius: 20,
     borderWidth: 2,
-    marginTop: 15,
-    marginLeft: 15,
-    borderColor: grey_lighter,
+    height: 83,
+    width: 83
   }
 }
 

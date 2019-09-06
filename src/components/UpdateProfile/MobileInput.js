@@ -19,7 +19,7 @@ const MobileInput = (props) => {
 
                 <TextInput
                     editable={false}
-                    style={{ fontFamily: 'OpenSans-Regular', marginBottom: 7, fontSize: 12, color: grey, marginLeft:4}}
+                    style={{ fontFamily: 'OpenSans', marginBottom: 7, fontSize: 12, color: grey, marginLeft:8}}
                     placeholder={ Mobile_NO }
                     underlineColorAndroid='rgba(0,0,0,0)'
                     onChangeText={props.phoneChange}
@@ -28,7 +28,6 @@ const MobileInput = (props) => {
 
             </View>
         </View>
-
         // <Input
         //     placeholder={Mobile_NO}
         //     maxLength={30}
@@ -85,7 +84,7 @@ const styles = {
         alignItems: 'center'
     },
     textStyle: {
-        fontFamily: 'OpenSans-Regular',
+        fontFamily: 'OpenSans',
         fontSize: 12,
         color: black,
         marginLeft: 20,

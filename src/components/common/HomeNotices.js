@@ -76,14 +76,14 @@ const styles = {
     justifyContent:'center'
  },
  textTitleStyle: {
-  fontFamily: 'OpenSans-Regular',
+  fontFamily: 'OpenSans',
   fontSize: 14,
   color: white_Original,
   alignSelf: 'flex-start',
   marginLeft: 15
 },
 textStyle: {
-  fontFamily: 'OpenSans-Regular',
+  fontFamily: 'OpenSans',
   fontSize: 12,
   color: white_Original,
   alignSelf: 'flex-start',

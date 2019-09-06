@@ -20,7 +20,7 @@ class SwitchProperty extends Component {
     renderUsersList() {
         // this.setState({ refreshing: true });
         console.log('prop userId :: ', this.state.userId)
-        callPostApi('http://guardomni.dutique.com:8000/api/propertyList?', {
+        callPostApi('http://18.188.253.46:8000/api/propertyList?', {
             // "userId": this.state.userId
             "userId": this.state.userId
         })
@@ -30,20 +30,6 @@ class SwitchProperty extends Component {
                 console.log("**** : " + res.data)
 
                  if (res.status == 200) {
-                    // for (i = 0; i < res.data.length; i++) {
-                    //     if (this.state.flatId == res.data[i].flat_id) {
-                    //         var index = i
-                    //     }
-                    //     console.log("index : " + index)
-                    // }
-
-                    // //var temp =[]
-                    // temp = res.data.pop(index)
-                    // console.log("** :: " + temp)
-                    // console.log("** :: " + temp.flat_no)
-                    // console.log("** :: " + JSON.stringify(temp))
-
-
                     this.setState({
                         propertyList: JSON.stringify(res.data),
                         //propertyListRevertInJson: res.data,
@@ -51,7 +37,14 @@ class SwitchProperty extends Component {
                         refreshing: false
                     })
                     console.log("inisde setState")
-                } else {
+                }else if(res.status == 401) {
+
+                    AsyncStorage.removeItem('propertyDetails');
+                    AsyncStorage.removeItem('userDetail');
+                    AsyncStorage.removeItem('LoginData');
+                    //SimpleToast.show(response.message)
+                    Actions.reset('Login')
+                  } else {
                     this.setState({
                         refreshing: false,
                     })
@@ -208,7 +201,7 @@ const styles = {
     textStyle: {
         fontSize: 14,
         color: black,
-        fontFamilty: 'OpenSans-Regular',
+        fontFamilty: 'OpenSans',
         alignSelf: 'center'
     }
 

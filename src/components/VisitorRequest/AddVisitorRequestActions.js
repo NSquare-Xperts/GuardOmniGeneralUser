@@ -13,7 +13,7 @@ export const VisitorRequest = (name,phone,selectedDate,noOfPeople,vehicleType,ve
         dispatch({ type: ADD_REQUEST });
     
         console.log("vehicle type: ",vehicleType)
-        callPostApi('http://guardomni.dutique.com:8000/api/visitorRequest', {
+        callPostApi('http://18.188.253.46:8000/api/visitorRequest', {
             "userId" : userId,
             "visitorName": name,
             "visitorMobileNumber": phone,
@@ -32,7 +32,15 @@ export const VisitorRequest = (name,phone,selectedDate,noOfPeople,vehicleType,ve
                               
                 DeviceEventEmitter.emit('eventVisitorRequestAdded',{isAddeddSuccessFully: true});
                 verifyRequestSuccess(dispatch, data)
-        }else{
+                
+        }else if (data.status == 401) {
+
+            AsyncStorage.removeItem('propertyDetails');
+            AsyncStorage.removeItem('userDetail');
+            AsyncStorage.removeItem('LoginData');
+            //SimpleToast.show(response.message)
+            Actions.reset('Login')
+          }else{
             SimpleToast.show(res.message)
             verifyRequestFailed(dispatch, response.message)
         }

@@ -12,7 +12,7 @@ import ImagePicker from 'react-native-image-picker'
 import { callPostApi } from '../Util/APIManager'
 import MobileInput from './MobileInput'
 import ImageLoad from 'react-native-image-placeholder'
-
+import {Actions} from 'react-native-router-flux'
 
 class NewEditProfile extends Component {
      state = {
@@ -26,7 +26,6 @@ class NewEditProfile extends Component {
           uriToSend: '',
           imageName: '',
           type: '',
-
           userDetail: '',
           ImageSource: null,
           url: '',
@@ -45,7 +44,7 @@ class NewEditProfile extends Component {
                this.setState({
                     userId: dataUser.user_id,
                     flatId: data.flat_id,
-               }, this.renderUsersList())
+               })
                this.renderUsersList()
           }
      }
@@ -55,8 +54,11 @@ class NewEditProfile extends Component {
      }
 
      renderUsersList() {
-          callPostApi('http://guardomni.dutique.com:8000/api/profileDetails?', {
-               "userId": this.state.userId
+
+          console.log("user ID : "+this.state.userId)
+          callPostApi('http://18.188.253.46:8000/api/profileDetails?', {
+               "userId": this.state.userId,
+               "loginType": '4'
           })
                .then((response) => {
                     // Continue your code here...
@@ -81,7 +83,14 @@ class NewEditProfile extends Component {
                               mobileNo: res.data[0].user_mobile
 
                          })
-                    } else {
+                    } else if(res.status == 401) {
+
+                         AsyncStorage.removeItem('propertyDetails');
+                         AsyncStorage.removeItem('userDetail');
+                         AsyncStorage.removeItem('LoginData');
+                         //SimpleToast.show(response.message)
+                         Actions.reset('Login')
+                       }else {
                          this.setState({
                               refreshing: false,
                          })
@@ -126,11 +135,9 @@ class NewEditProfile extends Component {
                }
           });
      }
-
      _handlePhotoView = () => {
-
           console.log(" --url-- ", this.state.url)
-          if (this.state.url != null) {
+          if (this.state.url != null && this.state.url != '' ) {
                return (
                     <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
                          {this.state.ImageSource === null ?
@@ -174,8 +181,6 @@ class NewEditProfile extends Component {
                     </TouchableOpacity>
                )
           }
-
-
      }
 
      renderButton() {
@@ -220,9 +225,8 @@ class NewEditProfile extends Component {
                     <View style={{ height: '20%', justifyContent: 'center' }}>
                          {/* <Image source={require('../assets/fullscreen.jpg')}
                                    style={{ height: 95, width: 95, alignSelf: 'center', borderRadius: Platform.OS === 'ios' ? 95 / 2 : 60 }} /> */}
+                         
                          {this._handlePhotoView()}
-
-
 
                     </View>
 

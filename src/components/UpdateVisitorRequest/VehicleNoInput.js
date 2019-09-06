@@ -8,7 +8,7 @@ const VehicleNoInput = (props) => {
         <View style={styles.displayStyle}>
             <View style={styles.containerStyle}>
                 <TextInput
-                    style={{ height: 50, width: '100%', marginLeft: 15, justifyContent: 'center' }}
+                    style={{ height: 50, width: '100%', marginLeft: 30, justifyContent: 'center' }}
                     placeholder={Vehicle_No}
                     underlineColorAndroid='rgba(0,0,0,0)'
                     onChangeText={props.vehicleChange}
