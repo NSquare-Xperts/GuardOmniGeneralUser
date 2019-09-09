@@ -10,7 +10,7 @@ import ActionSheet from 'react-native-action-sheet';
 import { Actions } from 'react-native-router-flux';
 import Video from 'react-native-video'
 
-// http://18.188.253.46:8000
+// http://guardomni.dutique.com:8000
 //1 : resolved 
 //0 : not
 
@@ -113,7 +113,7 @@ class ComplaintDetail extends Component {
                                             var res = JSON.parse(LoginData)
                                             AsyncStorage.getItem('complaintID').then((data) => {
                                                 var complaintID = JSON.parse(data)
-                                                callPostApi('http://18.188.253.46:8000/api/complaintDelete', {
+                                                callPostApi('http://guardomni.dutique.com:8000/api/complaintDelete', {
                                                     "userId": res.data[0].user_details.user_id,
                                                     "complaintId": complaintID,
                                                 })
@@ -156,7 +156,7 @@ class ComplaintDetail extends Component {
 
             this.setState({ userId: res.data[0].user_details.user_id })
 
-            callPostApi('http://18.188.253.46:8000/api/complaintDetails', {
+            callPostApi('http://guardomni.dutique.com:8000/api/complaintDetails', {
                 "userId": this.state.userId,
                 "complaintId": this.state.complaintId
             })
@@ -518,7 +518,7 @@ class ComplaintDetail extends Component {
             this.setState({ dialogVisible: false });
             this.setState({ newComment: '' })
             console.log("UserID: ", this.state.userId, "ComplaintID:", this.state.complaintId, "Comment: ", this.state.newComment)
-            callPostApi('http://18.188.253.46:8000/api/addComplaintComment', {
+            callPostApi('http://guardomni.dutique.com:8000/api/addComplaintComment', {
                 "userId": this.state.userId,
                 "complaintId": this.state.complaintId,
                 "comment": this.state.newComment

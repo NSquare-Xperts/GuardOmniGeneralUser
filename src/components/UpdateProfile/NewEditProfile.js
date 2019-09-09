@@ -56,7 +56,7 @@ class NewEditProfile extends Component {
      renderUsersList() {
 
           console.log("user ID : "+this.state.userId)
-          callPostApi('http://18.188.253.46:8000/api/profileDetails?', {
+          callPostApi('http://guardomni.dutique.com:8000/api/profileDetails?', {
                "userId": this.state.userId,
                "loginType": '4'
           })

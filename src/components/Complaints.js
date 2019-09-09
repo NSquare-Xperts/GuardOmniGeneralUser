@@ -24,8 +24,8 @@ class Complaints extends Component {
     }
 
     renderUsersList() {
-        //callPostApi('http://18.188.253.46:8000/api/complaintList', {
-            callPostApi('http://18.188.253.46:8000/api/complaintList', {  
+        //callPostApi('http://guardomni.dutique.com:8000/api/complaintList', {
+            callPostApi('http://guardomni.dutique.com:8000/api/complaintList', {  
             "userId": this.state.userId,
             "pageNumber": this.state.page,
             "flatId": this.state.flatId

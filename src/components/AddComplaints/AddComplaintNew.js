@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, ImageBackground, Image, TouchableOpacity, PixelRatio, AsyncStorage, BackHandler, TouchableWithoutFeedback, ActivityIndicator, Keyboard } from 'react-native'
+import { Text, View, ImageBackground, Image, TouchableOpacity, PixelRatio,Platform, AsyncStorage, BackHandler, TouchableWithoutFeedback, ActivityIndicator, Keyboard } from 'react-native'
 import { connect } from 'react-redux'
 import Button from '../common/Button'
 import { titleChanged, commentsChanged, addComplaint_ } from './ComplaintsActions'
@@ -255,12 +255,23 @@ class AddComplaintNew extends Component {
         let source = { uri: response.uri };
         // You can also display the image using data:
         // let source = { uri: 'data:image/jpeg;base64,' + response.data };
+      
+        if(Platform.OS == 'ios'){
+          this.setState({
+            uriToSend: response.uri,
+            ImageSource: source,
+            imageName: response.fileSize+"",
+            type: response.type
+          });
+
+        }else{
         this.setState({
           uriToSend: response.uri,
           ImageSource: source,
           imageName: response.fileName,
           type: response.type
         });
+      }
       }
     });
   }
@@ -291,12 +302,24 @@ class AddComplaintNew extends Component {
         let source = { uri: response.uri };
         // You can also display the image using data:
         // let source = { uri: 'data:image/jpeg;base64,' + response.data };
+        
+        
+        if(Platform.OS == 'ios'){
+          this.setState({
+            uriToSend: response.uri,
+            ImageSource: source,
+            imageName: response.fileSize+"",
+            type: response.type
+          });
+
+        }else{
         this.setState({
           uriTo1Send: response.uri,
           ImageSource1: source,
           imageName1: response.fileName,
           type1: response.type
         });
+        }
 
       }
     });
@@ -329,12 +352,22 @@ class AddComplaintNew extends Component {
         let source = { uri: response.uri };
         // You can also display the image using data:
         // let source = { uri: 'data:image/jpeg;base64,' + response.data };
+      
+        if(Platform.OS == 'ios'){
+          this.setState({
+            uriToSend: response.uri,
+            ImageSource: source,
+            imageName: response.fileSize+"",
+            type: response.type
+          });
+        }else{
         this.setState({
           uriTo2Send: response.uri,
           ImageSource2: source,
           imageName2: response.fileName,
           type2: response.type
         });
+      }
       }
     });
   }

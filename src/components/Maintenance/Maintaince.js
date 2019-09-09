@@ -109,7 +109,7 @@ class Maintaince extends Component {
     console.log("response : Complaints ", this.state.userId)
     console.log("response : Complaints ", this.state.page)
     
-    callPostApi('http://18.188.253.46:8000/api/userMaintenance', {
+    callPostApi('http://guardomni.dutique.com:8000/api/userMaintenance', {
       "userId": this.state.userId,
       //"pageNumber": 0,
        "pageNumber": this.state.page,

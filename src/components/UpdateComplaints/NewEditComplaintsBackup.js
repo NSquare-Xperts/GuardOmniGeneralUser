@@ -283,7 +283,7 @@ class NewEditComplaints extends Component {
           //pass complaintIs
           console.log("Complaint Edit: UserID:", this.state.userId, "Complaint ID: ", this.state.complaintId)
 
-          callPostApi('http://18.188.253.46:8000/api/complaintDetails?', {
+          callPostApi('http://guardomni.dutique.com:8000/api/complaintDetails?', {
                //"userId": this.state.userId,
                "userId": this.state.userId,
                "complaintId": this.state.complaintId

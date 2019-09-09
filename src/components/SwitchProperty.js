@@ -20,7 +20,7 @@ class SwitchProperty extends Component {
     renderUsersList() {
         // this.setState({ refreshing: true });
         console.log('prop userId :: ', this.state.userId)
-        callPostApi('http://18.188.253.46:8000/api/propertyList?', {
+        callPostApi('http://guardomni.dutique.com:8000/api/propertyList?', {
             // "userId": this.state.userId
             "userId": this.state.userId
         })

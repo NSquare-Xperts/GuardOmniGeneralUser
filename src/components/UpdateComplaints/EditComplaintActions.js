@@ -14,7 +14,7 @@ export const editComplaint_ = (title, comments, uri1, type1, name1, uri2, type2,
         console.log("uri3 + ",uri3)
         console.log("type2 + ",type2)
         
-        callFormDataUpdateComplaintPostApi('http://18.188.253.46:8000/api/complaintUpdate', {
+        callFormDataUpdateComplaintPostApi('http://guardomni.dutique.com:8000/api/complaintUpdate', {
 
             "userId": userId,
             "complaintTitle": title,
