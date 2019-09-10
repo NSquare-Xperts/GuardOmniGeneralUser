@@ -78,8 +78,8 @@
       NSLog(@"Error fetching remote instance ID: %@", error);
     } else {
       NSLog(@"Remote instance ID token: %@", result.token);
-      NSString* message =
-      [NSString stringWithFormat:@"Remote InstanceID token: %@", result.token];
+//      NSString* message =
+//      [NSString stringWithFormat:@"Remote InstanceID token: %@", result.token];
         // self.instanceIDTokenMessage.text = message;
     }
   }];
