@@ -40,32 +40,13 @@
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
 
-//  UIUserNotificationType allNotificationTypes =
-//  (UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge);
-//  UIUserNotificationSettings *settings =
-//  [UIUserNotificationSettings settingsForTypes:allNotificationTypes categories:nil];
-//  [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
-//  [[UIApplication sharedApplication] registerForRemoteNotifications];
-
-  [FIRApp configure];
-  
-
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tokenRefreshNotification:) name:kFIRInstanceIDTokenRefreshNotification object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fcmConnectionStateChange) name:kFIRInstanceIDTokenRefreshNotification object:nil];
 
   [Fabric with:@[[Crashlytics class]]];
 
-  
-//  NSArray *familyNames = [UIFont familyNames];
 
-//  for( NSString *familyName in familyNames ){
-//    printf( "Family: %s \n", [familyName UTF8String] );
-//    NSArray *fontNames = [UIFont fontNamesForFamilyName:familyName];
-//    for( NSString *fontName in fontNames ){
-//      printf( "\tFont: %s \n", [fontName UTF8String] );
-//    }
-//  }
-
+  [FIRApp configure];
   [RNFirebaseNotifications configure];
   [FIRMessaging messaging].delegate = self;
 
@@ -116,11 +97,8 @@
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-
   [FIRMessaging messaging].APNSToken = deviceToken;
   NSLog(@"deviceToken1 = %@",deviceToken);
-
-
 }
 
 - (void)tokenRefreshNotification:(NSNotification *)notification {
