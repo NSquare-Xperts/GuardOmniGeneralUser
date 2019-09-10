@@ -54,7 +54,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>Application requires camera for capturing images to add in a Complaint and to set Profile Picture</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
+	<string></string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Application requires Library permission for selecting images to add in a Complaint and to set Profile Picture</string>
 	<key>UIAppFonts</key>
@@ -103,5 +103,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	<true/>
 </dict>
 </plist>
