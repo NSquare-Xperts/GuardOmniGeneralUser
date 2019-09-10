@@ -41,10 +41,11 @@ const OptionMenuDelete = (props) => {
 
                                     AsyncStorage.getItem('complaintID').then((data) => {
                                         console.log("Option menu", data)
+                                        var complaintID = JSON.parse(data)
 
                                         callPostApi('http://guardomni.dutique.com:8000/api/complaintDelete', {
                                             "userId": res.data[0].user_details.user_id,
-                                            "complaintId": data,
+                                            "complaintId": complaintID,
                                         })
                                             .then((response) => {
                                                 // Continue your code here...
