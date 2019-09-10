@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, ImageBackground, Image, TouchableOpacity, PixelRatio,Platform, AsyncStorage, BackHandler, TouchableWithoutFeedback, ActivityIndicator, Keyboard } from 'react-native'
+import { Text, View, ImageBackground, Image, TouchableOpacity, PixelRatio, Platform, AsyncStorage, BackHandler, TouchableWithoutFeedback, ActivityIndicator, Keyboard } from 'react-native'
 import { connect } from 'react-redux'
 import Button from '../common/Button'
 import { titleChanged, commentsChanged, addComplaint_ } from './ComplaintsActions'
@@ -56,7 +56,7 @@ class AddComplaintNew extends Component {
   //       skipBackup: true
   //     }
   //   };
-    
+
   //   ImagePicker.showImagePicker({
   //     title: 'Choose Image or Video',
   //     customButtons: [{ name: 'image', title: 'Take a Photo' }, { name: 'video', title: 'Take a Video' }, { name: 'library', title: 'Choose from Library' }],
@@ -255,23 +255,23 @@ class AddComplaintNew extends Component {
         let source = { uri: response.uri };
         // You can also display the image using data:
         // let source = { uri: 'data:image/jpeg;base64,' + response.data };
-      
-        if(Platform.OS == 'ios'){
+
+        if (Platform.OS == 'ios') {
           this.setState({
             uriToSend: response.uri,
             ImageSource: source,
-            imageName: response.fileSize+"",
+            imageName: response.fileSize + "",
             type: response.type
           });
 
-        }else{
-        this.setState({
-          uriToSend: response.uri,
-          ImageSource: source,
-          imageName: response.fileName,
-          type: response.type
-        });
-      }
+        } else {
+          this.setState({
+            uriToSend: response.uri,
+            ImageSource: source,
+            imageName: response.fileName,
+            type: response.type
+          });
+        }
       }
     });
   }
@@ -302,23 +302,23 @@ class AddComplaintNew extends Component {
         let source = { uri: response.uri };
         // You can also display the image using data:
         // let source = { uri: 'data:image/jpeg;base64,' + response.data };
-        
-        
-        if(Platform.OS == 'ios'){
+
+
+        if (Platform.OS == 'ios') {
           this.setState({
-            uriToSend: response.uri,
-            ImageSource: source,
-            imageName: response.fileSize+"",
-            type: response.type
+            uriTo1Send: response.uri,
+            ImageSource1: source,
+            imageName1: response.fileSize + "",
+            type1: response.type
           });
 
-        }else{
-        this.setState({
-          uriTo1Send: response.uri,
-          ImageSource1: source,
-          imageName1: response.fileName,
-          type1: response.type
-        });
+        } else {
+          this.setState({
+            uriTo1Send: response.uri,
+            ImageSource1: source,
+            imageName1: response.fileName,
+            type1: response.type
+          });
         }
 
       }
@@ -352,22 +352,22 @@ class AddComplaintNew extends Component {
         let source = { uri: response.uri };
         // You can also display the image using data:
         // let source = { uri: 'data:image/jpeg;base64,' + response.data };
-      
-        if(Platform.OS == 'ios'){
+
+        if (Platform.OS == 'ios') {
           this.setState({
-            uriToSend: response.uri,
-            ImageSource: source,
-            imageName: response.fileSize+"",
-            type: response.type
+            uriTo2Send: response.uri,
+            ImageSource2: source,
+            imageName2: response.fileSize + "",
+            type2: response.type
           });
-        }else{
-        this.setState({
-          uriTo2Send: response.uri,
-          ImageSource2: source,
-          imageName2: response.fileName,
-          type2: response.type
-        });
-      }
+        } else {
+          this.setState({
+            uriTo2Send: response.uri,
+            ImageSource2: source,
+            imageName2: response.fileName,
+            type2: response.type
+          });
+        }
       }
     });
   }
@@ -392,22 +392,22 @@ class AddComplaintNew extends Component {
             })
           } else {
 
-              title = this.props.auth.title
-              comments = this.props.auth.comments
-              uri1 = this.state.uriToSend
-              type1 = this.state.type
-              name1 = this.state.imageName
+            title = this.props.auth.title
+            comments = this.props.auth.comments
+            uri1 = this.state.uriToSend
+            type1 = this.state.type
+            name1 = this.state.imageName
 
-              uri2 = this.state.uriTo1Send,
+            uri2 = this.state.uriTo1Send,
               type2 = this.state.type1,
               name2 = this.state.imageName1
 
-              uri3 = this.state.uriTo2Send,
+            uri3 = this.state.uriTo2Send,
               type3 = this.state.type2,
               name3 = this.state.imageName2
 
-              userId = this.state.userId
-              flatId = this.state.flatId
+            userId = this.state.userId
+            flatId = this.state.flatId
 
             //this.props.addComplaint_(title, comments,uri1,type1,name1)
             this.setState({
@@ -628,11 +628,11 @@ class AddComplaintNew extends Component {
 
   renderVerifyFileds() {
 
-    console.log("loader complaints "+this.state.loader)
+    console.log("loader complaints " + this.state.loader)
     if (this.state.loader) {
       return (
         <ActivityIndicator
-          style={{justifyContent: 'center',marginTop: '55.55%'}}
+          style={{ justifyContent: 'center', marginTop: '55.55%' }}
           size="large" color={pink}
           text="Loading.."
           animating />
