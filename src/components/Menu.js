@@ -41,8 +41,7 @@ class Menu extends Component {
         }
     }
 
-    componentWillMount() {
-        console.log("Menu > component will mount")
+    componentWillMount() {        
         this._getUserStorageValue()
     }
     render() {
@@ -71,20 +70,6 @@ class Menu extends Component {
                                 <Text style={styles.drawerText}>{SwitchProperty}</Text>
                             </ListItem>
 
-
-                            {/* {
-                                this.state.role_id === 4 ?
-                                    <ListItem onPress={() => { Actions.drawerClose(), Actions.maintenance() }
-                                    }
-                                        noBorder={true}>
-                                        <Image style={styles.thumbnail}
-                                            source={require('./assets/Drawer/maintenance_icn.png')} />
-                                        <Text style={styles.drawerText}>{Maintenance}</Text>
-                                    </ListItem>
-                                    :
-                                    console.log("listitem")
-                            } */}
-
                             <ListItem onPress={() => { Actions.drawerClose(), Actions.notification() }
                             }
                                 noBorder={true}>
@@ -107,8 +92,7 @@ class Menu extends Component {
                                     'You will no longer access to GuardOmni',
                                     [
                                         {
-                                            text: 'No', onPress: () => {
-                                                console.log('Cancel Pressed'),
+                                            text: 'No', onPress: () => {                                                
                                                 Actions.drawerClose()
                                             }
                                         },

@@ -1,4 +1,3 @@
-//export const baseURL = 'https://rallycoding.herokuapp.com/api/music_albums';
 export const baseURL = 'http://192.168.0.118:8080/api/'
 
 export const validateUser = 'validateUser'

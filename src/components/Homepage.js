@@ -49,16 +49,11 @@ class Homepage extends Component {
     return true;
   }
 
-  getNotificationCount() {
-    // AsyncStorage.removeItem('notificationCount')
-     var count = NotificationCount.getCurrentCount();
-     
-     console.log("count : " + count)
-     count = count + 1;
-     console.log("count : " + count)
+  getNotificationCount() {    
+     var count = NotificationCount.getCurrentCount();        
+     count = count + 1;     
      NotificationCount.setCurrentCount(count)
-     var countIncreased = NotificationCount.getCurrentCount();
-     console.log("count increased : " + countIncreased)
+     var countIncreased = NotificationCount.getCurrentCount();     
    }
 
   componentWillMount() {
@@ -85,12 +80,9 @@ class Homepage extends Component {
 
     this.notificationListener = firebase.notifications().onNotification((notification) => {
       // Process your notification as required
-      const { title, body, data } = notification;
-       console.log("OnNotification HomePage")
-
+      const { title, body, data } = notification;      
       this.getNotificationCount()
       DeviceEventEmitter.emit('notificationcount', { isNotificationAdded: true });
-
       const localNotification = new firebase.notifications.Notification({
         sound: 'default',
         vibration: 300,
@@ -114,19 +106,14 @@ class Homepage extends Component {
       // 2 => Reported Visitor request REported inout list in guard 
       // 3 => Complaint resolved
       // 4 => Maintenance
-      // console.log("Notification type : " + data.notification_category)
-      // console.log("Notification ID: " + data.id)
-
+      
       if (data.notification_category == "3") {
         Actions.ComplaintDetailDelete({ complaintID: data.id })
       } else if (data.notification_category == "1") {       
         Actions.visitors()
       } else if (data.notification_category == "0") {        
         Actions.NoticeDetail({ noticeID: data.id })
-      }
-      // } else if (data.notification_category == "4") {        
-      //   Actions.maintenance({ noticeID: data.id })
-      // }      
+      }      
       firebase.notifications().removeDeliveredNotification(notificationOpen.notification.notificationId)
     })
   }

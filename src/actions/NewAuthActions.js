@@ -5,44 +5,29 @@ import { AsyncStorage } from 'react-native'
 
 export const loginUser = (phone) => {
     return (dispatch) => {
-        dispatch({ type: LOGIN_USER });
-        console.log("phone :: ", phone)
+        dispatch({ type: LOGIN_USER });        
         
          //Live : http://guardomni.dutiqueIIIIIIIII.com:8000
-        //aws : http://18.temp188.253.46:8000temp
-        //local : http://19LLLLLL2.168.0.32:8000
-
-        console.log("call validate user ")
+        //aws : http://18.temp188.253.46:8000temp                
         axios.post('http://guardomni.dutique.com:8000/api/validateUser',
             { "mobileNumber": phone,
             "loginType": '4' 
         })
         .then((response) => {
-                var data = response.data
-                //Actions.homepage()
-                console.log("response :: ", data)
-                if (data.status == 400) {
-                    console.log("inside failed : 400")
+                var data = response.data                               
+                if (data.status == 400) {                    
                     loginFailedMobileNumber(dispatch, data.message)
                 } else if (data.status == 401) {
-
                     AsyncStorage.removeItem('propertyDetails');
                     AsyncStorage.removeItem('userDetail');
-                    AsyncStorage.removeItem('LoginData');
-                    //SimpleToast.show(response.message)
+                    AsyncStorage.removeItem('LoginData');                    
                     Actions.reset('Login')
-                  }else {
-                    console.log("inside success : 200")
+                  }else {                    
                 loginPressed(dispatch, data)
                 }
             })
-            .catch(error => {
-                console.log("error : ", error.response.message)
-                loginFailedMobileNumber(dispatch, 'Please Check Your Internet Connection.')
-                // check error status to handle blocked user
-                // if (error.response.status == 400) {
-                //     loginFailedMobileNumber(dispatch, error.response.message)
-                // }
+            .catch(error => {                
+                loginFailedMobileNumber(dispatch, 'Error While Connecting Server. Please Try Again.')                
             });
     }
 }
@@ -67,26 +52,18 @@ export const VerifyOtp = ({ phone, otp, token, platform }) => {
                     AsyncStorage.removeItem('propertyDetails');
                     AsyncStorage.removeItem('userDetail');
                     AsyncStorage.removeItem('LoginData');
-                    //SimpleToast.show(response.message)
                     Actions.reset('Login')
                   } else {
-                   //data array
-                   //1 .username 2. property details
                      AsyncStorage.multiSet([
                          ["LoginData", login]
                      ])
-
-                    // AsyncStorage.multiSet([['userDetail', data.data[0].user_details], ['propertyDetails', login.data.data[0].property_details]])                    
                     AsyncStorage.setItem('userDetail',JSON.stringify(data.data[0].user_details))
                     AsyncStorage.setItem('propertyDetails',JSON.stringify(data.data[0].property_details))
-                    
-                    //Actions.homepage();
                     Actions.reset('drawer')
                     loginSuccess(dispatch, data)
                 }
             }).catch(error => {
-                loginFailed(dispatch, error.message)
-                console.log("response verify otp : ", error.message)
+                loginFailed(dispatch, error.message)                
             })
     }
 }

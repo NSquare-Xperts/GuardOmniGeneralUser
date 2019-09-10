@@ -25,7 +25,7 @@ export const editVisitorRequest_ = (userId, visitorName, visitorMobileNumber, re
         .then((response) => {
                 // Continue your code here...
                 res = JSON.parse(response)
-                console.log("edit visitor request : ", res)
+               
                
                 if (res.status == 200) {
                     

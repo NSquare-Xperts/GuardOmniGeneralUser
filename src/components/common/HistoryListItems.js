@@ -44,7 +44,6 @@ class HistoryListItem extends Component {
             </View>
           </View>
         
-          
           <TouchableWithoutFeedback onPress={() =>
 
           {this.props.status == false ? 
@@ -55,26 +54,16 @@ class HistoryListItem extends Component {
                 {
                   text: 'No', onPress: () =>
                     console.log('Cancel Pressed')
-
                 },
                 {
-                  text: 'Yes', onPress: () => {
-                    // openAlertOK()
-                    //openAlertOK()
-                    //call report API
-                    console.log("userID VID", this.props.userId, this.props.visitorId)
-
+                  text: 'Yes', onPress: () => {                    
                     callPostApi('http://guardomni.dutique.com:8000/api/visitorReport', {
                       "userId": this.props.userId,
                       "visitorId": this.props.id,
                     })
-                      .then((response) => {
-                        // Continue your code here...
-                        res = JSON.parse(response)
-                        console.log("response : ",res)
+                      .then((response) => {                        
+                        res = JSON.parse(response)                        
                         if (res.status == "200") {
-
-                          //refresh visitor list 
                           DeviceEventEmitter.emit('eventReported',{iseventReportedSuccessFully: true});
                           this.setState({
                             isShowingDialog: true
@@ -86,7 +75,6 @@ class HistoryListItem extends Component {
                         SimpleToast.show("Failed To Report.")
                         }
                       });
-                    //this.setState({ isShowingDialog: true })
                   }
                 }
               ],
@@ -96,18 +84,9 @@ class HistoryListItem extends Component {
             :
 
             SimpleToast.show("Already Reported.")
-            }
-            //selectedValue={this.state.selectedValue}
-            //onAccept={()=>this.onAccept()}
-            //onDecline={()=>this.onDecline()}
-            //onValueChange={(value)=>this.onValueChange(value)}
-            //item={this.state.item}
+            }            
           }>
-          {/* :  
-              <Image style={thumbnail_arrow}
-                source={require('../assets/Home/information_icn.png')}
-              /> */}
-
+          
             <View style={styles.rightSideButtonStyles}>
               <Image style={thumbnail_arrow}
                 source = {{uri : this.props.flag_reported_image }}

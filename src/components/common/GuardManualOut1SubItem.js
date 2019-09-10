@@ -84,13 +84,7 @@ const styles = {
   profileImg: {
     height: 25,
     width:60,
-    marginRight: 12
-    //alignSelf: 'flex-end',
-    //alignContent: 'flex-end',
-    //justifyContent: 'center',
-   // justifyitems: 'flex-end'
-    //borderRadius: 20
-    //borderRadius: Platform.OS === 'ios' ?  50/2 : 30
+    marginRight: 12    
   }
 }
 export default GuardManualOut1SubItem;

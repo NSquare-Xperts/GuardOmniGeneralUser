@@ -61,14 +61,12 @@ import Maintaince from './components/Maintenance/Maintaince';
 import VideoSample from './components/VideoSample';
 
 const MoreIcon = require('./components/assets/Complaints/more_options.png');
-// import { Right } from 'native-base';
+
 class RouterComponent extends Component {
 
-    //Latest Code 
     componentDidMount() {        
         BackHandler.addEventListener('hardwareBackPress', () => {
             if (Actions.currentScene == 'Login') {
-                //Actions.refresh({ key: Math.random() })
                 BackHandler.exitApp()
             }
             else if (Actions.currentScene == 'splash') {
@@ -83,15 +81,10 @@ class RouterComponent extends Component {
             LoginData = data[0][1];
             this.setState({
                 Login: LoginData
-            })
-            //console.log("...check logindata ...", LoginData);
-            if (LoginData == null) {
-                //Actions.splash()
-                Actions.reset('splash')
-                // Actions.reset('Login')
-            } else {
-                //console.log("...login...", LoginData);
-                //Actions.homepage()
+            })            
+            if (LoginData == null) {            
+                Actions.reset('splash')            
+            } else {            
                 Actions.reset('drawer')
             }
         })
@@ -101,18 +94,12 @@ class RouterComponent extends Component {
         BackHandler.removeEventListener()
     }
     render() {
-        // const headerStyle = {
-        //     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-        //     height: 56 + Platform.select({ 'android': StatusBar.currentHeight, 'ios': 110 }),
-        // }
         return (
             <Router>
                 <Scene key="root">
 
                     <Scene title="Splash" key="splashome" component={SplashScreenNoLogin} left={() => null} hideNavBar />
-
                     <Scene title="Login" key="Login" component={Login} hideNavBar />
-
                     <Scene title="Play Video" key="fullscreen" component={VideoSample} hideNavBar/>
 
                     <Scene title="Splash" key="splash" component={SplashScreen} left={() => null} hideNavBar />
@@ -123,9 +110,6 @@ class RouterComponent extends Component {
                     <Scene title="Edit Complaint" key="newedit" component={NewEditComplaints} />
 
                     <Scene title="dateTime" key="dateTime" component={DateTimePickerTester} />
-
-                    {/* <Scene title="Login" key="NewLogin" component={NewLogin} hideNavBar /> */}
-
                     <Scene title="Select Country Code" key="countrycode" component={CountryCode}
                         leftButtonIconStyle={{ height: 24, width: 24 }}
                         leftButtonStyle={{ marginLeft: 16 }} />
@@ -134,7 +118,6 @@ class RouterComponent extends Component {
                         leftButtonIconStyle={{ height: 24, width: 24 }}
                         leftButtonStyle={{ marginLeft: 16 }} />
 
-
                     <Scene title="Select Country Code" key="countrycodeVR" component={CountryCodeVisitorRequest}
                         leftButtonIconStyle={{ height: 24, width: 24 }}
                         leftButtonStyle={{ marginLeft: 16 }} />
@@ -142,14 +125,11 @@ class RouterComponent extends Component {
                     <Scene title="Visitors" key="visitors" component={Visitors} />
                     <Scene title="Add Visitor" key="visitorRequest1" component={AddVisiorRequestNew} />
                     <Scene title="Add Visitor" key="visitorRequest" component={AddVisiorRequest} />
-
                     <Scene title="Profile Details" key="profileDetails" component={EditProfile} />
                     <Scene title="Property Details" key="PropertyDetails" component={PropertyDetails} />
                     <Scene title="Complaints" key="Complaints" component={Complaints} />
                     <Scene title="Helpdesk" key="Helpdesk" component={Helpdesk} />
-                    {/* <Scene title="Complaint Detail" key="ComplaintDetail" component={ComplaintDetail} renderRightButton={OptionMenu} /> */}
                     <Scene title="Complaint Detail" key="ComplaintDetail" component={ComplaintDetail}/>
-                    {/* <Scene title="Complaint Detail" key="ComplaintDetailDelete" component={ComplaintDetail} renderRightButton={OptionMenuDelete} /> */}
                     <Scene title="Complaint Detail" key="ComplaintDetailDelete" component={ComplaintDetailDoNotEdit} />
                     
                     <Scene title="Notifications" key="Notifications" component={Notifications} />
@@ -173,11 +153,8 @@ class RouterComponent extends Component {
 
                     <Scene title="My ID" key="MyId" component={MyId} />
 
-                    {/* <Scene title="Modal" key="modal" component={AlertOK} initial /> */}
-
                     <Scene title="Notices" key="Notices" component={Notices} />
 
-                    {/* <Scene title="Switch Property" key="SwitchProperty" component={SwitchProperty}/> */}
                     <Scene title="Details" key="GuardDetails" component={GuardDetails} />
 
                     <Scene title="Notice Detail" key="NoticeDetail" component={NoticeDetail} />
@@ -197,7 +174,6 @@ class RouterComponent extends Component {
                     <Scene title="Camera" key="camera" component={Camera} />
                     <Scene title="" key ="ComplaintDetailTextAlert" component={ComplaintDetailTextAlert} />
 
-                    {/* <Scene title="SwitchProperty" key="SwitchProperty" component={SwitchProperty}  /> */}
                     <Scene
                         key="drawer"
                         drawer={true}

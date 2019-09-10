@@ -32,9 +32,7 @@ class NoticeDetail extends Component {
       var res = JSON.parse(LoginData)
 
       this.setState({ userId: res.data[0].user_details.user_id })
-      console.log('userId :: ', this.state.userId)
-      console.log("notice ID details", this.state.noticeId);
-
+      
       callPostApi('http://guardomni.dutique.com:8000/api/noticeDetails', {
         "userId": this.state.userId,
         "noticeId": this.state.noticeId
@@ -42,14 +40,12 @@ class NoticeDetail extends Component {
         .then((response) => {
           // Continue your code here...
           res = JSON.parse(response)
-          console.log("response : ", res)
-          console.log("title : ", res.data[0].notice_title)
           if (res.status == 200) {
             this.setState({
               details: res.data, loadMore: false
               //status: res.status
             })
-            console.log("detail : ", details[0].notice_title)
+      
           } else if (res.status == 401) {
 
             AsyncStorage.removeItem('propertyDetails');
@@ -58,7 +54,7 @@ class NoticeDetail extends Component {
             //SimpleToast.show(response.message)
             Actions.reset('Login')
           }else {
-            console.log("stop calling")
+            // stop calling
           }
         });
     });
@@ -68,8 +64,7 @@ class NoticeDetail extends Component {
     BackHandler.addEventListener('hardwareBackPress', this.handleBackPress)
     this.renderNoticeDetails()
   }
-  handleBackPress() {
-    console.log("---scene---" + Actions.currentScene)
+  handleBackPress() {    
     if (Actions.currentScene == 'NoticeDetail') {
         Actions.pop()
     }

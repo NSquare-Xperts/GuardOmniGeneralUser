@@ -38,7 +38,7 @@ class MyId extends Component {
 
         var value = await AsyncStorage.getItem('propertyDetails')
         var data = JSON.parse(value);
-        console.log("data : ", data.user_qr_code)
+        
         if (data != null) {
             this.setState({
                 ImageSource: data.user_qr_code
@@ -86,7 +86,7 @@ class MyId extends Component {
     }
 
     handleBackPress() {
-        console.log("---scene---" + Actions.currentScene)
+        
         if (Actions.currentScene == 'MyId') {
             Actions.pop()
         }

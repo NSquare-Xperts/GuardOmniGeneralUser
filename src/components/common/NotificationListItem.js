@@ -3,56 +3,31 @@ import { Text, View, TouchableWithoutFeedback,AsyncStorage } from 'react-native'
 import { black, white_Original } from './color'
 import Swipeout from 'react-native-swipeout'
 
-//make component 
 const NotificationListItem = (props) => {
   const { gridRowStyle, textStyleTitle, gridColStyle, textStyle, textStyleDate } = styles;
   let right = [{ text: 'delete', type: 'delete' }];
   let swipeBtns = [{
     text: 'Delete',
     backgroundColor: 'red',
-    //underlayColor: 'rgba(0, 0, 1, 0.6)',
     underlayColor: 'pink',
     onPress: (index) => {
-      props.dataDelete(props.objNotification)}
-        // AsyncStorage.multiGet(['LoginData']).then((data) => {
-        //     LoginData = data[0][1];
-        //     var LoginObj = JSON.parse(LoginData)
-        //     this.deleteNote(props.id, index)
-        // })
-    
+      props.dataDelete(props.objNotification)}        
   }];
   return (
     <View>
 
-      <Swipeout
-        // close={!(this.state.sectionID === sectionID && this.state.rowID === rowID)}
-        // left={}
+      <Swipeout        
         key={props}
         right={swipeBtns}
-        backgroundColor={white_Original}
-      // rowID={props.id}
-      //sectionID={sectionID}
-      //  autoClose={props.autoClose}
-      //  backgroundColor={props.backgroundColor}
-      // onOpen={(sectionID, rowID) => {
-      //   this.setState({
-      //     sectionID,
-      //     rowID,
-      //   })
-      // }}
-      // onClose={() => console.log('===close')}
-      // scroll={event => console.log('scroll event')
-      >
+        backgroundColor={white_Original}>
         <TouchableWithoutFeedback onPress={() => props.sendData(props.objNotification)}>
         <View style={gridRowStyle}>
           <View style={gridColStyle}>
             <Text style={textStyle}>{props.title}</Text>
             <Text style={textStyleTitle}>{props.description} </Text>
           </View>
-        </View>
-        {/* </Swipeout> */}
+        </View>        
         </TouchableWithoutFeedback>
-
       </Swipeout>
     </View>
   );

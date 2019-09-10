@@ -2,24 +2,23 @@ import React from 'react';
 import { Text, View, Image, Platform } from 'react-native';
 
 const PropertyDetailSubItem = (props) => {
-  const { gridRowStyle, textStyle, profileImg,gridColStyle } = styles;
+  const { gridRowStyle, textStyle, profileImg, gridColStyle } = styles;
 
-  console.log("props : "+props)
   return (
     <View>
       <View style={gridRowStyle}>
-        <Image source={{ uri : props.image}} style={profileImg} />
+        <Image source={{ uri: props.image }} style={profileImg} />
         <View style={gridColStyle}>
-         
+
           <Text style={textStyle}>{props.name}</Text>
-          
+
           <Text style={textStyle}>{props.type}</Text>
-          
+
           {/* {this.props.sectionType==='Documents' ? 
           <Text style={textStyle}></Text>
           :
           <Text style={textStyle}>{props.type}</Text>} */}
-       
+
         </View>
       </View>
 

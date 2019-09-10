@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, Image, AsyncStorage, DeviceEventEmitter, BackHandler,Dimensions,TouchableHighlight ,TouchableWithoutFeedback, ActivityIndicator, FlatList, TouchableOpacity, Platform, Alert } from 'react-native'
+import { Text, View, Image, AsyncStorage, DeviceEventEmitter, BackHandler, Dimensions, TouchableHighlight, TouchableWithoutFeedback, ActivityIndicator, FlatList, TouchableOpacity, Platform, Alert } from 'react-native'
 import { red_lighter, white_Original, grey, black, grey_lighter, pink } from './common'
 import { ScrollView } from 'react-native-gesture-handler';
 import { callPostApi } from './Util/APIManager';
@@ -91,14 +91,12 @@ class ComplaintDetail extends Component {
             tintColor: 'blue'
         },
             (buttonIndex) => {
-                console.log('button clicked :', buttonIndex);
+
                 switch (buttonIndex) {
                     case 0:
-                        console.log("Edit Button Pressed")
                         Actions.newedit()
                         break;
                     case 1:
-                        console.log("Delete Button Pressed")
                         Alert.alert(
                             'Want to Delete this complaint ?',
                             'Complaint will be deleted permantly',
@@ -121,16 +119,12 @@ class ComplaintDetail extends Component {
                                                     "complaintId": complaintID,
                                                 })
                                                     .then((response) => {
-                                                        // Continue your code here...
                                                         res = JSON.parse(response)
-                                                        //console.log("response : ", res)
                                                         if (res.status == 200) {
                                                             AsyncStorage.removeItem('complaintID')
                                                             AsyncStorage.removeItem('userID')
-                                                            //Actions.pop('Complaints');
                                                             DeviceEventEmitter.emit('eventDeletedComplaint', { isDeletedSuccessFully: true });
                                                             Actions.popTo('Complaints');
-
                                                             SimpleToast.show(res.message)
                                                         } else {
                                                             SimpleToast.show(res.message)
@@ -149,14 +143,11 @@ class ComplaintDetail extends Component {
                 }
             });
     }
-   
-    renderComplaintDetails() {
 
-        console.log("list complaint details")
+    renderComplaintDetails() {
         AsyncStorage.multiGet(["LoginData"]).then((data) => {
             LoginData = data[0][1];
             var res = JSON.parse(LoginData)
-
             this.setState({ userId: res.data[0].user_details.user_id })
 
             callPostApi('http://guardomni.dutique.com:8000/api/complaintDetails', {
@@ -164,10 +155,8 @@ class ComplaintDetail extends Component {
                 "complaintId": this.state.complaintId
             })
                 .then((response) => {
-                    // Continue your code here...
-                    console.log("---------detail res :---------")
+
                     res = JSON.parse(response)
-                    console.log("detail res : " + JSON.stringify(res))
                     if (res.status == 200) {
                         this.setState({
                             details: res.data, refreshing: false, complaintsCommentArray: res.complaint_comments
@@ -177,10 +166,10 @@ class ComplaintDetail extends Component {
                         AsyncStorage.removeItem('propertyDetails');
                         AsyncStorage.removeItem('userDetail');
                         AsyncStorage.removeItem('LoginData');
-                        //SimpleToast.show(response.message)
+
                         Actions.reset('Login')
                     } else {
-                        console.log("stop calling")
+                        // stop calling
                     }
                 });
         });
@@ -238,17 +227,14 @@ class ComplaintDetail extends Component {
         this.setState({ opacity: isBuffering ? 1 : 0 });
     }
 
-
     //MOVE TO FULL SCREEN ON VIDEO CLICK 
     renderUrl = () => {
-        console.log("************* ----url : "+this.state.urlToSend)
         //Actions.temp({ videoUrl: url })
     }
 
-    videoPressed(url) {
-        console.log("Video pressed"+url);
+   videoPressed(url) {
         Actions.fullscreen({ url: url })
-      }
+    }
 
     _hideShowImageView() {
 
@@ -258,9 +244,9 @@ class ComplaintDetail extends Component {
                     {this.state.details[0].complaint_image_1.includes('mp4')
                         ?
                         <View>
-                             <TouchableHighlight
-                                    onPress={() => this.videoPressed(this.state.details[0].complaint_image_1 )}>
-                            {/* <Video
+                            <TouchableHighlight
+                                onPress={() => this.videoPressed(this.state.details[0].complaint_image_1)}>
+                                {/* <Video
                                 style={styles.thumbnail}
                                 source={{ uri: this.state.details[0].complaint_image_1 }}
                                 ref={(ref) => {
@@ -271,12 +257,12 @@ class ComplaintDetail extends Component {
                                 onLoad={this.onLoad}
                                 onError={this.videoError}
                             /> */}
-                             <Image
-                                            style={styles.thumbnail}
-                                            loadingStyle={{ size: 'large', color: 'blue' }}
-                                            source={require('../components/assets/Common/video_play_button.png')}
-                                            //source={{ uri: this.state.details[0].complaint_image_1 }}
-                                        />
+                                <Image
+                                    style={styles.thumbnail}
+                                    loadingStyle={{ size: 'large', color: 'blue' }}
+                                    source={require('../components/assets/Common/video_play_button.png')}
+                                //source={{ uri: this.state.details[0].complaint_image_1 }}
+                                />
                             </TouchableHighlight>
                             {/* <ActivityIndicator
                                 animating
@@ -296,9 +282,9 @@ class ComplaintDetail extends Component {
                     {this.state.details[0].complaint_image_2.includes('mp4')
                         ?
                         <View>
-                             <TouchableHighlight
-                                    onPress={() => this.videoPressed(this.state.details[0].complaint_image_2)}>
-                            {/* <Video
+                            <TouchableHighlight
+                                onPress={() => this.videoPressed(this.state.details[0].complaint_image_2)}>
+                                {/* <Video
                                 style={styles.thumbnail}
                                 source={{ uri: this.state.details[0].complaint_image_2 }}
                                 ref={(ref) => {
@@ -311,12 +297,12 @@ class ComplaintDetail extends Component {
                                 onLoad={this.onLoad}
                                 onError={this.videoError}
                             /> */}
-                             <Image
-                                            style={styles.thumbnail}
-                                            loadingStyle={{ size: 'large', color: 'blue' }}
-                                            source={require('../components/assets/Common/video_play_button.png')}
-                                            //source={{ uri: this.state.details[0].complaint_image_1 }}
-                                        />
+                                <Image
+                                    style={styles.thumbnail}
+                                    loadingStyle={{ size: 'large', color: 'blue' }}
+                                    source={require('../components/assets/Common/video_play_button.png')}
+                                //source={{ uri: this.state.details[0].complaint_image_1 }}
+                                />
                             </TouchableHighlight>
                             {/* <ActivityIndicator
                                 animating
@@ -335,9 +321,9 @@ class ComplaintDetail extends Component {
                     {this.state.details[0].complaint_image_3.includes('mp4')
                         ?
                         <View>
-                             <TouchableHighlight
-                                    onPress={() => this.videoPressed(this.state.details[0].complaint_image_3 )}>
-                            {/* <Video
+                            <TouchableHighlight
+                                onPress={() => this.videoPressed(this.state.details[0].complaint_image_3)}>
+                                {/* <Video
                                 style={styles.thumbnail}
                                 source={{ uri: this.state.details[0].complaint_image_3 }}
                                 ref={(ref) => {
@@ -348,12 +334,12 @@ class ComplaintDetail extends Component {
                                 onLoad={this.onLoad}
                                 onError={this.videoError}
                             /> */}
-                             <Image
-                                  style={styles.thumbnail}
-                                  loadingStyle={{ size: 'large', color: 'blue' }}
-                                  source={require('../components/assets/Common/video_play_button.png')}
-                                  //source={{ uri: this.state.details[0].complaint_image_1 }}
-                            />
+                                <Image
+                                    style={styles.thumbnail}
+                                    loadingStyle={{ size: 'large', color: 'blue' }}
+                                    source={require('../components/assets/Common/video_play_button.png')}
+                                //source={{ uri: this.state.details[0].complaint_image_1 }}
+                                />
                             </TouchableHighlight>
                             {/* <ActivityIndicator
                                 animating
@@ -378,8 +364,8 @@ class ComplaintDetail extends Component {
                         ?
                         <View>
                             <TouchableHighlight
-                                    onPress={() => this.videoPressed(this.state.details[0].complaint_image_1 )}
-                                >
+                                onPress={() => this.videoPressed(this.state.details[0].complaint_image_1)}
+                            >
                                 {/* <Video
                                     style={styles.thumbnail}
                                     controls={true}
@@ -393,19 +379,19 @@ class ComplaintDetail extends Component {
                                     onLoadStart={this.onLoadStart}
                                     onLoad={this.onLoad}
                                     onError={this.videoError}/> */}
-                                  <Image
-                                            style={styles.thumbnail}
-                                            loadingStyle={{ size: 'large', color: 'blue' }}
-                                            source={require('../components/assets/Common/video_play_button.png')}
-                                            //source={{ uri: this.state.details[0].complaint_image_1 }}
-                                 />
+                                <Image
+                                    style={styles.thumbnail}
+                                    loadingStyle={{ size: 'large', color: 'blue' }}
+                                    source={require('../components/assets/Common/video_play_button.png')}
+                                //source={{ uri: this.state.details[0].complaint_image_1 }}
+                                />
                             </TouchableHighlight>
                             {/* <ActivityIndicator
                                 animating
                                 size="large"
                                 color={pink}
                                 style={[styles.activityIndicator, { opacity: this.state.opacity }]} />                           */}
-                         </View>
+                        </View>
                         :
                         <ImageLoad
                             style={styles.thumbnail}
@@ -415,9 +401,9 @@ class ComplaintDetail extends Component {
                     {this.state.details[0].complaint_image_2.includes('mp4')
                         ?
                         <View>
-                             <TouchableHighlight
-                                    onPress={() => this.videoPressed(this.state.details[0].complaint_image_2)}>
-                            {/* <Video
+                            <TouchableHighlight
+                                onPress={() => this.videoPressed(this.state.details[0].complaint_image_2)}>
+                                {/* <Video
                                 style={styles.thumbnail}
                                 controls={true}
                                 fullscreen={true} 
@@ -431,12 +417,12 @@ class ComplaintDetail extends Component {
                                 onLoad={this.onLoad}
                                 onError={this.videoError}
                             /> */}
-                             <Image
-                                            style={styles.thumbnail}
-                                            loadingStyle={{ size: 'large', color: 'blue' }}
-                                            source={require('../components/assets/Common/video_play_button.png')}
-                                            //source={{ uri: this.state.details[0].complaint_image_1 }}
-                                        />
+                                <Image
+                                    style={styles.thumbnail}
+                                    loadingStyle={{ size: 'large', color: 'blue' }}
+                                    source={require('../components/assets/Common/video_play_button.png')}
+                                //source={{ uri: this.state.details[0].complaint_image_1 }}
+                                />
                             </TouchableHighlight>
                             {/* <ActivityIndicator
                                 animating
@@ -460,9 +446,9 @@ class ComplaintDetail extends Component {
                     {this.state.details[0].complaint_image_1.includes('mp4')
                         ?
                         <View>
-                             <TouchableHighlight
-                                    onPress={() => this.videoPressed(this.state.details[0].complaint_image_1 )}>
-                                    {/* <Video
+                            <TouchableHighlight
+                                onPress={() => this.videoPressed(this.state.details[0].complaint_image_1)}>
+                                {/* <Video
                                         style={styles.thumbnail}
                                         //onVideoLoad={{ size: 'large', color: 'blue' }}
                                         source={{ uri: this.state.details[0].complaint_image_1 }}
@@ -473,15 +459,15 @@ class ComplaintDetail extends Component {
                                         onLoadStart={this.onLoadStart}
                                         onLoad={this.onLoad}
                                         onError={this.videoError}  /> */}
-                                    <Image
-                                            style={styles.thumbnail}
-                                            loadingStyle={{ size: 'large', color: 'blue' }}
-                                            source={require('../components/assets/Common/video_play_button.png')}
-                                            //source={{ uri: this.state.details[0].complaint_image_1 }}
-                                        />
+                                <Image
+                                    style={styles.thumbnail}
+                                    loadingStyle={{ size: 'large', color: 'blue' }}
+                                    source={require('../components/assets/Common/video_play_button.png')}
+                                //source={{ uri: this.state.details[0].complaint_image_1 }}
+                                />
 
-                             </TouchableHighlight>
-                           
+                            </TouchableHighlight>
+
                             {/* <ActivityIndicator
                                 animating
                                 size="large"
@@ -573,38 +559,18 @@ class ComplaintDetail extends Component {
         this.setState({ dialogVisible: false });
     };
 
-    handleAddComment = () => {
-        console.log("New Comment: ", this.state.newComment)
+    handleAddComment = () => {        
         if (this.state.newComment.length > 0) {
             this.setState({ dialogVisible: false });
-            this.setState({ newComment: '' })
-            console.log("UserID: ", this.state.userId, "ComplaintID:", this.state.complaintId, "Comment: ", this.state.newComment)
+            this.setState({ newComment: '' })            
             callPostApi('http://guardomni.dutique.com:8000/api/addComplaintComment', {
                 "userId": this.state.userId,
                 "complaintId": this.state.complaintId,
                 "comment": this.state.newComment
             })
                 .then((response) => {
-
-                    res = JSON.parse(response)
-                    console.log("details : ", res)
-                    // if (res.status == "200") {
-                    //     this.setState({
-                    //         details: res.data, refreshing: false
-                    //     })
-                    //this.renderComplaintDetails()
-                    this._handleRefresh()
-                    // }else if (res.status == 401) {
-
-                    //     AsyncStorage.removeItem('propertyDetails');
-                    //     AsyncStorage.removeItem('userDetail');
-                    //     AsyncStorage.removeItem('LoginData');
-                    //     //SimpleToast.show(response.message)
-                    //     Actions.reset('Login')
-                    //   } else {
-                    //     console.log("stop calling")
-                    // }
-
+                    res = JSON.parse(response)                                        
+                    this._handleRefresh()                   
                 });
         } else {
             this.setState({
@@ -666,7 +632,7 @@ const styles = {
         height: 155,
         width: '100%',
         marginTop: 10,
-        backgroundColor:grey_lighter,
+        backgroundColor: grey_lighter,
         marginBottom: 10,
     },
     gridRowStyle: {

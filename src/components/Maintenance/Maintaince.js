@@ -106,9 +106,6 @@ class Maintaince extends Component {
 
   renderList() {
     
-    console.log("response : Complaints ", this.state.userId)
-    console.log("response : Complaints ", this.state.page)
-    
     callPostApi('http://guardomni.dutique.com:8000/api/userMaintenance', {
       "userId": this.state.userId,
       //"pageNumber": 0,
@@ -119,12 +116,9 @@ class Maintaince extends Component {
     }).then((response) => {
       // Continue your code here...
       res = JSON.parse(response)
-      
-      console.log("response : Complaints ", res.status)
-      console.log("response : Complaints main info ",res.data.maintenanInfo)
+     
       if (res.status == 200) {
-
-        console.log("maintenance res " + JSON.stringify(res))
+    
         this.setState({
           maintenanInfo: res.data.maintenanInfo[0],
           history: this.state.history.concat(res.data.transactions), loadMore: false, refreshing: false,

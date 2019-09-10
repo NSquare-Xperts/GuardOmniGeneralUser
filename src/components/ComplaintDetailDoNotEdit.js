@@ -52,23 +52,20 @@ class ComplaintDetailDoNotEdit extends Component {
                 "userId": this.state.userId,
                 "complaintId": this.state.complaintId
             })
-                .then((response) => {
-                    // Continue your code here...
-                    res = JSON.parse(response)
-                    console.log("details : ", res)
+                .then((response) => {                    
+                    res = JSON.parse(response)                    
                     if (res.status == "200") {
                         this.setState({
                             details: res.data, refreshing: false,complaintsCommentArray:res.complaint_comments
                         })
                     } else if (res.status == 401) {
-
                         AsyncStorage.removeItem('propertyDetails');
                         AsyncStorage.removeItem('userDetail');
                         AsyncStorage.removeItem('LoginData');
                         //SimpleToast.show(response.message)
                         Actions.reset('Login')
                       }else {
-                        console.log("stop calling")
+                        // stop calling
                     }
 
                 });
@@ -79,7 +76,6 @@ class ComplaintDetailDoNotEdit extends Component {
 
         this.editComplaintListener =
             DeviceEventEmitter.addListener('eventEditedComplaint', (e) => {
-
                 DeviceEventEmitter.emit('eventNewComplaintAdded', { isAddeddSuccessFully: true });
                 this.setState({
                     refreshing: true,

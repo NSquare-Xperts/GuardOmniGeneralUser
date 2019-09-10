@@ -18,16 +18,14 @@ class SwitchProperty extends Component {
         list: []
     }
     renderUsersList() {
-        // this.setState({ refreshing: true });
-        console.log('prop userId :: ', this.state.userId)
+        // this.setState({ refreshing: true });        
         callPostApi('http://guardomni.dutique.com:8000/api/propertyList?', {
             // "userId": this.state.userId
             "userId": this.state.userId
         })
             .then((response) => {
                 // Continue your code here...
-                res = JSON.parse(response)
-                console.log("**** : " + res.data)
+                res = JSON.parse(response)                
 
                  if (res.status == 200) {
                     this.setState({
@@ -36,7 +34,7 @@ class SwitchProperty extends Component {
                         propertyListRevertInJson: res.data,
                         refreshing: false
                     })
-                    console.log("inisde setState")
+                    
                 }else if(res.status == 401) {
 
                     AsyncStorage.removeItem('propertyDetails');
@@ -48,7 +46,7 @@ class SwitchProperty extends Component {
                     this.setState({
                         refreshing: false,
                     })
-                    console.log("stop calling")
+                    
                 }
             });
     }
@@ -63,7 +61,7 @@ class SwitchProperty extends Component {
 
         var value = await AsyncStorage.getItem('propertyDetails')
         var data = JSON.parse(value);
-        //console.log("prop user data : ", dataUser.user_id)
+        
         if (dataUser != '' || dataUser != null) {
             this.setState({
                 userId: dataUser.user_id,
@@ -99,22 +97,10 @@ class SwitchProperty extends Component {
         }
     }
 
-    //move to next page  : clear session of property details only: 
-    // async _getStorageValue(){
-    //     var value = await AsyncStorage.getItem('propertyDetails')
-    //     console.log("get storage value : ", value)
-    //     return value
-    //   }
-
     _sendData(item) {
-
-        //property details [] need to change
-        console.log("sendData : ", JSON.stringify(item))
         AsyncStorage.removeItem('propertyDetails');
-
         AsyncStorage.setItem('propertyDetails', JSON.stringify(item))
-        Actions.homepage()
-        // });
+        Actions.homepage()        
     }
 
     render() {

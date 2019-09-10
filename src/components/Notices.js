@@ -23,22 +23,13 @@ class Notices extends Component {
 
     renderUsersList() {
 
-        // AsyncStorage.multiGet(["LoginData"]).then((data) => {
-        //     LoginData = data[0][1];
-        //     var res = JSON.parse(LoginData)
-
-        //     this.setState({ userId: res.data[0].user_details.user_id })
-        console.log('userId :: ', this.state.userId, this.state.flatId)
-
         callPostApi('http://guardomni.dutique.com:8000/api/noticeList', {
             "userId": this.state.userId,
             "pageNumber": this.state.page,
             "flatId": this.state.flatId
         })
-            .then((response) => {
-                // Continue your code here...
-                res = JSON.parse(response)
-                console.log("response : ", res)
+            .then((response) => {                
+                res = JSON.parse(response)                
                 if (res.status == 200) {
                     this.setState({
                         notices: this.state.notices.concat(res.data), loadMore: false, refreshing: false, totalRecords: res.totalRecords, month_count: res.month_count,
@@ -63,15 +54,10 @@ class Notices extends Component {
 
 
     async _getUserStorageValue() {
-
         var value = await AsyncStorage.getItem('propertyDetails')
         var data = JSON.parse(value);
-
-
         var valueUser = await AsyncStorage.getItem('userDetail')
-        var dataUser = JSON.parse(valueUser);
-
-        console.log("data :::: " + data.flat_id)
+        var dataUser = JSON.parse(valueUser);        
 
         if (dataUser != '' || dataUser != null) {
             this.setState({
@@ -85,10 +71,7 @@ class Notices extends Component {
         }
     }
 
-
-
-    handleBackPress() {
-        console.log("---scene---" + Actions.currentScene)
+    handleBackPress() {        
         if (Actions.currentScene == 'Notices') {
             Actions.pop()
         }
@@ -162,7 +145,7 @@ class Notices extends Component {
     }
 
     _sendId(item) {
-        console.log("Selected Notice ID : ", item)
+        
         Actions.NoticeDetail({ noticeID: item })
     }
 
@@ -244,115 +227,7 @@ class Notices extends Component {
         return true;
     }
 }
-// class Notices extends Component {
-// state = {
-//     refreshing: true,
-//     user: [],
-// }
-// renderUsersList() {
-//       this.setState({refreshing: true});
-//       axios.get('https://jsonplaceholder.typicode.com/users')
-//       .then(response => {
-//           this.setState({ user: response.data, refreshing: false}),
-//           console.log("hi ",response.data)
-//       }
-//     ).catch((error) =>{
-//                   console.log(error)
-//                   this.setState({
-//                           refreshing: false,
-//         })
-//       }); 
-// }
-// componentWillMount(){
-//     this.renderUsersList()
-// }
 
-// _handleRefresh = () => {
-//     this.setState({
-//         refreshing: false,
-//     },
-//     () => {
-//         this.renderUsersList();
-//     })
-// }
-
-// FlatListItemSeparator = () => {
-//     return (
-//       <View
-//         style={{
-//           height: 0.4,
-//           width: "95%",
-//           backgroundColor: grey,
-//           marginLeft: 10, 
-//           marginRight: 10,
-//         }}
-//       />
-//     );
-//   }
-// render() {
-//     if(this.state.refreshing){
-//         return(
-//             <View style={{backgroundColor: red_lighter, flex: 1}}>
-//              <HomeNumberOfNotices/>
-//                 <View style={styles.container}>
-//                     <FlatList            
-//                         data= {this.state.user}
-//                         ItemSeparatorComponent = {this.FlatListItemSeparator}         
-//                         renderItem={({item}) => 
-//                             <Placeholder.Paragraph
-//                                 //lineSpacing={10}
-//                                 //firstLineWidth={'50%'}
-//                                 //animate='fade'
-//                                 //color={'grey'}
-//                                 //lastLineWidth="30%"
-//                                 //onReady={this.state.refreshing}>
-//                                 // onReady={true}>  
-//                                 >
-//                                 <NoticeListItem/>
-//                                 {/* <Text style={{padding: 10, justifyContent:'center', fontSize: 14}}> {item.name} </Text> */}
-//                                     <Text style={{padding: 10, justifyContent:'center', fontSize: 11}}>{item.name}</Text>
-//                                     </Placeholder.Paragraph>
-//                                 }
-//                                 refreshing={this.state.refreshing}
-//                                 onRefresh={this._handleRefresh}/>
-//                     </View>
-
-//         {/* <TouchableWithoutFeedback onPress={()=> Actions.AddComplaint()}>
-//              <Image style={styles.thumbnail_arrow}
-//                             source={require('./assets/Visitor/add_fab_click.png')}/> 
-//         </TouchableWithoutFeedback>
-//                      */}
-//     </View>
-//             )
-//     }
-// else{
-//     return(
-//         <View style={{backgroundColor: red_lighter,flex: 1,marginBottom: 5}}>
-//             <HomeNumberOfNotices/>
-//             <View style={styles.container}>
-//                 <FlatList   
-//                     ItemSeparatorComponent = {this.FlatListItemSeparator}         
-//                     data= {this.state.user}
-//                     renderItem={({item}) => 
-//                  <NoticeListItem/>}
-
-//                     // <Text style={{padding: 10, justifyContent:'center', fontSize: 11}}>{item.name}</Text>}
-//                     refreshing={this.state.refreshing}
-//                     onRefresh={this._handleRefresh}/>
-
-
-//             </View>
-//             {/* <TouchableWithoutFeedback onPress={()=> Actions.AddComplaint()}>
-//                             <Image style={styles.thumbnail_arrow}
-//                             source={require('./assets/Visitor/add_fab_click.png')}/> 
-//             </TouchableWithoutFeedback> */}
-
-//         </View>
-//     )
-//    }
-// }
-
-// }
 export default Notices;
 
 const styles = {

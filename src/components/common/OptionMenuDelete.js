@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, Image, View, Alert, AsyncStorage, TouchableOpacity,DeviceEventEmitter } from 'react-native';
+import { Text, Image, View, Alert, AsyncStorage, TouchableOpacity, DeviceEventEmitter } from 'react-native';
 import { red, black } from './color'
 import { Actions } from 'react-native-router-flux'
 import { callPostApi } from '../Util/APIManager'
@@ -9,7 +9,7 @@ import { Dropdown } from 'react-native-material-dropdown';
 
 
 const OptionMenuDelete = (props) => {
-    
+
     let data = [{
         value: 'Delete',
     }
@@ -18,64 +18,53 @@ const OptionMenuDelete = (props) => {
 
     onChangeText = (value) => {
         //  var valueFilter;
-       
-            if (value == 'Delete') {
 
-                Alert.alert(
-                    'Want to Delete this complaint ?',
-                    'Complaint will be deleted permantly',
-                    [
-                        {
-                            text: 'No', onPress: () =>
-                                console.log('Cancel Pressed')
+        if (value == 'Delete') {
 
-                        },
-                        {
-                            text: 'Yes', onPress: () => {
+            Alert.alert(
+                'Want to Delete this complaint ?',
+                'Complaint will be deleted permantly',
+                [
+                    {
+                        text: 'No', onPress: () =>
+                            console.log('Cancel Pressed')
 
-                                AsyncStorage.multiGet(["LoginData"]).then((data) => {
-                                    LoginData = data[0][1];
-                                    var res = JSON.parse(LoginData)
+                    },
+                    {
+                        text: 'Yes', onPress: () => {
 
-                                    console.log('userId :: ', res.data[0].user_details.user_id)
+                            AsyncStorage.multiGet(["LoginData"]).then((data) => {
+                                LoginData = data[0][1];
+                                var res = JSON.parse(LoginData)
+                                AsyncStorage.getItem('complaintID').then((data) => {
+                                    var complaintID = JSON.parse(data)
+                                    callPostApi('http://guardomni.dutique.com:8000/api/complaintDelete', {
+                                        "userId": res.data[0].user_details.user_id,
+                                        "complaintId": complaintID,
+                                    })
+                                        .then((response) => {
 
-                                    AsyncStorage.getItem('complaintID').then((data) => {
-                                        console.log("Option menu", data)
-                                        var complaintID = JSON.parse(data)
+                                            res = JSON.parse(response)
+                                            if (res.status == 200) {
+                                                AsyncStorage.removeItem('complaintID')
+                                                AsyncStorage.removeItem('userID')
+                                                DeviceEventEmitter.emit('eventDeletedComplaint', { isDeletedSuccessFully: true });
+                                                Actions.popTo('Complaints');
+                                                SimpleToast.show(res.message)
+                                            } else {
+                                                SimpleToast.show(res.message)
+                                            }
+                                        });
 
-                                        callPostApi('http://guardomni.dutique.com:8000/api/complaintDelete', {
-                                            "userId": res.data[0].user_details.user_id,
-                                            "complaintId": complaintID,
-                                        })
-                                            .then((response) => {
-                                                // Continue your code here...
-                                                res = JSON.parse(response)
-                                                console.log("response : ", res)
-                                                if (res.status == 200) {
-
-                                                    AsyncStorage.removeItem('complaintID')
-                                                    AsyncStorage.removeItem('userID')
-                                                    //Actions.pop('Complaints');
-                                                    DeviceEventEmitter.emit('eventDeletedComplaint',{isDeletedSuccessFully: true});
-                                                    Actions.popTo('Complaints');
-
-                                                    SimpleToast.show(res.message)
-                                                } else {
-                                                    SimpleToast.show(res.message)
-                                                }
-                                            });
-
-                                    });
                                 });
-                            }
+                            });
                         }
-                    ],
-                    { cancelable: true }
-                )
+                    }
+                ],
+                { cancelable: true }
+            )
+        }
 
-
-            }
-        
     }
     return (
         <View style={{ flex: 1, alignItems: 'flex-end', justifyContent: 'space-around' }}>
@@ -87,14 +76,12 @@ const OptionMenuDelete = (props) => {
             <Dropdown
                 containerStyle={{ width: 100, justifyContent: 'space-between', marginTop: 25 }}
                 ref={ref => this.dropDownCompaint = ref}
-                //value={this.state.name}
                 data={data}
                 baseColor='transparent'
                 selectedItemColor='black'
                 itemColor='black'
                 textColor='white'
                 onChangeText={val => this.onChangeText(val)}
-            //onChangeText={val => this.onChangeText()}
             />
         </View>
     );

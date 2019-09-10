@@ -7,13 +7,7 @@ import SimpleToast from 'react-native-simple-toast'
 export const editComplaint_ = (title, comments, uri1, type1, name1, uri2, type2, name2, uri3, type3, name3, complaintId,isFile1,isFile2,isFile3,userId) => {
 
     return (dispatch) => {
-        dispatch({ type: EDIT_PROFILE });
-
-        console.log("uri1 + ",uri1)
-        console.log("uri2 + ",uri2)
-        console.log("uri3 + ",uri3)
-        console.log("type2 + ",type2)
-        
+        dispatch({ type: EDIT_PROFILE });        
         callFormDataUpdateComplaintPostApi('http://guardomni.dutique.com:8000/api/complaintUpdate', {
 
             "userId": userId,
@@ -38,11 +32,8 @@ export const editComplaint_ = (title, comments, uri1, type1, name1, uri2, type2,
             "complaintId": complaintId
            
         })
-        .then((response) => {
-                // Continue your code here...
-                data = JSON.parse(response)
-                console.log("edit profileUpdate response : ", data)
-                
+        .then((response) => {                
+                data = JSON.parse(response)                               
                 if (data.status == 200) {
                     Actions.popTo('ComplaintDetail');
                     DeviceEventEmitter.emit('eventEditedComplaint',{isEditedSuccessFully: true});
@@ -57,8 +48,7 @@ export const editComplaint_ = (title, comments, uri1, type1, name1, uri2, type2,
                   } else{
                     SimpleToast.show(data.message)
                     editComplaintFailed(dispatch, data.message)
-                }                
-                
+                }                                
             }).catch((error)=>{
                 SimpleToast.show(error)
             })

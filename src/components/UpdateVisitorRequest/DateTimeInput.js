@@ -10,7 +10,7 @@ const DateTimeInput = (props) => {
             <View style={styles.containerStyle}>
                 <TextInput
                     style={{ height: 50, width: '70%', marginLeft: 15, justifyContent: 'center' }}
-                    placeholder={ Expected_arrival_date_and_time }
+                    // placeholder={ Expected_arrival_date_and_time }
                     underlineColorAndroid='rgba(0,0,0,0)'
                     editable={false}
                     onChangeText={props.dateChanged}

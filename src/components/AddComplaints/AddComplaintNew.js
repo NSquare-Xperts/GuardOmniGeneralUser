@@ -43,191 +43,6 @@ class AddComplaintNew extends Component {
     type2: ''
   }
 
-  // selectPhotoTapped() {
-  //   const options = {
-  //     quality: 1.0,
-  //     maxWidth: 500,
-  //     maxHeight: 500,
-  //     durationLimit: 2,
-  //     title: 'Choose Image or Video',
-  //     customButtons: [{ name: 'image', title: 'Take a Photo' }, { name: 'video', title: 'Take a Video' }, { name: 'library', title: 'Choose from Library' }],
-  //     //smediaType: "mixed",
-  //     storageOptions: {
-  //       skipBackup: true
-  //     }
-  //   };
-
-  //   ImagePicker.showImagePicker({
-  //     title: 'Choose Image or Video',
-  //     customButtons: [{ name: 'image', title: 'Take a Photo' }, { name: 'video', title: 'Take a Video' }, { name: 'library', title: 'Choose from Library' }],
-  //     chooseFromLibraryButtonTitle: null,
-  //     takePhotoButtonTitle: null,
-  //   }, (res) => {
-  //     if (res.customButton) {
-  //       console.log("responseon  >> " + JSON.stringify(res))
-  //       ImagePicker.launchCamera({
-  //         mediaType: res.customButton,
-  //         videoQuality: 'medium',
-  //         quality: 1,
-  //       }, (response) => {
-
-  //         let source;
-  //         source = { uri: response.uri };
-
-  //         console.log("response > " + JSON.stringify(response))
-  //         if (res.customButton != "image") {
-  //           this.setState({
-  //             uriToSend: response.uri,
-  //             ImageSource: source,
-  //             imageName: response.path,
-  //             type: "video/mp4"
-  //           });
-  //         } else {
-  //           this.setState({
-  //             uriToSend: response.uri,
-  //             ImageSource: source,
-  //             imageName: response.fileName,
-  //             type: response.type
-  //           });
-  //         }
-  //       });
-  //     } else if(!res.didCancel){
-  //       console.log("responseon from gallery >> " + JSON.stringify(res))
-  //       const source = { uri: 'data:image/jpeg;base64,' + res.data };
-  //       console.log("source : " + JSON.stringify(source))
-  //       console.log("URI >> " + res.uri)
-  //       this.setState({
-  //         uriToSend: res.uri,
-  //         ImageSource: source,
-  //         imageName: res.fileName,
-  //         type: res.type
-  //       });
-  //     }
-  //   });
-  // }
-
-  // selectPhoto2Tapped() {
-  //   const options = {
-  //     quality: 1.0,
-  //     maxWidth: 500,
-  //     maxHeight: 500,
-  //     durationLimit: 2,
-  //     title: 'Choose Image or Video',
-  //     customButtons: [{ name: 'image', title: 'Take a Photo' }, { name: 'video', title: 'Take a Video' }, { name: 'library', title: 'Choose from Library' }],
-  //     storageOptions: {
-  //       skipBackup: true
-  //     }
-  //   };
-
-  //   ImagePicker.showImagePicker({
-  //     title: 'Choose Image or Video',
-  //     customButtons: [{ name: 'image', title: 'Take a Photo' }, { name: 'video', title: 'Take a Video' }, { name: 'library', title: 'Choose from Library' }],
-  //     chooseFromLibraryButtonTitle: null,
-  //     takePhotoButtonTitle: null,
-  //   }, (res) => {
-  //     if (res.customButton) {
-  //       ImagePicker.launchCamera({
-  //         mediaType: res.customButton,
-  //         videoQuality: 'medium',
-  //         quality: 1,
-  //       }, (response) => {
-
-  //         let source;
-  //         source = { uri: response.uri };
-
-  //         console.log("photo 2  >> " + JSON.stringify(response))
-  //         if (res.customButton != "image") {
-  //           this.setState({
-  //             uriTo1Send: response.uri,
-  //             ImageSource1: source,
-  //             imageName1: response.path,
-  //             type1: "video/mp4"
-  //           });
-  //         } else {
-  //           this.setState({
-  //             uriTo1Send: response.uri,
-  //             ImageSource1: source,
-  //             imageName1: response.fileName,
-  //             type1: response.type
-  //           });
-  //         }
-  //       });
-  //     } else if(!res.didCancel) {
-  //       console.log("responseon from gallery >> " + JSON.stringify(res))
-
-  //       const source = { uri: 'data:image/jpeg;base64,' + res.data };
-  //       // console.log("source : " + JSON.stringify(source))
-  //       //console.log("source uri : " + JSON.stringify(source.uri))
-  //       console.log("URI >> " + res.uri)
-  //       this.setState({
-  //         uriTo1Send: res.uri,
-  //         ImageSource1: source,
-  //         imageName1: res.fileName,
-  //         type1: res.type
-  //       });
-  //     }
-  //   })
-  // }
-
-  // selectPhoto3Tapped() {
-  //   const options = {
-  //     quality: 1.0,
-  //     maxWidth: 500,
-  //     maxHeight: 500,
-  //     durationLimit: 2,
-  //     customButtons: [{ name: 'image', title: 'Take a Photo' }, { name: 'video', title: 'Take a Video' }, { name: 'library', title: 'Choose from Library' }],
-  //     storageOptions: {
-  //       skipBackup: true
-  //     }
-  //   };
-
-  //   ImagePicker.showImagePicker({
-  //     title: 'Choose Image or Video',
-  //     customButtons: [{ name: 'image', title: 'Take a Photo' }, { name: 'video', title: 'Take a Video' }, { name: 'library', title: 'Choose from Library' }],
-  //     chooseFromLibraryButtonTitle: null,
-  //     takePhotoButtonTitle: null,
-  //   }, (res) => {
-  //     if (res.customButton) {
-  //       ImagePicker.launchCamera({
-  //         mediaType: res.customButton,
-  //         videoQuality: 'medium',
-  //         quality: 1,
-  //       }, (response) => {
-
-  //         let source;
-  //         source = { uri: response.uri };
-
-  //         if (res.customButton != "image") {
-  //           this.setState({
-  //             uriTo2Send: response.uri,
-  //             ImageSource2: source,
-  //             imageName2: response.path,
-  //             type2: "video/mp4"
-  //           });
-  //         } else {
-  //           this.setState({
-  //             uriTo2Send: response.uri,
-  //             ImageSource2: source,
-  //             imageName2: response.fileName,
-  //             type2: response.type
-  //           });
-  //         }
-  //       });
-  //     } else if(!res.didCancel){
-  //       console.log("responseon from gallery >> " + JSON.stringify(res))
-
-  //       const source = { uri: 'data:image/jpeg;base64,' + res.data };
-  //       console.log("source : " + JSON.stringify(source))
-  //       console.log("URI >> " + res.uri)
-  //       this.setState({
-  //         uriTo2Send: res.uri,
-  //         ImageSource2: source,
-  //         imageName2: res.fileName,
-  //         type2: res.type
-  //       });
-  //     }
-  //   })
-  // }
 
   selectPhotoTapped() {
     const options = {
@@ -240,7 +55,6 @@ class AddComplaintNew extends Component {
     };
 
     ImagePicker.showImagePicker(options, (response) => {
-      console.log('Response = ', response);
 
       if (response.didCancel) {
         console.log('User cancelled photo picker');
@@ -253,8 +67,6 @@ class AddComplaintNew extends Component {
       }
       else {
         let source = { uri: response.uri };
-        // You can also display the image using data:
-        // let source = { uri: 'data:image/jpeg;base64,' + response.data };
 
         if (Platform.OS == 'ios') {
           this.setState({
@@ -263,7 +75,6 @@ class AddComplaintNew extends Component {
             imageName: response.fileSize + "",
             type: response.type
           });
-
         } else {
           this.setState({
             uriToSend: response.uri,
@@ -287,7 +98,6 @@ class AddComplaintNew extends Component {
     };
 
     ImagePicker.showImagePicker(options, (response) => {
-      console.log('Response = ', response);
 
       if (response.didCancel) {
         console.log('User cancelled photo picker');
@@ -300,9 +110,6 @@ class AddComplaintNew extends Component {
       }
       else {
         let source = { uri: response.uri };
-        // You can also display the image using data:
-        // let source = { uri: 'data:image/jpeg;base64,' + response.data };
-
 
         if (Platform.OS == 'ios') {
           this.setState({
@@ -337,7 +144,6 @@ class AddComplaintNew extends Component {
     };
 
     ImagePicker.showImagePicker(options, (response) => {
-      console.log('Response = ', response);
 
       if (response.didCancel) {
         console.log('User cancelled photo picker');
@@ -350,8 +156,6 @@ class AddComplaintNew extends Component {
       }
       else {
         let source = { uri: response.uri };
-        // You can also display the image using data:
-        // let source = { uri: 'data:image/jpeg;base64,' + response.data };
 
         if (Platform.OS == 'ios') {
           this.setState({
@@ -381,7 +185,6 @@ class AddComplaintNew extends Component {
     return (
       <Button
         onPress={() => {
-
           if (this.props.auth.title.length <= 0) {
             this.setState({
               errorTitle: '* Please Enter title .'
@@ -397,24 +200,18 @@ class AddComplaintNew extends Component {
             uri1 = this.state.uriToSend
             type1 = this.state.type
             name1 = this.state.imageName
-
             uri2 = this.state.uriTo1Send,
               type2 = this.state.type1,
               name2 = this.state.imageName1
-
             uri3 = this.state.uriTo2Send,
               type3 = this.state.type2,
               name3 = this.state.imageName2
-
             userId = this.state.userId
             flatId = this.state.flatId
-
-            //this.props.addComplaint_(title, comments,uri1,type1,name1)
             this.setState({
               loader: true
             })
             this.props.addComplaint_(title, comments, uri1, type1, name1, uri2, type2, name2, uri3, type3, name3, flatId, userId)
-
           }
         }}
       >{Add_Complaint}
@@ -446,23 +243,18 @@ class AddComplaintNew extends Component {
       return (
         <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
           {this.state.ImageSource === null ?
-            // <ImageBackground
-            //   style={styles.imageStyle}
-            //   value={'value'}>
+            
             <View style={styles.imageStyle}>
               <Image
                 source={require('../assets/Complaints/add_image_plus.png')}
                 style={{ height: 30, width: 30, alignSelf: 'center' }} />
               <Text style={{
                 fontSize: 14,
-                alignSelf: 'center',
-                // marginLeft: 20,
-                // paddingTop: 8,
+                alignSelf: 'center',                
                 color: grey_light
 
               }}>Image</Text>
-            </View>
-            // </ImageBackground>
+            </View>            
             :
             <Image style={styles.imageStyle}
               source={this.state.ImageSource} />
@@ -476,9 +268,7 @@ class AddComplaintNew extends Component {
           <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
 
             {this.state.ImageSource === null ?
-              // <ImageBackground
-              //   style={styles.imageStyle}
-              //   value={'value'}>
+              
               <View style={styles.imageStyle}>
                 <Image
                   source={require('../assets/Complaints/add_image_plus.png')}
@@ -486,12 +276,10 @@ class AddComplaintNew extends Component {
                 <Text style={{
                   fontSize: 14,
                   alignSelf: 'center',
-                  // marginLeft: 20,
-                  // paddingTop: 8,
                   color: grey_light
                 }}>Image</Text>
               </View>
-              // </ImageBackground>
+              
               :
               <Image style={styles.imageStyle}
                 source={this.state.ImageSource}
@@ -502,22 +290,18 @@ class AddComplaintNew extends Component {
           <TouchableOpacity onPress={this.selectPhoto2Tapped.bind(this)}>
 
             {this.state.ImageSource1 === null ?
-              // <ImageBackground
-              //   style={styles.imageStyle}
-              //   value={'value'}>
+              
               <View style={styles.imageStyle}>
                 <Image
                   source={require('../assets/Complaints/add_image_plus.png')}
                   style={{ height: 30, width: 30, }} />
                 <Text style={{
                   fontSize: 14,
-                  alignSelf: 'center',
-                  // marginLeft: 20,
-                  // paddingTop: 8,
+                  alignSelf: 'center',                  
                   color: grey_light
                 }}>Image</Text>
               </View>
-              // </ImageBackground>
+              
               :
               <Image style={styles.imageStyle}
                 source={this.state.ImageSource1}
@@ -559,9 +343,6 @@ class AddComplaintNew extends Component {
           <TouchableOpacity onPress={this.selectPhoto2Tapped.bind(this)}>
 
             {this.state.ImageSource === null ?
-              // <ImageBackground
-              //   style={styles.imageStyle}
-              //   value={'value'}>
               <View style={styles.imageStyle}>
                 <Image
                   source={require('../assets/Complaints/add_image_plus.png')}
@@ -584,9 +365,6 @@ class AddComplaintNew extends Component {
 
           <TouchableOpacity onPress={this.selectPhoto3Tapped.bind(this)}>
             {this.state.ImageSource2 === null ?
-              // <ImageBackground
-              //   style={styles.imageStyle}
-              //   value={'value'}>
               <View style={styles.imageStyle}>
                 <Image
                   source={require('../assets/Complaints/add_image_plus.png')}
@@ -628,7 +406,7 @@ class AddComplaintNew extends Component {
 
   renderVerifyFileds() {
 
-    console.log("loader complaints " + this.state.loader)
+    
     if (this.state.loader) {
       return (
         <ActivityIndicator
@@ -686,10 +464,6 @@ class AddComplaintNew extends Component {
   render() {
     return (
       <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss() }}>
-        {/* <ScrollView
-          keyboardShouldPersistTaps={'handled'}
-          keyboardDismissMode='none'
-          contentContainerStyle={{ position: 'absolute', justifyContent: 'flex-start', height: '100%', width: '100%' }}> */}
         <View style={styles.containerStyle}>
           <View style={styles.card}>
             {this.renderVerifyFileds()}

@@ -44,16 +44,13 @@ export default class Visitors extends React.Component {
   }
 
   renderUsersList() {
-    console.log("----------call render : ")
+    
     callPostApi('http://guardomni.dutique.com:8000/api/visitorList', {
       "userId": this.state.userId,
       "pageNumber": 0,
       "flatId": this.state.flatId
-    }).then((response) => {
-      //console.log("response : ")   
-      res = JSON.parse(response)
-      // console.log("******res : ",res)
-      //console.log("---------* noOfVisitors : ", res.month_count)
+    }).then((response) => {    
+      res = JSON.parse(response)    
       if (res.status == 200) {
         this.setState({
           noOfVisitors: res.month_count + "",
@@ -76,7 +73,7 @@ export default class Visitors extends React.Component {
 
 
   handleBackPress() {
-    console.log("---scene---" + Actions.currentScene)
+    
     if (Actions.currentScene == 'visitors') {
       Actions.pop()
     }
@@ -230,101 +227,3 @@ const styles = StyleSheet.create({
   }
 });
 
-// import React, { Component } from 'react';
-// import {View, Text, Image, Dimensions} from 'react-native';
-// import {  TabView, SceneMap } from 'react-native-tab-view';
-
-// const FirstRoute = () => (
-//     <View style={[styles.scene, { backgroundColor: '#ff4081' }]} />
-//   );
-//   const SecondRoute = () => (
-//     <View style={[styles.scene, { backgroundColor: '#673ab7' }]} />
-//   );
-
-// class Visitors extends Component{
-//     state = {
-//         index: 0,
-//         routes: [
-//           { key: 'first', title: 'First' },
-//           { key: 'second', title: 'Second' },
-//         ],
-//       };
-
-//     render(){
-//         return (
-//             <TabView
-//             indicatorStyle={{ height: 0, borderBottomWidth:2, borderBottomColor:'#f7a500' }}
-//               navigationState={this.state}
-//               renderScene={SceneMap({
-//                 first: FirstRoute,
-//                 second: SecondRoute,
-//               })}
-//               onIndexChange={index => this.setState({ index })}
-//               //initialLayout={{width: 'auto'}}
-//              // initialLayout={{ width: Dimensions.get('window').width }}
-//             />
-//           );
-// //         return(            
-// //             // <View style={{ display: 'flex', flex: 1,justifyContent: 'flex-start'}}>
-// //         <View>
-// //                 {/* <View style={styles.containerTop}>
-// //                         <Image  style={styles.thumbnail}/>
-// //                         <Text style={styles.textStyleTopContainer}>
-// //                                 HIIII </Text>      
-// //                 </View> */}
-// //                 <View>
-// //                         <TabView
-// //                                 navigationState={this.state}
-// //                                 renderScene={SceneMap({
-
-// //                                     first: FirstRoute,
-// //                                     second: SecondRoute,
-
-// //                                 })}  
-// //                                 onIndexChange={index => this.setState({ index})}
-// //                                 initialLayout={{width: Dimensions.get('window').width}}
-// //                         />
-
-// //                  </View>
-
-// //             </View>
-// //         )
-//     }
-// }
-// const styles = {
-//     scene:{
-//      flex: 1
-
-//     },
-// containerTop: {
-//     backgroundColor: 'white',
-//     width : '95.55%',
-//     height : 130,
-//     display : 'flex',
-//     marginLeft: 10,
-//     marginTop: 10,
-//     elevation: 4
-// },
-// thumbnail: {
-//     width : 25,
-//     height : 25
-// },
-// textStyleTopContainer: {
-//         textSize: 14,
-//         color: 'black',
-//         alignSelf: 'flex-start',
-//         marginLeft: 15
-
-//     },
-//     tabBar: {
-//       flexDirection: 'row',
-//       justifyContent: 'flex-start',
-//     },
-//     tabItem: {
-//       flexDirection: 'row',
-//       justifyContent:'flex-start',
-//       alignItems: 'flex-start',
-//       padding: 8,
-//     }
-// }
-// export default Visitors;

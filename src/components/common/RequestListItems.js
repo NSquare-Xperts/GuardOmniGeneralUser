@@ -1,22 +1,18 @@
 import React, { Component } from 'react';
-import { Text, View, Image, TouchableWithoutFeedback, Alert,DeviceEventEmitter } from 'react-native';
+import { Text, View, Image, TouchableWithoutFeedback, Alert, DeviceEventEmitter } from 'react-native';
 import { callPostApi } from '../Util/APIManager';
 import { black, white_Original } from './color';
 import { Dialog } from 'react-native-simple-dialogs'
-//import SimpleToast, { Toast } from 'react-native-simple-toast';
 import { Actions } from 'react-native-router-flux';
-//import { SimpleToast } from 'react-native-simple-toast';
-//import Toast from 'react-native-easy-toast'
 import SimpleToast from 'react-native-simple-toast';
-//make component 
-//const RequestListItems = (props) => {
 
 class RequestListItems extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { isShowingDialog: false ,
-    
+    this.state = {
+      isShowingDialog: false,
+
     }
   }
   render() {
@@ -41,9 +37,9 @@ class RequestListItems extends Component {
             <Text style={textStyle}>{this.props.visitor_name} </Text>
             <Text style={textStyleDate}>{this.props.request_date_time}</Text>
           </View>
-          
+
           <TouchableWithoutFeedback onPress={() =>
-            Actions.editVR({ visitorRequestId: this.props.id})
+            Actions.editVR({ visitorRequestId: this.props.id })
           }>
             <View style={styles.rightSideButtonStyles}>
               <Image style={thumbnail_arrow}
@@ -72,36 +68,25 @@ class RequestListItems extends Component {
                       "isDeleted": '1'
                     })
                       .then((response) => {
-                        // Continue your code here...
                         res = JSON.parse(response)
-                        console.log("request response : ")
                         if (res.status == 200) {
-                          
+
                           DeviceEventEmitter.emit('eventVisitorDeleted', { isDeletedSuccessFully: true });
                           this.setState({
                             isShowingDialog: true
                           })
                         } else {
-                          // console.log(" Toast stop calling")
                           this.setState({
                             isShowingDialog: false
                           })
-                       SimpleToast.show("Failed To Add Request.")
-                        //Toast.show("Failed To Add Request.")
+                          SimpleToast.show("Failed To Add Request.")
                         }
                       });
-
-                    //this.setState({ isShowingDialog: true })
                   }
                 }
               ],
               { cancelable: true }
             )
-            //selectedValue={this.state.selectedValue}
-            //onAccept={()=>this.onAccept()}
-            //onDecline={()=>this.onDecline()}
-            //onValueChange={(value)=>this.onValueChange(value)}
-            //item={this.state.item}
           }>
 
             <View style={styles.rightSideButtonStyles}>

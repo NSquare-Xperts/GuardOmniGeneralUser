@@ -29,10 +29,8 @@ class FlatListForVisitorsHistory extends Component {
             "pageNumber": this.state.page,
             "flatId": this.state.flatId
         })
-            .then((response) => {
-                // Continue your code here...
-                res = JSON.parse(response)
-                console.log("response : ", res)
+            .then((response) => {                
+                res = JSON.parse(response)                
                 if (res.status == "200") {
                     this.setState({
                         notices: this.state.notices.concat(res.data), loadMore: false, refreshing: false, totalRecords: res.totalRecords, month_count: res.month_count,
@@ -41,14 +39,12 @@ class FlatListForVisitorsHistory extends Component {
                 } else if (res.status == 401) {
                     AsyncStorage.removeItem('propertyDetails');
                     AsyncStorage.removeItem('userDetail');
-                    AsyncStorage.removeItem('LoginData');
-                    //SimpleToast.show(response.message)
+                    AsyncStorage.removeItem('LoginData');                    
                     Actions.reset('Login')
                 } else {
                     this.setState({
                         refreshing: false,
-                    })
-                    console.log("stop calling")
+                    })                    
                 }
             });
 
@@ -253,132 +249,8 @@ const styles = {
 }
 
 
-
-// import { callPostApi } from './Util/APIManager'
-
-// class FlatListForVisitorsHistory extends Component {
-
-//     state = {
-//         user: [],
-//         loadMore: true,
-//         res: '',
-//         page: 0,
-//         status: ''
-//     }
-
-//     renderUsersList() {
-//         callPostApi('http://guardomni.dutique.com:8000/api/visitorHistory', {
-//             "userId": '2',
-//             "pageNumber": this.state.page,
-//             "flatId": '1'
-//         })
-//             .then((response) => {
-//                 // Continue your code here...
-//                 res = JSON.parse(response)
-//                 if (res.status == "200") {
-//                     this.setState({
-//                         user: this.state.user.concat(res.data), loadMore: false, refreshing: false, totalRecords: res.totalRecords,
-//                         status: res.status
-//                     })
-//                 } else {
-//                     console.log("stop calling")
-//                 }
-//             });
-//     }
-
-//     componentDidMount() {
-//         this.setState({ loadMore: true }, this.renderUsersList)
-//     }
-
-//     _handleRefresh = () => {
-//         this.setState({
-//             loadMore: false,
-//             page: 0
-//         },
-//             () => {
-//                 this.renderUsersList();
-//             })
-//     }
-
-//     FlatListItemSeparator = () => {
-//         return (
-//             <View
-//                 style={{
-//                     height: 0.4,
-//                     width: "95%",
-//                     backgroundColor: grey,
-//                     marginLeft: 10,
-//                     marginRight: 10,
-//                 }}
-//             />
-//         )
-//     }
-
-//     handleLoadMore = () => {
-//         console.warn('handleLoadMore');
-//         this.setState(
-//             { page: this.state.page + 1, loadMore: true },
-//             this.renderUsersList
-//         )
-
-//     }
-
-//     renderFooter = () => {
-//         return (
-//             this.state.loadMore ?
-//                 <View style={styles.loader}>
-//                     <ActivityIndicator
-//                         size="large" />
-//                 </View> : null
-//         )
-//     }
-
-//     render() {
-//         return (
-//             <View style={{ backgroundColor: red_lighter, flex: 1, marginBottom: 5 }}>
-//                 <View style={styles.container}>
-//                     <FlatList
-//                         ItemSeparatorComponent={this.FlatListItemSeparator}
-//                         data={this.state.user}
-//                         renderItem={({ item }) =>
-//                             <HistoryListItems
-//                                 flag_reported={'1'}
-//                                 visitor_name={item.visitor_name}
-//                                 in_date_time={item.in_date_time}
-//                                 out_date_time={item.out_date_time}
-//                             />}
-//                         keyExtractor={(item, index) => index.toString()}
-//                         onEndReached={this.handleLoadMore}
-//                         ListFooterComponent={this.renderFooter}
-//                     />
-//                 </View>
-//             </View>
-//         );
-//     }
-// }
 export default FlatListForVisitorsHistory
 
-// const styles = {
-//     container: {
-//         backgroundColor: white_Original,
-//         width: '95.55%',
-//         height: '100%',
-//         display: 'flex',
-//         justifyContent: 'space-between',
-//         flexDirection: 'row',
-//         padding: 5,
-//         marginLeft: 10,
-//         justifyitems: 'center',
-//         elevation: 4,
-//         marginTop: 12,
-//         borderRadius: 2
-//     },
-//     loader: {
-//         marginTop: 20,
-//         alignItems: 'center'
-//     }
-
-// }
 
 
 

@@ -2,7 +2,6 @@ import React from 'react';
 import {Text, View, Image} from 'react-native';
 import {  white_Original, pink,light_blue } from './color';
 
-//make component 
 const HOmeMaintaince = (props) => {
     const {gridRowStyle, container, textTitleStyle,thumbnail,textNoStyle,gridColStyle,textStyle} = styles;
     return(

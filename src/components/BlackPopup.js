@@ -4,7 +4,7 @@ import { white_Original } from './common';
 
 
 const Confirm = ({  visible, onDecline, description }) => {
-  console.log("description  :: ",description)
+  
   return (
     <Modal
       visible={visible}

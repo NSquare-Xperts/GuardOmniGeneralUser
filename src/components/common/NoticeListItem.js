@@ -4,21 +4,12 @@ import { black } from './color';
 import {Actions} from 'react-native-router-flux'
 
 //make component 
-const NoticeListItem = (props) => {
-  
-    const {gridRowStyle, textStyleTitle,gridColStyle,textStyle,textStyleDate} = styles;
-    console.log('id : ',props.noticeId)
+const NoticeListItem = (props) => {  
+    const {gridRowStyle, textStyleTitle,gridColStyle,textStyle,textStyleDate} = styles;    
     return(
-
-      <TouchableWithoutFeedback onPress={()=> props.sendData(props.noticeId) }>
-      
-      {/*<TouchableWithoutFeedback 
-      onPress={()=> 
-      Actions.NoticeDetail()
-      }>*/}
+      <TouchableWithoutFeedback onPress={()=> props.sendData(props.noticeId) }>           
       <View>     
         <View style={gridRowStyle}>
-
               <View style={gridColStyle}>
                           <Text 
                           numberOfLines={1}
@@ -34,9 +25,7 @@ const NoticeListItem = (props) => {
          </View>             
       </View>
       </TouchableWithoutFeedback>
-  
-  
-    );
+      );
 };
 const styles = {
   container: {

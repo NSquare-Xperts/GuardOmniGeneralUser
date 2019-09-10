@@ -55,15 +55,14 @@ class NewEditProfile extends Component {
 
      renderUsersList() {
 
-          console.log("user ID : "+this.state.userId)
+          
           callPostApi('http://guardomni.dutique.com:8000/api/profileDetails?', {
                "userId": this.state.userId,
                "loginType": '4'
           })
                .then((response) => {
-                    // Continue your code here...
                     res = JSON.parse(response)
-                    console.log("data user details : ", res.data[0])
+          
                     if (res.status == 200) {
 
                          this.props.auth.username = res.data[0].user_name
@@ -109,7 +108,7 @@ class NewEditProfile extends Component {
           };
 
           ImagePicker.showImagePicker(options, (response) => {
-               console.log('Response = ', response);
+               
 
                if (response.didCancel) {
                     console.log('User cancelled photo picker');
@@ -124,19 +123,31 @@ class NewEditProfile extends Component {
                     let source = { uri: response.uri };
                     // You can also display the image using data:
                     // let source = { uri: 'data:image/jpeg;base64,' + response.data };
-                    console.log("uri  :: ", source)
-                    this.setState({
-                         uriToSend: response.uri,
-                         ImageSource: source,
-                         imageName: response.fileName,
-                         type: response.type,
-                         isFile: '1'
-                    });
+                    
+                    if (Platform.OS == 'ios') {
+                         this.setState({
+                              uriToSend: response.uri,
+                              ImageSource: source,
+                              imageName: response.fileSize + "",
+                              type: response.type,
+                              isFile: '1'
+                         });
+                       } else {
+                         this.setState({
+                              uriToSend: response.uri,
+                              ImageSource: source,
+                              imageName: response.fileName,
+                              type: response.type,
+                              isFile: '1'
+                         });
+                       }
+
+                    
                }
           });
      }
      _handlePhotoView = () => {
-          console.log(" --url-- ", this.state.url)
+          
           if (this.state.url != null && this.state.url != '' ) {
                return (
                     <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>

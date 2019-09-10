@@ -52,195 +52,7 @@ class NewEditComplaints extends Component {
           complaintId: ''
      }
 
-     // selectPhotoTapped() {
-     //      const options = {
-     //           quality: 1.0,
-     //           maxWidth: 500,
-     //           maxHeight: 500,
 
-     //           customButtons: [{ name: 'image', title: 'Take a Photo' }, { name: 'video', title: 'Take a Video' }, { name: 'library', title: 'Choose from Library' }],
-     //           storageOptions: {
-     //                skipBackup: true
-     //           }
-     //      };
-
-     //      ImagePicker.showImagePicker({
-     //           title: 'Choose Image or Video',
-     //           customButtons: [{ name: 'image', title: 'Take a Photo' }, { name: 'video', title: 'Take a Video' }, { name: 'library', title: 'Choose from Library' }],
-     //           chooseFromLibraryButtonTitle: null,
-     //           takePhotoButtonTitle: null,
-     //      }, (res) => {
-     //           if (res.customButton) {
-     //                ImagePicker.launchCamera({
-     //                     mediaType: res.customButton,
-     //                     videoQuality: 'medium',
-     //                     quality: 1,
-     //                }, (response) => {
-     //                     let source;
-     //                     source = { uri: response.uri };
-
-     //                     if (res.customButton != "image") {
-     //                          this.setState({
-     //                               uriToSend: response.uri,
-     //                               ImageSource: source,
-     //                               imageName: response.path,
-     //                               type: "video/mp4",
-     //                               isFile1: '1'
-     //                          });
-     //                     } else {
-     //                          console.log("name >> " + response.fileName)
-     //                          this.setState({
-     //                               uriToSend: response.uri,
-     //                               ImageSource: source,
-     //                               imageName: response.fileName,
-     //                               type: response.type,
-     //                               isFile1: '1'
-     //                          });
-     //                     }
-     //                });
-     //           } else if(!res.didCancel) {
-     //                console.log("responseon from gallery >> " + JSON.stringify(res))
-     //                const source = { uri: 'data:image/jpeg;base64,' + res.data };
-     //                console.log("source : " + JSON.stringify(source))
-     //                console.log("URI >> " + res.uri)
-     //                this.setState({
-     //                     uriToSend: res.uri,
-     //                     ImageSource: source,
-     //                     imageName: res.fileName,
-     //                     type: res.type,
-     //                     isFile1: '1'
-     //                });
-     //           }
-     //      });
-
-     // }
-
-     // selectPhoto2Tapped() {
-     //      const options = {
-     //           quality: 1.0,
-     //           maxWidth: 500,
-     //           maxHeight: 500,
-
-     //           customButtons: [{ name: 'image', title: 'Take a Photo' }, { name: 'video', title: 'Take a Video' }, { name: 'library', title: 'Choose from Library' }],
-     //           storageOptions: {
-     //                skipBackup: true
-     //           }
-     //      };
-
-     //      ImagePicker.showImagePicker({
-     //           title: 'Choose Image or Video',
-     //           customButtons: [{ name: 'image', title: 'Take a Photo' }, { name: 'video', title: 'Take a Video' }, { name: 'library', title: 'Choose from Library' }],
-     //           chooseFromLibraryButtonTitle: null,
-     //           takePhotoButtonTitle: null,
-     //      }, (res) => {
-     //           if (res.customButton) {
-     //                ImagePicker.launchCamera({
-     //                     mediaType: res.customButton,
-     //                     videoQuality: 'medium',
-     //                     quality: 1,
-     //                }, (response) => {
-
-     //                     let source;
-     //                     source = { uri: response.uri };
-
-     //                     if (res.customButton != "image") {
-     //                          this.setState({
-     //                               uriTo1Send: response.uri,
-     //                               ImageSource1: source,
-     //                               imageName1: response.path,
-     //                               type1: "video/mp4",
-     //                               isFile2: '1'
-     //                          });
-     //                     } else {
-     //                          this.setState({
-     //                               uriTo1Send: response.uri,
-     //                               ImageSource1: source,
-     //                               imageName1: response.fileName,
-     //                               type1: response.type,
-     //                               isFile2: '1'
-     //                          });
-     //                     }
-     //                });
-     //           } 
-     //           else if(!res.didCancel){
-     //                console.log("responseon from gallery >> " + JSON.stringify(res))
-     //                const source = { uri: 'data:image/jpeg;base64,' + res.data };
-     //                console.log("source : " + JSON.stringify(source))
-     //                console.log("URI >> " + res.uri)
-     //                this.setState({
-     //                     uriTo1Send: res.uri,
-     //                     ImageSource1: source,
-     //                     imageName1: res.fileName,
-     //                     type1: res.type,
-     //                     isFile2: '1'
-     //                });
-     //           }
-     //      });
-     // }
-
-     // selectPhoto3Tapped() {
-     //      const options = {
-     //           quality: 1.0,
-     //           maxWidth: 500,
-     //           maxHeight: 500,
-
-     //           customButtons: [{ name: 'image', title: 'Take a Photo' }, { name: 'video', title: 'Take a Video' }, { name: 'library', title: 'Choose from Library' }],
-     //           storageOptions: {
-     //                skipBackup: true
-     //           }
-     //      };
-
-     //      ImagePicker.showImagePicker({
-     //           title: 'Choose Image or Video',
-     //           customButtons: [{ name: 'image', title: 'Take a Photo' }, { name: 'video', title: 'Take a Video' }, { name: 'library', title: 'Choose from Library' }],
-     //           chooseFromLibraryButtonTitle: null,
-     //           takePhotoButtonTitle: null,
-     //      }, (res) => {
-     //           if (res.customButton) {
-     //                ImagePicker.launchCamera({
-     //                     mediaType: res.customButton,
-     //                     videoQuality: 'medium',
-     //                     quality: 1,
-     //                }, (response) => {
-
-     //                     let source;
-     //                     source = { uri: response.uri };
-
-     //                     if (res.customButton != "image") {
-     //                          this.setState({
-     //                               uriTo2Send: response.uri,
-     //                               ImageSource2: source,
-     //                               imageName2: response.path,
-     //                               type2: "video/mp4",
-     //                               isFile3: '1'
-     //                          });
-     //                     } else {
-     //                          this.setState({
-     //                               uriTo2Send: response.uri,
-     //                               ImageSource2: source,
-     //                               imageName2: response.fileName,
-     //                               type2: response.type,
-     //                               isFile3: '1'
-     //                          });
-     //                     }
-     //                });
-     //           } else if(!res.didCancel) {
-
-     //                console.log("responseon from gallery >> " + JSON.stringify(res))
-
-     //                const source = { uri: 'data:image/jpeg;base64,' + res.data };
-     //                console.log("source : " + JSON.stringify(source))
-     //                console.log("URI >> " + res.uri)
-     //                this.setState({
-     //                     uriTo2Send: res.uri,
-     //                     ImageSource2: source,
-     //                     imageName2: res.fileName,
-     //                     type2: res.type,
-     //                     isFile3: '1'
-     //                });
-     //           }
-     //      });
-     // }
      selectPhotoTapped() {
           const options = {
                quality: 1.0,
@@ -265,7 +77,7 @@ class NewEditComplaints extends Component {
                }
                else {
                     let source = { uri: response.uri };
-                    
+
                     if (Platform.OS == 'ios') {
                          this.setState({
                               uriToSend: response.uri,
@@ -312,7 +124,7 @@ class NewEditComplaints extends Component {
                }
                else {
                     let source = { uri: response.uri };
-                    
+
                     if (Platform.OS == 'ios') {
                          this.setState({
                               uriTo1Send: response.uri,
@@ -359,7 +171,7 @@ class NewEditComplaints extends Component {
                }
                else {
                     let source = { uri: response.uri };
-                    
+
                     if (Platform.OS == 'ios') {
                          this.setState({
                               uriTo2Send: response.uri,
@@ -376,7 +188,7 @@ class NewEditComplaints extends Component {
                               type2: response.type,
                               isFile3: '1'
                          });
-                    }                    
+                    }
                }
           });
      }
@@ -434,23 +246,16 @@ class NewEditComplaints extends Component {
      }
      //call async data
      renderUsersComplaints() {
-          //pass complaintIs
-          console.log("Complaint Edit: UserID:", this.state.userId, "Complaint ID: ", this.state.complaintId)
 
           callPostApi('http://guardomni.dutique.com:8000/api/complaintDetails?', {
-               //"userId": this.state.userId,
                "userId": this.state.userId,
                "complaintId": this.state.complaintId
           })
                .then((response) => {
-                    // Continue your code here...
                     res = JSON.parse(response)
-                    console.log("data user COMPLAINTS : ", res.data[0], ",", res.data[0].complaint_title)
                     if (res.status == "200") {
-
                          this.props.auth.title = res.data[0].complaint_title
                          this.props.auth.comments = res.data[0].complaint_description
-
                          this.setState({
                               refreshing: false,
                               url1: res.data[0].complaint_image_1,
@@ -475,19 +280,15 @@ class NewEditComplaints extends Component {
 
           var complaintId = await AsyncStorage.getItem('complaintID')
           var dataComplaintID = JSON.parse(complaintId);
-          console.log("***** complaintId", dataComplaintID)
 
           if (dataUser != '' || dataUser != null) {
                this.setState({
                     userId: dataUser.user_id,
                     complaintId: dataComplaintID
-                    //flatId: data.flat_id,
 
                }, this.renderUsersComplaints())
           }
           this.renderUsersComplaints()
-          // this.setState({ loadMore: true }, this.renderUsersList)
-          //this.renderUsersList()
      }
 
      onLoadStart = () => {
@@ -608,9 +409,6 @@ class NewEditComplaints extends Component {
                     </View>
                )
           } else if (this.state.url2 != '') {
-               // console.log("inside url2 != ImageSource"+this.state.ImageSource)
-               // console.log("inside url1 != url1"+this.state.url1) 
-               console.log("inside url2 !=  " + this.state.url2)
                return (
                     <View style={{ flexDirection: 'row' }}>
                          <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
@@ -680,36 +478,7 @@ class NewEditComplaints extends Component {
                               }
                          </TouchableOpacity>
 
-                         {/* <TouchableOpacity onPress={this.selectPhoto2Tapped.bind(this)}> {
-                                  
-                               
-                                  this.state.ImageSource1 === null ?
-                                  this.state.url2.includes('.mp4') ? 
-                                  <View>
-                                   <Video 
-                                        style={styles.imageStyle}
-                                        controls={false}
-                                        source={{ uri: this.state.url2 }}
-                                        ref={(ref) => {
-                                             this.player = ref
-                                        }}
-                                        onBuffer={this.onBuffer}
-                                        onLoadStart={this.onLoadStart}
-                                        onLoad={this.onLoad}
-                                        onError={this.videoError}                       
-                                        />
-                                        <ActivityIndicator
-                                             animating
-                                             size="large"
-                                             color={grey_lighter}
-                                             style={[styles.activityIndicator, { opacity: this.state.opacity }]}/>
-                                   </View> 
-                                    :
-                                   <Image style={styles.imageStyle} source={{ uri: this.state.url2 }} />
-                                   :
-                                   <Image style={styles.imageStyle} source={this.state.ImageSource1} />
-                               }
-                         </TouchableOpacity>  */}
+
 
                          < TouchableOpacity onPress={this.selectPhoto3Tapped.bind(this)}>
                               {this.state.ImageSource2 === null ?

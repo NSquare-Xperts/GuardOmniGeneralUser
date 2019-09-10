@@ -5,7 +5,7 @@ import { Mobile_Number, grey_lighter } from '../common'
 
 const MobileNumberInput = (props) => {
     
-    console.log("-----props.code",props.code)
+    
     return(
                <View style={styles.displayStyle}>
                 <View style={styles.containerStyle}>

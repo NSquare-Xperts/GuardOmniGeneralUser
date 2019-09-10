@@ -29,12 +29,9 @@ class Complaints extends Component {
             "userId": this.state.userId,
             "pageNumber": this.state.page,
             "flatId": this.state.flatId
-        }).then((response) => {
-            // Continue your code here...
+        }).then((response) => {            
             res = JSON.parse(response)
-            console.log("response : Complaints ", res.status)
-            console.log("response : Complaints length ", res.data)
-
+            
             if (res.status == 200) {
                 this.setState({
                     notices: this.state.notices.concat(res.data), loadMore: false, refreshing: false, totalRecords: res.totalRecords, month_count: res.month_count,
@@ -61,8 +58,7 @@ class Complaints extends Component {
     }
 
 
-    handleBackPress() {
-        console.log("---scene---"+Actions.currentScene)
+    handleBackPress() {        
         if (Actions.currentScene == 'Complaints') {
             Actions.pop()
         }
@@ -70,8 +66,7 @@ class Complaints extends Component {
       }
   
       
-    componentWillMount() {
-        console.log("will mount complaints ")
+    componentWillMount() {        
             this._getUserStorageValue()
             BackHandler.addEventListener('hardwareBackPress', this.handleBackPress)
     }
@@ -93,8 +88,7 @@ class Complaints extends Component {
         }
     }
 
-    componentDidMount() {
-        console.log("complaints did mount")
+    componentDidMount() {        
         this.addComplaintListener =
             DeviceEventEmitter.addListener('eventNewComplaintAdded', (e) => {
                 if (e) {
@@ -104,8 +98,7 @@ class Complaints extends Component {
                         page: 0,
                         notices: [],
                         isReload: false
-                    })
-                    console.log("call storage 1")
+                    })                    
                     this._getUserStorageValue()
                 }
             });
@@ -119,16 +112,14 @@ class Complaints extends Component {
                         page: 0,
                         notices: [],
                         isReload: false
-                    }),
-                    console.log("call storage 2")
+                    }),                    
                     this._getUserStorageValue()
                     Actions.refresh()
                 }
             });
     }
 
-    componentWillUnmount() {
-        //console.log("unmount .....drawer")
+    componentWillUnmount() {       
        
         BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress)
         Actions.popTo('drawer');
@@ -136,9 +127,7 @@ class Complaints extends Component {
             notices: []
         })
         this.addComplaintListener.remove()
-        this.deleteComplaintListener.remove()
-        //this.eventEditedComplaint.remove()
-        //Actions.refresh()
+        this.deleteComplaintListener.remove()        
         return true;
     }
 

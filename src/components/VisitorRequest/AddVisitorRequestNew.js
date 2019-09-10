@@ -14,6 +14,7 @@ import { Picker } from 'native-base'
 import { Actions } from 'react-native-router-flux'
 import resetForm from 'react-redux'
 import TimePicker from '../TimePicker';
+import SimpleToast from 'react-native-simple-toast'
 
 class AddVisiorRequestNew extends Component {
     constructor(props) {
@@ -39,6 +40,9 @@ class AddVisiorRequestNew extends Component {
     componentWillMount() {
         this.props.auth.phone = ''
         //this.props.auth.code = '+91'
+        console.log("Reached At: ",Actions.currentScene)
+        // SimpleToast.show("Reached At: ",Actions.currentScene)
+        
     }
     componentDidMount() {
         this._getUserStorageValue()
@@ -88,11 +92,7 @@ class AddVisiorRequestNew extends Component {
         dateParsed = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
 
         time = today.getHours() + ':' + today.getMinutes()
-        dateTime = dateParsed + ' ' + time
-
-
-        console.log("print date : ", time)
-        console.log("print date : ", dateTime)
+       dateTime = dateParsed + ' ' + time
 
         this.setState({ selectedDate: dateTime });
         this._hideDateTimePicker();

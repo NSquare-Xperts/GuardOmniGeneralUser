@@ -59,7 +59,7 @@ class NewEditVisitorRequest extends Component {
                               })
                          } else {
 
-                              console.log(" pickerSelectedValue : ", this.state.pickerSelectedValue)
+                              
                               visitorName = this.props.auth.name
                               visitorMobileNumber = this.props.auth.code + '-' + this.props.auth.phone
 
@@ -84,28 +84,23 @@ class NewEditVisitorRequest extends Component {
      //call async data
      renderVisitorDetails() {
           //pass complaintIs
-          // console.log("inside com edit", this.state.userId)
+          
           callPostApi('http://guardomni.dutique.com:8000/api/getVisitorDetailsAdmin?', {
                "userId": this.state.userId,
                "visitorId": this.state.visitorRequestId,
                "flatId": this.state.flatId
           })
                .then((response) => {
-                    // Continue your code here...
+          
                     res = JSON.parse(response)
-                    console.log("data visitors : ", res.data[0], ",")
-
                     if (res.status == 200) {
 
                          this.props.auth.name = res.data[0].visitor_name
-
                          //split mobile number 
                          var countyCode = res.data[0].visitor_mobile_number.split('-')
 
                          this.props.auth.code = countyCode[0]
                          this.props.auth.phone = countyCode[1]
-
-                         console.log("country code ", this.props.auth.code, ",", this.props.auth.phone)
 
                          this.props.auth.noOfPeople = res.data[0].no_of_visitors + ""
                          this.props.auth.vehicleNumber = res.data[0].vehicle_number + ""
@@ -137,8 +132,6 @@ class NewEditVisitorRequest extends Component {
           time = today.getHours() + ':' + today.getMinutes()
           dateTime = dateParsed + ' ' + time
 
-          console.log("print date : ", dateTime)
-
           this.setState({ selectedDate: dateTime });
           this._hideDateTimePicker();
      };
@@ -150,9 +143,7 @@ class NewEditVisitorRequest extends Component {
 
           var valueUser = await AsyncStorage.getItem('userDetail')
           var dataUser = JSON.parse(valueUser);
-
-          var complaintId = await AsyncStorage.getItem('complaintID')
-          console.log("***** complaintId", complaintId)
+          
 
           if (dataUser != '' || dataUser != null) {
                this.setState({
