@@ -140,13 +140,13 @@ const styles = {
     justifyContent: 'center'
   },
   textStyle: {
-    fontFamily: 'OpenSans-Regular',
+    fontFamily: 'OpenSans',
     fontSize: 14,
     color: black,
     alignSelf: 'flex-start',
   },
   textStylePopup: {
-    fontFamily: 'OpenSans-Regular',
+    fontFamily: 'OpenSans',
     fontSize: 14,
     color: black,
     alignSelf: 'center',
@@ -160,7 +160,7 @@ const styles = {
     alignSelf: 'center',
   },
   textStyleTime: {
-    fontFamily: 'OpenSans-Regular',
+    fontFamily: 'OpenSans',
     fontSize: 12,
     color: black,
     alignSelf: 'flex-start',
