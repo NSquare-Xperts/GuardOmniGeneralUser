@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { FlatList, Text, View, TouchableWithoutFeedback, AsyncStorage, Image, Alert, Dimensions, BackHandler } from 'react-native'
+import { FlatList, Text, View, TouchableWithoutFeedback, AsyncStorage,DeviceEventEmitter, Image, Alert, Dimensions, BackHandler } from 'react-native'
 import Placeholder from 'rn-placeholder'
 import { red_lighter, white_Original, grey } from './common'
 import { Actions } from 'react-native-router-flux'
@@ -78,15 +78,20 @@ class Notifications extends Component {
     }
 
     handleBackPress() {
+      // SimpleToast.show("back pressed")
         if (Actions.currentScene == 'Notifications' || Actions.currentScene == '_notification') {
             Actions.pop()
+            DeviceEventEmitter.emit('notificationcount', { isNotificationAdded: true });
         }
+        DeviceEventEmitter.emit('notificationcount', { isNotificationAdded: true });
         return true;
     }
 
     componentWillMount() {
         this._getUserStorageValue()
         NotificationCount.setCurrentCount(0)
+        //DeviceEventEmitter.emit('notificationcount', { isNotificationAdded: true });
+        
         BackHandler.addEventListener('hardwareBackPress', this.handleBackPress)
     }
     
@@ -104,6 +109,8 @@ class Notifications extends Component {
     }
 
     componentWillUnmount() {
+        //SimpleToast.show("unmount")
+        DeviceEventEmitter.emit('notificationcount', { isNotificationAdded: true });
         BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress)
     }
 
@@ -207,8 +214,7 @@ class Notifications extends Component {
                                     <NotificationListItem
                                         dataDelete={(item) => this._deleteId(item)}
                                         title={item.notification_title}
-                                        description={item.notification_description}
-                                    />
+                                        description={item.notification_description} />
 
                                     < Text style={{ padding: 10, justifyContent: 'center', fontSize: 11 }}>{item.name}</Text>
                                 </Placeholder.Paragraph>

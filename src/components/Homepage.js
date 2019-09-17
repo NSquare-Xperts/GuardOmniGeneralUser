@@ -11,6 +11,7 @@ import { ScrollView } from 'react-native-gesture-handler'
 import { Actions } from 'react-native-router-flux'
 import firebase from 'react-native-firebase'
 import NotificationCount from './NotificationCount'
+import SimpleToast from 'react-native-simple-toast';
 
 class Homepage extends Component {
 
@@ -54,6 +55,7 @@ class Homepage extends Component {
      count = count + 1;     
      NotificationCount.setCurrentCount(count)
      var countIncreased = NotificationCount.getCurrentCount();     
+     console.log("current count : "+countIncreased)
    }
 
   componentWillMount() {
@@ -73,6 +75,8 @@ class Homepage extends Component {
     this.addnotificationListener =
     DeviceEventEmitter.addListener('notificationcount', (e) => {
       if (e) {
+        //console.log("notification count listener : refresh page")
+        //SimpleToast.show("refresh page")
         Actions.refresh()
         this._getStorageValue()
       }

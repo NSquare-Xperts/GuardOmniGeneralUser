@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, ImageBackground, Image, TouchableOpacity, DeviceEventEmitter, AsyncStorage, KeyboardAvoidingView } from 'react-native'
+import { Text, View, ImageBackground, Image, TouchableOpacity, DeviceEventEmitter, BackHandler, AsyncStorage, KeyboardAvoidingView } from 'react-native'
 import { connect } from 'react-redux'
 import Button from '../common/Button'
 import { Picker } from 'native-base'
@@ -59,7 +59,7 @@ class NewEditVisitorRequest extends Component {
                               })
                          } else {
 
-                              
+
                               visitorName = this.props.auth.name
                               visitorMobileNumber = this.props.auth.code + '-' + this.props.auth.phone
 
@@ -84,14 +84,14 @@ class NewEditVisitorRequest extends Component {
      //call async data
      renderVisitorDetails() {
           //pass complaintIs
-          
+
           callPostApi('http://guardomni.dutique.com:8000/api/getVisitorDetailsAdmin?', {
                "userId": this.state.userId,
                "visitorId": this.state.visitorRequestId,
                "flatId": this.state.flatId
           })
                .then((response) => {
-          
+
                     res = JSON.parse(response)
                     if (res.status == 200) {
 
@@ -143,7 +143,7 @@ class NewEditVisitorRequest extends Component {
 
           var valueUser = await AsyncStorage.getItem('userDetail')
           var dataUser = JSON.parse(valueUser);
-          
+
 
           if (dataUser != '' || dataUser != null) {
                this.setState({
@@ -202,14 +202,15 @@ class NewEditVisitorRequest extends Component {
                                    <Picker
                                         placeholder={Vehicle_Type}
                                         placeholderStyle={{ fontSize: 14, textAlign: 'left', color: grey }}
-                                        style={{ marginLeft: 10 }}
+                                        style={{ marginLeft: 200 }}
+                                        //displayPickerStyle={{marginLeft:200,backgroundColor: 'pink'}}
                                         selectedValue={this.state.pickerSelectedValue}
+                                        //itemStyle={{ backgroundColor: "grey", color: "blue",fontSize:17 }}
                                         onValueChange={(itemValue, itemIndex) => this.setState({ pickerSelectedValue: itemValue })}
                                         mode='dropdown'>
                                         <Picker.Item label="2-w" value="2-w" />
                                         <Picker.Item label="3-w" value="3-w" />
                                         <Picker.Item label="4-w" value="4-w" />
-
                                    </Picker>
                               </View>
                          </View>
@@ -233,6 +234,18 @@ class NewEditVisitorRequest extends Component {
           );
      }
 
+
+     componentWillMount() {
+          BackHandler.addEventListener('hardwareBackPress', this.handleBackPress)
+     }
+
+     handleBackPress() {
+          // this.props.navigation.goBack(null);
+
+          Actions.popTo('visitors')
+
+          return true;
+     }
      componentWillUnmount() {
 
           this.props.auth.name = ''
@@ -240,6 +253,7 @@ class NewEditVisitorRequest extends Component {
           this.props.auth.noOfPeople = ''
           this.state.pickerSelectedValue = ''
           this.props.auth.vehicleNumber = ''
+          BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress)
           //AsyncStorage.removeItem('complaintID')
           //Actions.pop('Complaints');
           //Actions.popTo('ComplaintDetail');
@@ -331,7 +345,6 @@ const styles = {
           //marginTop: 10
      }
 }
-
 const mapStateToProps = (state) => {
      return {
           auth: state.editVisitorRequest
