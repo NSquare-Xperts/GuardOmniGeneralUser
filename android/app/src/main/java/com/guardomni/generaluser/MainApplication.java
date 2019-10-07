@@ -4,13 +4,13 @@ import android.app.Application;
 
 
 import com.facebook.react.ReactApplication;
+import com.oblador.vectoricons.VectorIconsPackage;
 import io.invertase.firebase.RNFirebasePackage;
 import org.reactnative.camera.RNCameraPackage;
 import com.brentvatne.react.ReactVideoPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.github.yamill.orientation.OrientationPackage;
 import com.corbt.keepawake.KCKeepAwakePackage;
-import com.oblador.vectoricons.VectorIconsPackage;
 import com.actionsheet.ActionSheetPackage;
 import com.google.firebase.FirebaseApp;
 import com.swmansion.reanimated.ReanimatedPackage;
@@ -38,14 +38,14 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
-          new MainReactPackage(),
+            new MainReactPackage(),
+            new VectorIconsPackage(),
             new RNFirebasePackage(),
             new RNCameraPackage(),
             new ReactVideoPackage(),
             new LinearGradientPackage(),
             new OrientationPackage(),
             new KCKeepAwakePackage(),
-            new VectorIconsPackage(),
             new ActionSheetPackage(),
             new ReanimatedPackage(),
             new RNGestureHandlerPackage(),

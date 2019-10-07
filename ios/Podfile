@@ -14,9 +14,11 @@ target 'GeneralUserGO' do
 
   pod 'react-native-camera', :path => '../node_modules/react-native-camera'
 
-  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
   pod 'react-native-video', :path => '../node_modules/react-native-video'
+
+
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
   post_install do |installer|
     installer.pods_project.targets.each do |target|
@@ -25,6 +27,7 @@ target 'GeneralUserGO' do
       end
     end
   end
+
 
   target 'GeneralUserGOTests' do
     inherit! :search_paths
