@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { FlatList, View, ActivityIndicator, AsyncStorage, Text, Dimensions, Linking,BackHandler } from 'react-native'
+import { FlatList, View, ActivityIndicator, AsyncStorage, Text, Dimensions, Linking,BackHandler,DeviceEventEmitter } from 'react-native'
 import Placeholder from 'rn-placeholder'
 import { red_lighter, grey_lighter, white_Original, grey, Helpline, SiteContacts, black } from './common'
 import { callPostApi } from './Util/APIManager'
@@ -64,10 +64,12 @@ class Helpdesk extends Component {
         BackHandler.addEventListener('hardwareBackPress', this.handleBackPress)
         this._getUserStorageValue()
     }
+  
     handleBackPress() {        
         if (Actions.currentScene == 'Helpdesk') {
             Actions.pop()
         }
+        DeviceEventEmitter.emit('notificationcount', { isNotificationAdded: true });
         return true;
     }
 
@@ -252,6 +254,7 @@ class Helpdesk extends Component {
 
     componentWillUnmount() {
         BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress)
+        DeviceEventEmitter.emit('notificationcount', { isNotificationAdded: true });
         return true;
     }
 }

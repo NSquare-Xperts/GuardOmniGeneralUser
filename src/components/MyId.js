@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, Image, AsyncStorage,BackHandler } from 'react-native'
+import { Text, View, Image, AsyncStorage,BackHandler,DeviceEventEmitter } from 'react-native'
 import { red_lighter, white_Original, black, close } from './common'
 import Button from './common/Button';
 import { Actions } from 'react-native-router-flux'
@@ -90,11 +90,12 @@ class MyId extends Component {
         if (Actions.currentScene == 'MyId') {
             Actions.pop()
         }
+        DeviceEventEmitter.emit('notificationcount', { isNotificationAdded: true });
         return true;
     }
 
     componentWillUnmount() {
-
+        DeviceEventEmitter.emit('notificationcount', { isNotificationAdded: true });
         BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress)
         return true;
     }

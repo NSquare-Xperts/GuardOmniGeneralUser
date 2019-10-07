@@ -176,6 +176,10 @@ export default class Visitors extends React.Component {
       )
     }
   }
+
+  componentWillUnmount(){
+    DeviceEventEmitter.emit('notificationcount', { isNotificationAdded: true });
+  }
 }
 
 const styles = StyleSheet.create({

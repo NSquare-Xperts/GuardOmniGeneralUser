@@ -62,12 +62,14 @@ class Complaints extends Component {
         if (Actions.currentScene == 'Complaints') {
             Actions.pop()
         }
+        DeviceEventEmitter.emit('notificationcount', { isNotificationAdded: true });
         return true;
       }
   
       
     componentWillMount() {        
             this._getUserStorageValue()
+          
             BackHandler.addEventListener('hardwareBackPress', this.handleBackPress)
     }
 
@@ -122,6 +124,7 @@ class Complaints extends Component {
     componentWillUnmount() {       
        
         BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress)
+        DeviceEventEmitter.emit('notificationcount', { isNotificationAdded: true });
         Actions.popTo('drawer');
         this.setState({
             notices: []
