@@ -86,7 +86,7 @@ class AddVisiorRequestNew extends Component {
         time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds()
         dateTime = dateParsed + ' ' + time
 
-        console.log("print date : ", dateTime)
+        
 
         this.setState({ selectedDate: dateTime });
         this._hideDateTimePicker();

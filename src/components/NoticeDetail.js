@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
-import { View, ScrollView, Text, Image, AsyncStorage,BackHandler } from 'react-native'
-//import axios from 'axios'
+import { View, ScrollView, Text, Image, AsyncStorage,BackHandler,DeviceEventEmitter } from 'react-native'
 import { white_Original, grey, black, red_lighter } from './common'
-import { callPostApi } from './Util/APIManager';
+import { callPostApi } from './Util/APIManager'
 import ImageLoad from 'react-native-image-placeholder'
 import {Actions} from 'react-native-router-flux'
 
@@ -32,24 +31,20 @@ class NoticeDetail extends Component {
       var res = JSON.parse(LoginData)
 
       this.setState({ userId: res.data[0].user_details.user_id })
-      console.log('userId :: ', this.state.userId)
-      console.log("notice ID details", this.state.noticeId);
-
-      callPostApi('http://18.188.253.46:8000/api/noticeDetails', {
+      
+      callPostApi('http://guardomni.dutique.com:8000/api/noticeDetails', {
         "userId": this.state.userId,
         "noticeId": this.state.noticeId
       })
         .then((response) => {
           // Continue your code here...
           res = JSON.parse(response)
-          console.log("response : ", res)
-          console.log("title : ", res.data[0].notice_title)
           if (res.status == 200) {
             this.setState({
               details: res.data, loadMore: false
               //status: res.status
             })
-            console.log("detail : ", details[0].notice_title)
+      
           } else if (res.status == 401) {
 
             AsyncStorage.removeItem('propertyDetails');
@@ -58,7 +53,7 @@ class NoticeDetail extends Component {
             //SimpleToast.show(response.message)
             Actions.reset('Login')
           }else {
-            console.log("stop calling")
+            // stop calling
           }
         });
     });
@@ -68,11 +63,11 @@ class NoticeDetail extends Component {
     BackHandler.addEventListener('hardwareBackPress', this.handleBackPress)
     this.renderNoticeDetails()
   }
-  handleBackPress() {
-    console.log("---scene---" + Actions.currentScene)
+  handleBackPress() {    
     if (Actions.currentScene == 'NoticeDetail') {
         Actions.pop()
     }
+    DeviceEventEmitter.emit('notificationcount', { isNotificationAdded: true });
     return true;
 }
 
@@ -135,7 +130,7 @@ class NoticeDetail extends Component {
     )
   }
   componentWillUnmount() {
-
+    DeviceEventEmitter.emit('notificationcount', { isNotificationAdded: true });
     BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress)
     return true;
 }

@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
-import { Text, View, TouchableOpacity, AsyncStorage, DatePickerIOS } from 'react-native'
+import { Text, View, TouchableOpacity, AsyncStorage, DatePickerIOS, TouchableWithoutFeedback, Keyboard } from 'react-native'
 import UsernameInput from './UsernameInput'
 import MobileNumberInput from './MobileNumberInput'
 import { connect } from 'react-redux'
-import Button from '../common/Button'
+import SubmitButton from '../common/Button'
 import { usernameChanged, phoneChanged, codeChanged, noOfPeopleChanged, VisitorRequest, noOfVehicleChanged, vehicleNoChanged, dateChanged } from './AddVisitorRequestActions'
-import { Add_Request, white_Original, red_lighter, This_field_is_optional, grey_light, grey_lighter } from '../common'
+import { Add_Request, white_Original, red_lighter, This_field_is_optional, grey_light, grey_lighter, Expected_arrival_date_and_time } from '../common'
 import NoOfPeopleInput from './NoOfPeopleInput'
 import VehicleNoInput from './VehicleNoInput'
 import DateTimePicker from "react-native-modal-datetime-picker"
@@ -14,6 +14,7 @@ import { Picker } from 'native-base'
 import { Actions } from 'react-native-router-flux'
 import resetForm from 'react-redux'
 import TimePicker from '../TimePicker';
+import SimpleToast from 'react-native-simple-toast'
 
 class AddVisiorRequestNew extends Component {
     constructor(props) {
@@ -39,6 +40,9 @@ class AddVisiorRequestNew extends Component {
     componentWillMount() {
         this.props.auth.phone = ''
         //this.props.auth.code = '+91'
+        console.log("Reached At: ", Actions.currentScene)
+        // SimpleToast.show("Reached At: ",Actions.currentScene)
+
     }
     componentDidMount() {
         this._getUserStorageValue()
@@ -90,18 +94,15 @@ class AddVisiorRequestNew extends Component {
         time = today.getHours() + ':' + today.getMinutes()
         dateTime = dateParsed + ' ' + time
 
-
-        console.log("print date : ", time)
-        console.log("print date : ", dateTime)
-
         this.setState({ selectedDate: dateTime });
+        this.props.dateChanged(dateTime);
         this._hideDateTimePicker();
 
     };
 
     renderButton() {
         return (
-            <Button style={{ width: '100%' }}
+            <SubmitButton style={{ width: '100%' }}
                 onPress={() => {
                     //name = this.props.auth,name
                     if (this.props.auth.name.length < 1) {
@@ -135,7 +136,7 @@ class AddVisiorRequestNew extends Component {
                     }
                 }}
             >{Add_Request}
-            </Button>
+            </SubmitButton>
         );
     }
 
@@ -155,19 +156,32 @@ class AddVisiorRequestNew extends Component {
 
                 <Text style={styles.errorStyle}>{this.state.errorPhone}</Text>
 
-                <TouchableOpacity onPress={this._showDateTimePicker}>
-                    <DateTimeInput
-                        nameChange={(text) => this.props.dateChanged(text)}
-                        value={this.state.selectedDate}
-                    />
-                </TouchableOpacity>
+                <View style={styles.displayPickerStyle}>
+                    <TouchableOpacity onPress={this._showDateTimePicker}>
 
+                        <DateTimeInput
+                            nameChange={(text) => this.props.dateChanged(text)}
+                            value={this.state.selectedDate}
+                        />
+                        {/* <View style={styles.pickerStyle}>
+                                <Text style={{ marginLeft: 50 }}>{this.state.selectedDate}</Text>
+                                { <TextInput
+                                    style={{ backgroundColor:red_lighter, width: '100%'}}
+                                    placeholder={Expected_arrival_date_and_time}
+                                    underlineColorAndroid='rgba(0,0,0,0)'
+                                    // onChangeText={props.nameChange}
+                                    value={this.state.selectedDate}
+                                    maxLength={30}
+                                /> }
+                            </View> */}
+
+                    </TouchableOpacity>
+
+                </View>
                 <Text style={styles.errorStyle}>{this.state.errorDate}</Text>
-
                 <NoOfPeopleInput
                     onChangeText={(text) => this.props.noOfPeopleChanged(text)}
                     value={this.props.auth.noOfPeople} />
-
                 <Text style={styles.errorStyle}>{this.state.errornoOfPeople}</Text>
 
                 <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
@@ -177,7 +191,7 @@ class AddVisiorRequestNew extends Component {
                             value={this.props.auth.vehicleNumber} />
                     </View>
                     {/* add vehicle type */}
-                    
+
                     <View style={styles.containerPickerStyle}>
                         <Picker
                             style={{ marginLeft: 10 }}
@@ -207,19 +221,19 @@ class AddVisiorRequestNew extends Component {
                     {this.renderButton()}
                 </View>
 
-            </View>
+            </View >
         );
     }
 
     render() {
         return (
-            <View style={styles.containerStyle}>
-                <View style={styles.card}>
-
-                    {this.renderVerifyFileds()}
-
+            <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss() }}>
+                <View style={styles.containerStyle}>
+                    <View style={styles.card}>
+                        {this.renderVerifyFileds()}
+                    </View>
                 </View>
-            </View>
+            </TouchableWithoutFeedback>
         );
     }
 }
@@ -260,25 +274,10 @@ const styles = {
         display: 'flex',
         flex: 1,
         padding: 12,
-        backgroundColor: red_lighter
     },
 
-
-    // containerPickerStyle: {
-    //     height: 50,
-    //     width: '63%',
-    //     flexDirection: 'row',
-    //     borderRadius: 30,
-    //     shadowRadius: 4,
-    //     marginLeft: 35,
-    //     //marginRight: 20,
-    //     borderColor: grey_lighter,
-    //     borderWidth: 1,
-    //     justifyContent: 'center',
-    //     alignItems: 'center'
-    // },
     veicleNoStyle: {
-        width: '90%',
+        width: '70%',
         // marginLeft: 10
     },
     containerPickerStyle: {
@@ -288,12 +287,33 @@ const styles = {
         shadowRadius: 4,
         borderColor: grey_lighter,
         borderWidth: 1,
-        width: '20%'
+        width: '40%'
     },
     displayPickerStyle: {
         flexDirection: 'row',
         //marginTop: 10
-    }
+    },
+    pickerStyle: {
+        height: 40,
+        width: '100%',
+        marginLeft: 10,
+        alignItems: 'center',
+        flexDirection: 'row'
+    },
+    datePickerContainerStyle: {
+        height: 50,
+        width: '91%',
+        flexDirection: 'row',
+        borderRadius: 30,
+        shadowRadius: 4,
+        marginLeft: 20,
+        //marginTop: 20,
+        borderColor: grey_lighter,
+        borderWidth: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+
 }
 
 const mapStateToProps = (state) => {

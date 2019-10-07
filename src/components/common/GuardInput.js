@@ -6,28 +6,7 @@ import { Actions } from 'react-native-router-flux';
 const GuardInput = ({ label, value, onChangeText, placeholder, secureTextEntry,multiline }) => {
   const { inputStyle } = styles;
   return (
-      // <TextInput
-      //   secureTextEntry={secureTextEntry}
-      //   multiline={multiline}
-      //   placeholder={placeholder}
-      //   autoCorrect={false}
-      //   style={inputStyle}
-      //   value={value}
-      //   onChangeText={onChangeText}/>
-     
-    //  <View style={styles.containerStyle}>        
-    //         {/* <Image
-    //             source={require('../assets/fullscreen.jpg')}
-    //             style={{ height: 30, width: 20,margin: 5}}
-    //         /> */}
-    //             <TextInput 
-    //                   placeholder="Search Jet" 
-    //                   style={inputStyle} ></TextInput>
-    //             {/* <Image
-    //                   source={require('../assets/fullscreen.jpg')}
-    //                   style={{height: 30, width: 20, margin:5}} /> */}               
-    //   </View>
-    // NEW 
+      
     <View style={styles.container}>
      <TouchableWithoutFeedback onPress={()=> Actions.GuardPropertyDetails()}>
         <View style={styles.SectionStyle}>

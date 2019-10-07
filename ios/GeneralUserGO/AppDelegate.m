@@ -13,10 +13,10 @@
 #import <Firebase.h>
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
-
+#import "RNFirebaseNotifications.h"
+#import "RNFirebaseMessaging.h"
 
 @interface AppDelegate (){
-
   NSString *InstanceID;
 }
 @property (nonatomic, strong) NSString *strUUID;
@@ -40,30 +40,49 @@
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
 
-  UIUserNotificationType allNotificationTypes =
-  (UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge);
-  UIUserNotificationSettings *settings =
-  [UIUserNotificationSettings settingsForTypes:allNotificationTypes categories:nil];
-  [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
-  [[UIApplication sharedApplication] registerForRemoteNotifications];
-
-  [FIRApp configure];
-
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tokenRefreshNotification:) name:kFIRInstanceIDTokenRefreshNotification object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fcmConnectionStateChange) name:kFIRInstanceIDTokenRefreshNotification object:nil];
 
   [Fabric with:@[[Crashlytics class]]];
 
-  
-//  NSArray *familyNames = [UIFont familyNames];
 
-//  for( NSString *familyName in familyNames ){
-//    printf( "Family: %s \n", [familyName UTF8String] );
-//    NSArray *fontNames = [UIFont fontNamesForFamilyName:familyName];
-//    for( NSString *fontName in fontNames ){
-//      printf( "\tFont: %s \n", [fontName UTF8String] );
-//    }
-//  }
+  [FIRApp configure];
+  [RNFirebaseNotifications configure];
+  [FIRMessaging messaging].delegate = self;
+
+  if ([UNUserNotificationCenter class] != nil) {
+      // iOS 10 or later
+      // For iOS 10 display notification (sent via APNS)
+    [UNUserNotificationCenter currentNotificationCenter].delegate = self;
+    UNAuthorizationOptions authOptions = UNAuthorizationOptionAlert |
+    UNAuthorizationOptionSound | UNAuthorizationOptionBadge;
+    [[UNUserNotificationCenter currentNotificationCenter]
+     requestAuthorizationWithOptions:authOptions
+     completionHandler:^(BOOL granted, NSError * _Nullable error) {
+         // ...
+     }];
+  } else {
+      // iOS 10 notifications aren't available; fall back to iOS 8-9 notifications.
+    UIUserNotificationType allNotificationTypes =
+    (UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge);
+    UIUserNotificationSettings *settings =
+    [UIUserNotificationSettings settingsForTypes:allNotificationTypes categories:nil];
+    [application registerUserNotificationSettings:settings];
+  }
+
+  [application registerForRemoteNotifications];
+
+  [[FIRInstanceID instanceID] instanceIDWithHandler:^(FIRInstanceIDResult * _Nullable result,
+                                                      NSError * _Nullable error) {
+    if (error != nil) {
+      NSLog(@"Error fetching remote instance ID: %@", error);
+    } else {
+      NSLog(@"Remote instance ID token: %@", result.token);
+//      NSString* message =
+//      [NSString stringWithFormat:@"Remote InstanceID token: %@", result.token];
+        // self.instanceIDTokenMessage.text = message;
+    }
+  }];
 
   return YES;
 }
@@ -77,22 +96,9 @@
 #endif
 }
 
-
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
-fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
- 
-  NSLog(@"Message ID: %@", userInfo[@"gcm.message_id"]);
-  [[FIRMessaging messaging] appDidReceiveMessage:userInfo];
-
-  NSLog(@"userInfo=>%@", userInfo);
-}
-
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-
   [FIRMessaging messaging].APNSToken = deviceToken;
   NSLog(@"deviceToken1 = %@",deviceToken);
-
-
 }
 
 - (void)tokenRefreshNotification:(NSNotification *)notification {
@@ -112,6 +118,26 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
   }else {
     NSLog(@"Disconnected from FCM");
   }
+}
+
+// FCM integration code
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+
+  NSLog(@"Message ID: %@", userInfo[@"gcm.message_id"]);
+  [[FIRMessaging messaging] appDidReceiveMessage:userInfo];
+  NSLog(@"userInfo=>%@", userInfo);
+
+  [[RNFirebaseNotifications instance] didReceiveRemoteNotification:userInfo fetchCompletionHandler:completionHandler];
+}
+
+
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
+  [[RNFirebaseNotifications instance] didReceiveLocalNotification:notification];
+}
+
+- (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {
+  [[RNFirebaseMessaging instance] didRegisterUserNotificationSettings:notificationSettings];
 }
 
 @end

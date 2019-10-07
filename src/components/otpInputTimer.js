@@ -18,7 +18,7 @@ class SplashScreen extends Component {
     }
 
     _calllTimer() {
-        console.log("resend : ",this.state.resend)
+        
         if (this.state.resend) {
             return (
                 <View style={styles.container}>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { FlatList, Text, View, TouchableWithoutFeedback, AsyncStorage, Image, Alert, Dimensions, BackHandler } from 'react-native'
+import { FlatList, Text, View, TouchableWithoutFeedback, AsyncStorage, Image, Alert, Dimensions,BackHandler } from 'react-native'
 import Placeholder from 'rn-placeholder'
 import { red_lighter, white_Original, grey } from './common'
 import { Actions } from 'react-native-router-flux'
@@ -16,16 +16,20 @@ class Notifications extends Component {
         flatId: '',
         userID: '',
         page: 0,
-        isClickable: true
     }
 
     renderNotificationList() {
+        
+
         console.log("notification List " + this.state.userId + "," + this.state.flatId)
-        callPostApi('http://18.188.253.46:8000/api/getNotificationList', {
+        callPostApi('http://guardomni.dutique.com:8000/api/getNotificationList', {
             "userId": this.state.userId,
             "flatId": this.state.flatId,
             "pageNumber": this.state.page,
             "loginType": '4'
+            // "userId": 34,
+            // "flatId": 56,
+            // "pageNumber": 0
         })
             .then((response) => {
                 // Continue your code here...
@@ -36,12 +40,12 @@ class Notifications extends Component {
                         notificationsList: this.state.notificationsList.concat(res.data), loadMore: false, refreshing: false,
                         status: res.status
                     })
-                } else if (res.status == 401) {
+                }else if (res.status == 401) {
                     AsyncStorage.removeItem('propertyDetails');
                     AsyncStorage.removeItem('userDetail');
-                    AsyncStorage.removeItem('LoginData');
+                    AsyncStorage.removeItem('LoginData');                    
                     Actions.reset('Login')
-                }
+                  }              
                 else {
                     this.setState({
                         refreshing: false,
@@ -53,9 +57,8 @@ class Notifications extends Component {
     handleLoadMore = () => {
         //console.warn('handleLoadMore');
         this.setState(
-            {
-                page: this.state.page + 1, loadMore: true
-            },
+            { 
+                page: this.state.page + 1, loadMore: true },
             this.renderNotificationList
         )
     }
@@ -81,24 +84,23 @@ class Notifications extends Component {
     }
 
     handleBackPress() {
+        console.log("---scene---"+Actions.currentScene)
         if (Actions.currentScene == 'Notifications' || Actions.currentScene == '_notification') {
             Actions.pop()
         }
         return true;
-    }
-
+      }
+  
     componentWillMount() {
         this._getUserStorageValue()
         NotificationCount.setCurrentCount(0)
         BackHandler.addEventListener('hardwareBackPress', this.handleBackPress)
     }
-    
     _handleRefresh = () => {
         this.setState({
             refreshing: true,
             loadMore: false,
             page: 0,
-            isClickable: true,
             notificationsList: []
         },
             () => {
@@ -106,7 +108,7 @@ class Notifications extends Component {
             })
     }
 
-    componentWillUnmount() {
+    componentWillUnmount(){
         BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress)
     }
 
@@ -117,10 +119,7 @@ class Notifications extends Component {
                 <View style={{ backgroundColor: red_lighter, display: 'flex', flex: 1, justifyContent: 'center', alignSelf: 'center', marginTop: Dimensions.get('window').height / 4 }}>
                 </View>
             )
-        }else {
-            this.setState({
-                isClickable: false
-            })
+        } else {
             return (
                 <View style={{ backgroundColor: red_lighter, display: 'flex', flex: 1, justifyContent: 'center', alignSelf: 'center', marginTop: Dimensions.get('window').height / 4, height: '100%' }}>
                     <Text style={styles.textStyle}>No Data Found</Text>
@@ -159,43 +158,45 @@ class Notifications extends Component {
         // 1 => manual in : general user 
         // 2 => Reported Visitor request REported inout list in guard 
         // 3 => Complaint resolved
-
-        SENDid = JSON.parse(item.notification_data)
-
+        
+        SENDid =JSON.parse(item.notification_data)
+        
         if (SENDid.notification_category == "0") {
+            console.log("Notifications Notice ID : " +SENDid.id)
             Actions.NoticeDetail({ noticeID: SENDid.id })
         } else if (SENDid.notification_category == "2") {
-            //console.log("Notifications Report ID : " + SENDid.id)
-            Actions.ReportedInOutDetails({ RId: SENDid.id })
+            console.log("Notifications Report ID : " +SENDid.id)
+            Actions.ReportedInOutDetails({ RId: SENDid.id})
         } else if (SENDid.notification_category == "3") {
-            // console.log("Notifications Complaint ID: : " + SENDid.id)
-            // Actions.ComplaintDetail({ complaintID: SENDid.id })
-            Actions.ComplaintDetailDelete({ complaintID: SENDid.id })
+            console.log("Notifications Complaint ID: : " +SENDid.id)
+            Actions.ComplaintDetail({ complaintID: SENDid.id })
         }
     }
+
     _deleteId(item) {
-        // console.log(" Delete ID" + item)
-        // console.log(" Delete ID :" + item.id)
+        console.log(" Delete ID"+item)
+        console.log(" Delete ID :"+item.id)
 
-        callPostApi('http://18.188.253.46:8000/api/deleteSingleNotification', {
-            "userId": this.state.userId,
-            "notificationId": item.id,
-        })
-            .then((response) => {
-                // Continue your code here...
-                res = JSON.parse(response)
-                console.log("response : ", res)
-                if (res.status == 200) {
-                    SimpleToast.show(res.message)
-                    this._handleRefresh()
 
-                } else {
-                    SimpleToast.show(res.message)
-
-                    this._handleRefresh()
-                }
-            });
-
+            callPostApi('http://guardomni.dutique.com:8000/api/deleteSingleNotification', {
+                "userId": this.state.userId,
+                "notificationId": item.id,
+            })
+                .then((response) => {
+                    // Continue your code here...
+                    res = JSON.parse(response)
+                    console.log("response : ", res)
+                    if (res.status == 200) {
+                       SimpleToast.show(res.message)
+                       this._handleRefresh()
+                   
+                    } else {
+                        SimpleToast.show(res.message)
+                       
+                        this._handleRefresh()
+                    }
+                });
+    
 
 
     }
@@ -256,65 +257,7 @@ class Notifications extends Component {
                             ListFooterComponent={this.renderFooter} />
                     </View>
 
-                    {this.state.isClickable ? <TouchableWithoutFeedback
-                        onPress={() =>
-
-                            Alert.alert(
-                                'Are you sure you want to delete all notifications ?',
-                                'All Notifications Will be deleted Permantly',
-                                [
-                                    {
-                                        text: 'No', onPress: () =>
-                                            //Actions.notifications()
-                                            console.log("delete nothing")
-                                    },
-                                    {
-                                        text: 'Yes', onPress: () => {
-
-                                            //call notification delete api 
-                                            callPostApi('http://18.188.253.46:8000/api/deleteAllNotifications', {
-                                                "userId": this.state.userId,
-                                                "flatId": this.state.flatId
-                                            })
-                                                .then((response) => {
-                                                    // Continue your code here...
-                                                    res = JSON.parse(response)
-                                                    console.log("response : ", res)
-                                                    if (res.status == 200) {
-                                                        //AsyncStorage.removeItem('complaintID')
-                                                        //AsyncStorage.removeItem('userID')
-                                                        //Actions.pop('Complaints');
-                                                        //DeviceEventEmitter.emit('eventDeletedComplaint',{isDeletedSuccessFully: true});
-                                                        //Actions.popTo('_Complaints');
-                                                        SimpleToast.show(res.message)
-                                                        this._handleRefresh()
-                                                    } else {
-                                                        SimpleToast.show(res.message)
-                                                    }
-                                                });
-
-                                        }
-                                    }
-                                ],
-                                { cancelable: true }
-                            )
-                        }>
-                        <Image style={styles.thumbnail_arrow}
-                            source={require('./assets/Home/delete_fab.png')} />
-                    </TouchableWithoutFeedback>
-
-                        :
-
-                        <TouchableWithoutFeedback
-                            onPress={() =>
-                                console.log("no data ")
-                            }>
-                            <Image style={styles.thumbnail_arrow}
-
-                            />
-                        </TouchableWithoutFeedback>
-                    }
-                    {/* <TouchableWithoutFeedback onPress={() =>
+                    <TouchableWithoutFeedback onPress={() =>
                         Alert.alert(
                             'Are you sure you want to delete all notifications ?',
                             'All Notifications Will be deleted Permantly',
@@ -327,9 +270,8 @@ class Notifications extends Component {
                                 {
                                     text: 'Yes', onPress: () => {
 
-                                        if (this.state.notificationsList.length > 0){ 
-                                            //call notification delete api 
-                                        callPostApi('http://18.188.253.46:8000/api/deleteAllNotifications', {
+                                        //call notification delete api 
+                                        callPostApi('http://guardomni.dutique.com:8000/api/deleteAllNotifications', {
                                             "userId": this.state.userId,
                                             "flatId": this.state.flatId
                                         })
@@ -337,17 +279,19 @@ class Notifications extends Component {
                                                 // Continue your code here...
                                                 res = JSON.parse(response)
                                                 console.log("response : ", res)
-                                                if (res.status == 200) {                                                    
-                                                    this._handleRefresh()
+                                                if (res.status == 200) {
+
+                                                    //AsyncStorage.removeItem('complaintID')
+                                                    //AsyncStorage.removeItem('userID')
+                                                    //Actions.pop('Complaints');
+                                                    //DeviceEventEmitter.emit('eventDeletedComplaint',{isDeletedSuccessFully: true});
+                                                    //Actions.popTo('_Complaints');
+
                                                     SimpleToast.show(res.message)
                                                 } else {
                                                     SimpleToast.show(res.message)
-                                                    this._handleRefresh()
                                                 }
                                             });
-                                        }else {
-                                            console.log("No Notifications")
-                                        }                                      
 
                                     }
                                 }
@@ -359,7 +303,7 @@ class Notifications extends Component {
                     }>
                         <Image style={styles.thumbnail_arrow}
                             source={require('./assets/Home/delete_fab.png')} />
-                    </TouchableWithoutFeedback> */}
+                    </TouchableWithoutFeedback>
 
                 </View>
             )
@@ -708,7 +652,7 @@ const styles = {
 //     renderNotificationList() {
 
 //         console.log("notification List " + this.state.userId + "," + this.state.flatId)
-//         callPostApi('http://18.188.253.46:8000/api/getNotificationList', {
+//         callPostApi('http://guardomni.dutique.com:8000/api/getNotificationList', {
 //             "userId": this.state.userId,
 //             "flatId": this.state.flatId,
 //             "pageNumber": this.state.page
@@ -731,7 +675,7 @@ const styles = {
 //                 }
 //             });
 //     }
-
+  
 //     handleLoadMore = () => {
 //         //console.warn('handleLoadMore');
 //         this.setState(
@@ -760,7 +704,7 @@ const styles = {
 //             this.renderNotificationList()
 //         }
 //     }
-
+    
 //     componentWillMount() {
 //         this._getUserStorageValue()
 //     }
@@ -896,9 +840,9 @@ const styles = {
 //                                 },
 //                                 {
 //                                     text: 'Yes', onPress: () => {
-
+                                     
 //                                        //call notification delete api 
-//                                        callPostApi('http://18.188.253.46:8000/api/complaintDelete', {
+//                                        callPostApi('http://guardomni.dutique.com:8000/api/complaintDelete', {
 //                                             "userId": this.state.userID,
 //                                             "flatId": this.state.flatId,
 //                                         })

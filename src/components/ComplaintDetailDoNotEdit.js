@@ -48,27 +48,24 @@ class ComplaintDetailDoNotEdit extends Component {
 
             this.setState({ userId: res.data[0].user_details.user_id })
 
-            callPostApi('http://18.188.253.46:8000/api/complaintDetails', {
+            callPostApi('http://guardomni.dutique.com:8000/api/complaintDetails', {
                 "userId": this.state.userId,
                 "complaintId": this.state.complaintId
             })
-                .then((response) => {
-                    // Continue your code here...
-                    res = JSON.parse(response)
-                    console.log("details : ", res)
+                .then((response) => {                    
+                    res = JSON.parse(response)                    
                     if (res.status == "200") {
                         this.setState({
                             details: res.data, refreshing: false,complaintsCommentArray:res.complaint_comments
                         })
                     } else if (res.status == 401) {
-
                         AsyncStorage.removeItem('propertyDetails');
                         AsyncStorage.removeItem('userDetail');
                         AsyncStorage.removeItem('LoginData');
                         //SimpleToast.show(response.message)
                         Actions.reset('Login')
                       }else {
-                        console.log("stop calling")
+                        // stop calling
                     }
 
                 });
@@ -79,13 +76,12 @@ class ComplaintDetailDoNotEdit extends Component {
 
         this.editComplaintListener =
             DeviceEventEmitter.addListener('eventEditedComplaint', (e) => {
-
                 DeviceEventEmitter.emit('eventNewComplaintAdded', { isAddeddSuccessFully: true });
                 this.setState({
                     refreshing: true,
 
                 }),
-                    this.renderComplaintDetails()
+                this.renderComplaintDetails()
             });
         this.renderComplaintDetails()
 
@@ -397,7 +393,7 @@ class ComplaintDetailDoNotEdit extends Component {
                             data={this.state.complaintsCommentArray}
                             // ItemSeparatorComponent={this.FlatListItemSeparator}
                             renderItem={({ item }) =>                                                                
-                                    // < Text style={styles.textDetailStyle}>{item.comment}</Text>                                
+                                                               
                                     <HTML html={item.comment +', Date : '+item.updated_at} />
                             } />
                 </ScrollView>

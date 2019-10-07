@@ -11,9 +11,8 @@ export const VisitorRequest = (name,phone,selectedDate,noOfPeople,vehicleType,ve
     
     return (dispatch) => {
         dispatch({ type: ADD_REQUEST });
-    
-        console.log("vehicle type: ",vehicleType)
-        callPostApi('http://18.188.253.46:8000/api/visitorRequest', {
+            
+        callPostApi('http://guardomni.dutique.com:8000/api/visitorRequest', {
             "userId" : userId,
             "visitorName": name,
             "visitorMobileNumber": phone,
@@ -26,7 +25,7 @@ export const VisitorRequest = (name,phone,selectedDate,noOfPeople,vehicleType,ve
         .then((response) => {
             // Continue your code here...
             res = JSON.parse(response)
-            console.log(" VISITOR response : ", res)
+            
             if (res.status == '200') {
                 Actions.popTo('visitors')
                               

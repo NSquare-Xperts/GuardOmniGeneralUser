@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, Image, View, Alert, AsyncStorage, TouchableOpacity,DeviceEventEmitter } from 'react-native';
+import { Text, Image, View, Alert, AsyncStorage, TouchableOpacity, DeviceEventEmitter } from 'react-native';
 import { red, black } from './color'
 import { Actions } from 'react-native-router-flux'
 import { callPostApi } from '../Util/APIManager'
@@ -39,28 +39,19 @@ const OptionMenu = (props) => {
                                 AsyncStorage.multiGet(["LoginData"]).then((data) => {
                                     LoginData = data[0][1];
                                     var res = JSON.parse(LoginData)
-
-                                    console.log('userId :: ', res.data[0].user_details.user_id)
-
                                     AsyncStorage.getItem('complaintID').then((data) => {
-                                        console.log("Option menu", data)
-
-                                        callPostApi('http://18.188.253.46:8000/api/complaintDelete', {
+                                        var complaintID = JSON.parse(data)
+                                        callPostApi('http://guardomni.dutique.com:8000/api/complaintDelete', {
                                             "userId": res.data[0].user_details.user_id,
-                                            "complaintId": data,
+                                            "complaintId": complaintID,
                                         })
                                             .then((response) => {
-                                                // Continue your code here...
                                                 res = JSON.parse(response)
-                                                //console.log("response : ", res)
                                                 if (res.status == 200) {
-
                                                     AsyncStorage.removeItem('complaintID')
                                                     AsyncStorage.removeItem('userID')
-                                                    //Actions.pop('Complaints');
-                                                    DeviceEventEmitter.emit('eventDeletedComplaint',{isDeletedSuccessFully: true});
+                                                    DeviceEventEmitter.emit('eventDeletedComplaint', { isDeletedSuccessFully: true });
                                                     Actions.popTo('Complaints');
-
                                                     SimpleToast.show(res.message)
                                                 } else {
                                                     SimpleToast.show(res.message)
@@ -74,8 +65,6 @@ const OptionMenu = (props) => {
                     ],
                     { cancelable: true }
                 )
-
-
             }
         }
     }

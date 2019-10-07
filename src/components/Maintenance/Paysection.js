@@ -8,12 +8,8 @@ const Paysection = (props) => {
 
   const { gridRowStyle, container, textTitleStyle,gridColFullStyle, textgreenStyle,textRedStyle,textNoStyle, gridColStyle, textStyle } = styles;
   
-  //get current date 
   var today = new Date();
-  dateParsed =  today.getDate()+ '-' +(today.getMonth() + 1) + '-' + today.getFullYear()
-  // console.log("Todays date : "+dateParsed)
-  // console.log("Due date : "+props.dueDate)
-  // console.log("compare date > "+dateParsed > props.dueDate)
+  dateParsed =  today.getDate()+ '-' +(today.getMonth() + 1) + '-' + today.getFullYear()  
   return (
     <View style={container}>
       
@@ -120,7 +116,7 @@ const styles = {
     alignSelf: 'center',
   },
   textStyle: {
-    fontFamily: 'OpenSans-Regular',
+    fontFamily: 'OpenSans',
     fontSize: 12,
     color: white_Original,
     alignSelf: 'flex-start',

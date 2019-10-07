@@ -96,11 +96,7 @@ class NewEditComplaints extends Component {
                          }
                     });
                } else {
-
-                    console.log("responseon from gallery >> " + JSON.stringify(res))
                     const source = { uri: 'data:image/jpeg;base64,' + res.data };
-                    console.log("source : " + JSON.stringify(source))
-                    console.log("URI >> " + res.uri)
                     this.setState({
                          uriToSend: res.uri,
                          ImageSource: source,
@@ -160,11 +156,7 @@ class NewEditComplaints extends Component {
                     });
                } else {
 
-                    console.log("responseon from gallery >> " + JSON.stringify(res))
-
                     const source = { uri: 'data:image/jpeg;base64,' + res.data };
-                    console.log("source : " + JSON.stringify(source))
-                    console.log("URI >> " + res.uri)
                     this.setState({
                          uriTo1Send: res.uri,
                          ImageSource1: source,
@@ -222,12 +214,7 @@ class NewEditComplaints extends Component {
                          }
                     });
                } else {
-
-                    console.log("responseon from gallery >> " + JSON.stringify(res))
-
                     const source = { uri: 'data:image/jpeg;base64,' + res.data };
-                    console.log("source : " + JSON.stringify(source))
-                    console.log("URI >> " + res.uri)
                     this.setState({
                          uriTo2Send: res.uri,
                          ImageSource2: source,
@@ -280,18 +267,13 @@ class NewEditComplaints extends Component {
      }
      //call async data
      renderUsersComplaints() {
-          //pass complaintIs
-          console.log("Complaint Edit: UserID:", this.state.userId, "Complaint ID: ", this.state.complaintId)
 
-          callPostApi('http://18.188.253.46:8000/api/complaintDetails?', {
-               //"userId": this.state.userId,
+          callPostApi('http://guardomni.dutique.com:8000/api/complaintDetails?', {
                "userId": this.state.userId,
                "complaintId": this.state.complaintId
           })
                .then((response) => {
-                    // Continue your code here...
                     res = JSON.parse(response)
-                    console.log("data user COMPLAINTS : ", res.data[0], ",", res.data[0].complaint_title)
                     if (res.status == "200") {
 
                          this.props.auth.title = res.data[0].complaint_title
@@ -321,7 +303,6 @@ class NewEditComplaints extends Component {
 
           var complaintId = await AsyncStorage.getItem('complaintID')
           var dataComplaintID = JSON.parse(complaintId);
-          console.log("***** complaintId", dataComplaintID)
 
           if (dataUser != '' || dataUser != null) {
                this.setState({
@@ -350,7 +331,6 @@ class NewEditComplaints extends Component {
      //check url 3 first 
      _handlePhotoView = () => {
           //url3 if present : show all 3 url
-          console.log("inside handlePhotoView")
           if (this.state.url3 != '') {
                return (                   
                     <View style={{ flexDirection: 'row' }}>
@@ -389,9 +369,6 @@ class NewEditComplaints extends Component {
                     </View>
                )
           } else if (this.state.url2 != '') {
-               console.log("inside url2 != empty"+this.state.ImageSource)
-               console.log("inside url1 != empty"+this.state.url1) 
-               console.log("inside url2 != empty"+this.state.url2) 
                return (
                     <View style={{ flexDirection: 'row' }}>
                          <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
@@ -433,7 +410,6 @@ class NewEditComplaints extends Component {
                                    this.state.ImageSource2 === null ?
                                    this.state.url2.includes('mp4')?
                                    <View>
-                                        {console.log("*inclues-2*")}
                                         <Video 
                                              style={styles.imageStyle}
                                              controls={false}
@@ -489,7 +465,6 @@ class NewEditComplaints extends Component {
                     </View>
                )
           } else if (this.state.url1 != '') {
-               console.log("inside url1 != empty")
                return (
                     <View style={{ flexDirection: 'row' }}>
                          <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
@@ -742,16 +717,11 @@ class NewEditComplaints extends Component {
      componentWillUnmount() {
           this.props.auth.title = ''
           this.props.auth.comments = ''
-          //  AsyncStorage.removeItem('complaintID')
-          //Actions.pop('Complaints');
           Actions.popTo('ComplaintDetail');
-          //Actions.refresh()
           return true;
      }
 
      componentDidMount() {
-
-          //this._getUserStorageValue()
           this._getUserStorageValue()
      }
      render() {
