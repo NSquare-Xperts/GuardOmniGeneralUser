@@ -18,12 +18,7 @@ const HomeListItems = (props) => {
 
           <Image style={thumbnail}
             source={{ uri: props.image}} /> 
-      
-                {/* <ImageLoad
-                  style={thumbnail}
-                  loadingStyle={{ size: 'large', color: 'blue' }}
-                  source={{ uri: props.image}} />  */}
-
+    
 
           <View style={gridColStyle}>
 

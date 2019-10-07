@@ -17,30 +17,7 @@ const TitleInput = (props) => {
                     maxLength={100}
                 />
 
-                {/* <TextInput
-                    placeholder={Enter_your_comments}
-                    multiline={true}
-                    style={styles.inputStyle}
-                    underlineColorAndroid='rgba(0,0,0,0)'
-                    onChangeText={props.phoneChange}
-                    value={props.value} />
-
-
-                <ImageBackground
-                    style={styles.imageStyle}
-                    value={props.value}>
-                    <View style={{ alignSelf: 'center', flex: 1,margin:5, padding:10,marginTop: 14}}>
-                        <Image
-                            source={require('./assets/Complaints/add_image_plus.png')}
-                            style={{ height: 30, width: 30, }} />
-                        <Text style={styles.textStyle}>Image</Text>
-                    </View>
-                </ImageBackground>
-
-                <View style={{ width: '90%', position: 'absolute', bottom: 0, alignSelf: 'center', marginBottom: 15 }}>
-                    <Button onPress={() => { Actions.homepage() }}>{Add_Complaint}</Button>
-                </View>
-                 */}
+                
             </View>
         </View>
 

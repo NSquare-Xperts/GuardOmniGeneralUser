@@ -7,15 +7,11 @@ import ImageLoad from 'react-native-image-placeholder'
 //make component 
 const HomePropertyDetailEditItem = (props) => {
   const { gridRowStyle, container, thumbnail, gridColStyle, textStyle, textBoldStyle } = styles;
-  console.log("img ** ", props.image)
   return (
     <TouchableWithoutFeedback onPress={() => Actions.edit()}>
-      {/* </TouchableWithoutFeedback><TouchableWithoutFeedback onPress={()=> Actions.GuardPropertyDetails()}> */}
+
       <View style={container}>
         <View style={gridRowStyle}>
-
-          {/* <Image style={thumbnail}
-            source={ {uri: props.image}} /> */}
 
           <ImageLoad
             style={thumbnail}
@@ -38,8 +34,7 @@ const HomePropertyDetailEditItem = (props) => {
         </View>
 
         <Image
-          style={styles.thumbnail_info}
-          // source={require('../assets/Home/edit_icn.png')}/>
+          style={styles.thumbnail_info}          
           source={require('../assets/guard/home/edit_icn.png')} />
 
       </View>

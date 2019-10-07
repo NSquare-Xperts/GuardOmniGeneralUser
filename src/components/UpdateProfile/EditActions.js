@@ -8,7 +8,7 @@ export const editProfile_ = (username, email, flatId,userId, uri1, type1, name1,
     return (dispatch) => {
         dispatch({ type: EDIT_PROFILE });
 
-        callFormDataUpdateProfilePostApi('http://18.188.253.46:8000/api/profileUpdate?', {
+        callFormDataUpdateProfilePostApi('http://guardomni.dutique.com:8000/api/profileUpdate?', {
             "userId": userId,
             "userName": username,
             "userEmailId": email,
@@ -19,19 +19,15 @@ export const editProfile_ = (username, email, flatId,userId, uri1, type1, name1,
             "name1": name1,
             "isFile" : isFile
         })
-        .then((response) => {
-                // Continue your code here...
+        .then((response) => {                
                 res = JSON.parse(response)
-                console.log("add profileUpdate response : ", res)
               
-                 if (res.status === 200) {
-                    console.log("add profileUpdate response : ", res.status)
+                 if (res.status === 200) {                    
                     SimpleToast.show(res.message)
                     Actions.popTo('PropertyDetails')
-                    //updateProfileSuccess(dispatch, data)
-                   // DeviceEventEmitter.emit('eventUpdated', { eventUpdated: true });
+                    
                  }else{
-                    //console.log("failed")
+                    
                     updateProfileFailed(dispatch, response.message)
                     SimpleToast.show(res.message)
                  }

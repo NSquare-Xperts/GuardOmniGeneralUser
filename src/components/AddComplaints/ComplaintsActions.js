@@ -5,11 +5,10 @@ import { DeviceEventEmitter } from 'react-native'
 
 export const addComplaint_ = (title, comments, uri1, type1, name1, uri2, type2, name2, uri3, type3, name3, flatId, userId) => {
 
-    //export const addComplaint_ = (title,comments,uri1,type1,name1) => {
     return (dispatch) => {
         dispatch({ type: ADD_COMPLAINT });
 
-        callFormDataPostApi('http://18.188.253.46:8000/api/complaintRequest', {
+        callFormDataPostApi('http://guardomni.dutique.com:8000/api/complaintRequest', {
             "userId": userId,
             "complaintTitle": title,
             "uri1": uri1,
@@ -25,26 +24,21 @@ export const addComplaint_ = (title, comments, uri1, type1, name1, uri2, type2, 
             "flatId": flatId
         })
             .then((response) => {
-                // Continue your code here...
                 res = JSON.parse(response)
-                console.log("add complaint response : ", res)
+                
                 if (res.status == '200') {
                     Actions.popTo('Complaints')
-
                     DeviceEventEmitter.emit('eventNewComplaintAdded', { isAddeddSuccessFully: true });
                     addComplaintSuccess(dispatch, data)
                 }else if(res.status == 401) {
-
                     AsyncStorage.removeItem('propertyDetails');
                     AsyncStorage.removeItem('userDetail');
                     AsyncStorage.removeItem('LoginData');
-                    //SimpleToast.show(response.message)
                     Actions.reset('Login')
                   }  else {
                     addComplaintFailed(dispatch, response.message)
                 }
             });
-        //  });
 
     }
 }

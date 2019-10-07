@@ -25,7 +25,7 @@ const styles = {
         flexDirection: 'row',
         borderRadius: 30,
         shadowRadius: 4,
-        marginLeft: 35,
+        marginLeft: 30,
         //marginRight: 20,
         borderColor: grey_lighter,
         borderWidth: 1,

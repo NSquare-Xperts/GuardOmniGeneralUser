@@ -10,7 +10,7 @@ import ActionSheet from 'react-native-action-sheet';
 import { Actions } from 'react-native-router-flux';
 import Video from 'react-native-video'
 
-// http://18.188.253.46:8000
+// http://guardomni.dutique.com:8000
 //1 : resolved 
 //0 : not
 
@@ -88,20 +88,18 @@ class ComplaintDetail extends Component {
             tintColor: 'blue'
         },
             (buttonIndex) => {
-                console.log('button clicked :', buttonIndex);
+                
                 switch (buttonIndex) {
-                    case 0:
-                        console.log("Edit Button Pressed")
+                    case 0:                        
                         Actions.newedit()
                         break;
-                    case 1:
-                        console.log("Delete Button Pressed")
+                    case 1:                        
                         Alert.alert(
                             'Want to Delete this complaint ?',
                             'Complaint will be deleted permantly',
                             [
                                 {
-                                    text: 'No', onPress: () =>
+                                    text: 'No', onPress: () => 
                                         console.log('Cancel Pressed')
 
                                 },
@@ -113,21 +111,17 @@ class ComplaintDetail extends Component {
                                             var res = JSON.parse(LoginData)
                                             AsyncStorage.getItem('complaintID').then((data) => {
                                                 var complaintID = JSON.parse(data)
-                                                callPostApi('http://18.188.253.46:8000/api/complaintDelete', {
+                                                callPostApi('http://guardomni.dutique.com:8000/api/complaintDelete', {
                                                     "userId": res.data[0].user_details.user_id,
                                                     "complaintId": complaintID,
                                                 })
-                                                    .then((response) => {
-                                                        // Continue your code here...
-                                                        res = JSON.parse(response)
-                                                        //console.log("response : ", res)
+                                                    .then((response) => {                                                        
+                                                        res = JSON.parse(response)                                                        
                                                         if (res.status == 200) {
                                                             AsyncStorage.removeItem('complaintID')
-                                                            AsyncStorage.removeItem('userID')
-                                                            //Actions.pop('Complaints');
+                                                            AsyncStorage.removeItem('userID')                                                            
                                                             DeviceEventEmitter.emit('eventDeletedComplaint', { isDeletedSuccessFully: true });
                                                             Actions.popTo('Complaints');
-
                                                             SimpleToast.show(res.message)
                                                         } else {
                                                             SimpleToast.show(res.message)
@@ -156,28 +150,24 @@ class ComplaintDetail extends Component {
 
             this.setState({ userId: res.data[0].user_details.user_id })
 
-            callPostApi('http://18.188.253.46:8000/api/complaintDetails', {
+            callPostApi('http://guardomni.dutique.com:8000/api/complaintDetails', {
                 "userId": this.state.userId,
                 "complaintId": this.state.complaintId
             })
-                .then((response) => {
-                    // Continue your code here...
-                    res = JSON.parse(response)
-                    console.log("detail res : " + JSON.stringify(res))
+                .then((response) => {                    
+                    res = JSON.parse(response)                    
                     if (res.status == "200") {
                         this.setState({
                             details: res.data, refreshing: false, complaintsCommentArray: res.complaint_comments
                         })
 
                     } else if (res.status == 401) {
-
                         AsyncStorage.removeItem('propertyDetails');
                         AsyncStorage.removeItem('userDetail');
-                        AsyncStorage.removeItem('LoginData');
-                        //SimpleToast.show(response.message)
+                        AsyncStorage.removeItem('LoginData');                        
                         Actions.reset('Login')
                     } else {
-                        console.log("stop calling")
+                        //stop calling                        
                     }
                 });
         });
@@ -402,8 +392,7 @@ class ComplaintDetail extends Component {
             )
         } else if (this.state.details[0].complaint_image_1 != "") {
             return (
-                <View>
-                    {console.log("--- " + this.state.details[0].complaint_image_1)}
+                <View>                    
                     {this.state.details[0].complaint_image_1.includes('mp4')
                         ?
                         <View>
@@ -512,38 +501,18 @@ class ComplaintDetail extends Component {
         this.setState({ dialogVisible: false });
     };
 
-    handleAddComment = () => {
-        console.log("New Comment: ", this.state.newComment)
+    handleAddComment = () => {        
         if (this.state.newComment.length > 0) {
             this.setState({ dialogVisible: false });
-            this.setState({ newComment: '' })
-            console.log("UserID: ", this.state.userId, "ComplaintID:", this.state.complaintId, "Comment: ", this.state.newComment)
-            callPostApi('http://18.188.253.46:8000/api/addComplaintComment', {
+            this.setState({ newComment: '' })            
+            callPostApi('http://guardomni.dutique.com:8000/api/addComplaintComment', {
                 "userId": this.state.userId,
                 "complaintId": this.state.complaintId,
                 "comment": this.state.newComment
             })
                 .then((response) => {
-
-                    res = JSON.parse(response)
-                    console.log("details : ", res)
-                    // if (res.status == "200") {
-                    //     this.setState({
-                    //         details: res.data, refreshing: false
-                    //     })
-                    //this.renderComplaintDetails()
-                    this._handleRefresh()
-                    // }else if (res.status == 401) {
-
-                    //     AsyncStorage.removeItem('propertyDetails');
-                    //     AsyncStorage.removeItem('userDetail');
-                    //     AsyncStorage.removeItem('LoginData');
-                    //     //SimpleToast.show(response.message)
-                    //     Actions.reset('Login')
-                    //   } else {
-                    //     console.log("stop calling")
-                    // }
-
+                    res = JSON.parse(response)                    
+                    this._handleRefresh()                    
                 });
         } else {
             this.setState({

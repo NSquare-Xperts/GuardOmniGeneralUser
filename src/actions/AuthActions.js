@@ -10,18 +10,16 @@ export const loginUser = (phone) => {
     return (dispatch) => {
         dispatch({ type: LOGIN_USER });
 
-        axios.post('http://18.188.253.46:8000/api/validateUser',
+        axios.post('http://guardomni.dutique.com:8000/api/validateUser',
             {
                 "phone": phone
             })
             .then((response) => {
                 var data = response.data
                 loginPressed(dispatch, data.otpData.otp)
-                console.log("data : ", data)
             })
             .catch(error => {
                 loginPressed(dispatch, data.otpData.otp)
-                console.log("error: ", error)
                 if (error.response.status == 401) {
                     loginFailed(dispatch, 'User not registered, Contact Administration!')
                 }
@@ -34,18 +32,14 @@ export const loginUser = (phone) => {
 }
 
 export const logoutUser = (accessToken) => {
-    console.log(accessToken)
     return (dispatch) => {
-
         var config = {
             headers: {
                 "Authorization": accessToken
             }
         }
-
         axios.delete('http://ec2-34-219-55-114.us-west-2.compute.amazonaws.com:3000/api/logout/', config)
             .then((response) => {
-
                 var data = response.data
                 try {
                     AsyncStorage.removeItem('LoginData');
@@ -58,7 +52,6 @@ export const logoutUser = (accessToken) => {
             })
             .catch(error => {
                 console.log(error);
-                console.log('Request failed')
             }
             )
     }
@@ -70,12 +63,10 @@ export const VerifyOtp = ({ phone, otp }) => {
 
         axios.post('http://ec2-34-219-55-114.us-west-2.compute.amazonaws.com:3000/api/verifyOtp/', {
             "phone": phone,
-            "otp": otp            
+            "otp": otp
         })
             .then((response) => {
-
                 var data = response.data
-
                 var login = JSON.stringify(data)
                 AsyncStorage.multiSet([
                     ["LoginData", login]
@@ -84,7 +75,6 @@ export const VerifyOtp = ({ phone, otp }) => {
                 loginSuccess(dispatch, data)
             })
             .catch(error => {
-
                 loginFailed(dispatch, 'Wrong OTP.')
                 console.log(error)
             }

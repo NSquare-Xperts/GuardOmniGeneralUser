@@ -27,10 +27,10 @@ class Camera extends React.Component {
       };
   
       ImagePicker.showImagePicker(options, (response) => {
-        console.log('Response = ', response);
+        
   
         if (response.didCancel) {
-          console.log('User cancelled photo picker');
+          console.log('ImagePicker Cenceled: ', response);
         }
         else if (response.error) {
           console.log('ImagePicker Error: ', response.error);
@@ -40,8 +40,7 @@ class Camera extends React.Component {
         }
         else {
           let source = { uri: response.uri };
-          // You can also display the image using data:
-          // let source = { uri: 'data:image/jpeg;base64,' + response.data };
+          
           this.setState({
             ImageSource: source
           });

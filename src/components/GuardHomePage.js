@@ -11,50 +11,12 @@ class GuardHomepage extends Component {
   componentDidMount() {
     this.notificationListener = firebase.notifications().onNotification((notification) => {
       // Process your notification as required
-      const { title, body, data } = notification;
-      console.log("OnNotification GaurdHomePage")
-      console.log("Data " + JSON.stringify(data) + "And " + data.id)
-
-      // const localNotification = new firebase.notifications.Notification({
-      //   sound: 'default',
-      //   vibration: 300,
-      //   show_in_foreground: true,
-      //   local: true
-      // }).setNotificationId(notification.notificationId)
-      //   .setTitle(notification.title)
-      //   .setBody(notification.body)
-      //   .setData(notification.data)
-      //   .android.setSmallIcon('@drawable/shield')
-      //   .android.setColor('#000000')
-      //   .android.setPriority(firebase.notifications.Android.Priority.High)
-      //   .android.setChannelId(1)
+      const { title, body, data } = notification;      
     });
-
-    // firebase.notifications()
-    //   .displayNotification(localNotification)
-    //   .catch(err => console.error(err));
-
-
 
 
     this.notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen) => {
-      const { title, body, data } = notificationOpen.notification;
-      // if (data.notification_category == "3") {
-      //   console.log("Inside If Open")
-      //   Actions.ComplaintDetail({ complaintID: data.id })
-      // } else if (data.notification_category == "2") {
-      //   Actions.ReportedInOutDetails({ RId: data.id })
-      // } else if (data.notification_category == "0") {
-
-      //   console.log("Inside If notice detail ")
-      //   Actions.NoticeDetail({ noticeID: data.id })
-      // }
-      // Actions.popTo('_Complaints',{complaintID:data.id})
-      // else if(data.notification_category==2)
-      // Actions.popTo('ReportedInOutDetails',{RId:data.id})
-      // else if()
-      console.log("OnNotification Open GaurdHomePage")
-      console.log("Data " + JSON.stringify(data))
+      const { title, body, data } = notificationOpen.notification;      
       firebase.notifications().removeDeliveredNotification(notificationOpen.notification.notificationId)
     })
   }
@@ -67,10 +29,7 @@ class GuardHomepage extends Component {
         <GuardPunchIn />
       </View>);
   }
-  componentWillUnmount(){
-    //this.notificationListener();
-    //this.notificationOpenedListener();
-  }
+  
 }
 export default GuardHomepage;
 const styles = {

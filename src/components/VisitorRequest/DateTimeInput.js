@@ -1,15 +1,13 @@
 import React from 'react'
 import { View, TextInput, TouchableWithoutFeedback, Text } from 'react-native'
-//import { Actions } from 'react-native-router-flux'
 import { grey_lighter,Expected_arrival_date_and_time } from '../common'
-//import { Actions } from 'react-native-router-flux';
 
 const DateTimeInput = (props) => {
     return (
         <View style={styles.displayStyle}>
             <View style={styles.containerStyle}>
                 <TextInput
-                    style={{ height: 50, width: '70%', marginLeft: 15, justifyContent: 'center' }}
+                    style={{ height: 15, width: '70%', marginLeft: 15, justifyContent: 'center' }}
                     placeholder={ Expected_arrival_date_and_time }
                     underlineColorAndroid='rgba(0,0,0,0)'
                     editable={false}

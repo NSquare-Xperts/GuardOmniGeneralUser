@@ -2,28 +2,17 @@ import React from 'react';
 import { TouchableOpacity,Image ,Text, View} from 'react-native';
 import { green} from './color';
 
-const ImageButton = (props) => {
-    console.log("print uri : ",props.image)
+const ImageButton = (props) => {    
     return (
         <TouchableOpacity onPress={props.onPress}>
             <Image 
             source={props.image}
-            style={styles.viewStyle}> 
-            {/* <Text style={styles.textStyle}>{props.children}</Text> */}
+            style={styles.viewStyle}>             
             </Image>
         </TouchableOpacity>
     );
 };
-const styles = {
-    // viewStyle: {
-    //     height: 50,
-    //     justifyContent: 'center',
-    //     alignItems: 'center',
-    //     alignSelf: 'center',
-    //     backgroundColor: green,
-    //     borderRadius: 40,
-    //     width: '90%',
-    // }
+const styles = {    
     viewStyle: {
         height: 60,
         width: 60

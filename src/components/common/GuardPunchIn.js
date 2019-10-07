@@ -6,7 +6,6 @@ import { blue, white_Original, green, purple } from './color'
 import { QR, MANUAL } from '../../actions/types';
 import { Actions } from 'react-native-router-flux';
 
-//make component 
 const GuardPunchIn = () => {
   const { gridRowStyle, container, textTitleStyle, thumbnail, gridColBlueStyle, gridColWhiteStyle, thumbnail_arrow, gridColStyle, textStyle } = styles;
   return (
@@ -35,19 +34,6 @@ const GuardPunchIn = () => {
         </View>
       </TouchableWithoutFeedback>
 
-      {/* <View style={gridRowStyle}>
-              <Image  style={thumbnail}
-                      source={require('../assets/Home/helpdesk_option.png')}/>
-                        
-                      <View style={gridColStyle}>
-                          <Text style={textTitleStyle}>Helpdesk </Text>
-                          <Text style={textStyle}>Call to Helpline</Text>
-                      </View>
-
-               <Image  style={thumbnail_arrow}
-                       source={require('../assets/Home/right_custom_arrow.png')}/>
-         </View>  */}
-      {/* </TouchableWithoutFeedback>             */}
     </View>
 
   );

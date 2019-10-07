@@ -88,12 +88,9 @@ class Login extends Component {
       return (
         <ImageButton
           image={this.state.uri}
-          onPress={() => {
-            //Actions.homepage()
-            phone = this.props.auth.code + '-' + this.props.auth.phone
-            //phone = this.props.auth.phone
-            otp = this.props.auth.otp
-            console.log("otp : ", otp)
+          onPress={() => {            
+            phone = this.props.auth.code + '-' + this.props.auth.phone            
+            otp = this.props.auth.otp            
             if (this.props.auth.otp.length <= 0) {
               this.setState({
                 errorOTP: '  *Please Enter OTP.'
@@ -123,21 +120,7 @@ class Login extends Component {
           }
           }></ImageButton>
       )
-    }
-    //     <Button onPress={()=>{
-    //       Actions.viewPager();
-    //                 //     phone = this.props.auth.code+this.props.auth.phone
-    //                 //     otp = this.props.auth.otp
-    //                 //     this.props.VerifyOtp({phone, otp})
-    //                 //     timer.setTimeout(
-    //                 //     this, 'hideMsg', () => {
-    //                 //          this.props.closeBlackPopup()}, 4000
-    //                 //   )
-    //                 // this.props.loginUser(this.props.auth.code+this.props.auth.phone)
-    //             }
-    //         }>{Login_label}</Button>
-    //     )
-    // }
+    }    
   }
 
   renderVerify() {
@@ -199,7 +182,7 @@ class Login extends Component {
         )
       }
     } else {
-      // console.log("error : ",this.props.auth.error)
+      
       if (this.props.auth.error == '') {
         return (
           <View style={{ flex: 1 }}>
@@ -252,14 +235,12 @@ class Login extends Component {
     }else{
       try{
         await firebase.messaging().requestPermission();
-
       }catch(error){
        // alert('No permission for notification')
        console.log("No permission for notification")
       }
     }
-    this.state.fcmToken = await firebase.messaging().getToken()
-    console.log("FCM TOKEN "+this.state.fcmToken)  
+    this.state.fcmToken = await firebase.messaging().getToken()    
       
     }
 

@@ -10,7 +10,7 @@ export const editVisitorRequest_ = (userId, visitorName, visitorMobileNumber, re
     return (dispatch) => {
         dispatch({ type: EDIT_VISITOR_REQUEST });
 
-        callPostApi('http://18.188.253.46:8000/api/visitorRequestEdit', {
+        callPostApi('http://guardomni.dutique.com:8000/api/visitorRequestEdit', {
 
             "userId": userId,
             "visitorName": visitorName,
@@ -25,7 +25,7 @@ export const editVisitorRequest_ = (userId, visitorName, visitorMobileNumber, re
         .then((response) => {
                 // Continue your code here...
                 res = JSON.parse(response)
-                console.log("edit visitor request : ", res)
+               
                
                 if (res.status == 200) {
                     

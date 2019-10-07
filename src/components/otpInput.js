@@ -21,8 +21,7 @@ class OtpInput extends Component {
 
     }
 
-    renderResend() {
-        console.log("resend : ", this.state.resend)
+    renderResend() {        
         if (this.state.resend) {
             return (
                 <TouchableWithoutFeedback onPress={() => {

@@ -15,22 +15,10 @@ state =
    selectedDate: ""
 };
 
-//  onEmailChange(text){
-//       this.props.emailChanged(text);
-//       console.log("inside on email changed")
-//  }
-
 onLoginSuccess(){
-   // this.setState({
-   //       email: '',
-   //       password: '',
-   //       loading: false,
-   //       //error: ''
-   // });
 }
 
 onLoginFailed(){
-   //this.setState({ loading: false});
 }
 
 handleSubmit = event => {
@@ -44,8 +32,7 @@ handleSubmit = event => {
 
    axios.post('http://dummy.restapiexample.com/api/v1/create',user)
       .then(res => {
-            console.log("response: ",res);
-            console.log(res.data)
+            console.log("response: ",res);            
    });
 }
 

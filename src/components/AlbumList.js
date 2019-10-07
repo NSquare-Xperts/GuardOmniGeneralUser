@@ -16,9 +16,7 @@ class AlbumList extends Component {
     };
 
     componentWillMount(){
-
-        this.setState({refreshing: true});
-        console.log('componentWillMount in albumlist');
+        this.setState({refreshing: true});        
         axios.get(baseURL)
           //axiosInstance.get('/music_albums')
          // axios.get({baseUrl})

@@ -90,49 +90,6 @@ textStyle: {
 }
 }
 
-//   container: {
-//     backgroundColor: 'purple',
-//     width: '94%',
-//     //width: Dimensions.get('window').width,
-//     height: 70,
-//     display: 'flex',
-//     flexDirection : 'row',
-//     justifyContent: 'space-between',
-//     marginTop: 10,
-//     marginLeft: 10,
-//     elevation: 4,
-//   },
-//   thumbnail: {
-//     height: 50,
-//     width: 50,
-//     alignSelf: 'center',
-//     marginLeft:25,
-//   },
-//   thumbnail_arrow: {
-    
-//     width: 25,
-//     height: 25,
-//     // height: 25,
-//     // width: 25,
-//     left: 0,
-//     alignSelf: 'center'
-  
-//   },
-//   gridRowStyle: {
-//      flexDirection: 'row', 
-//      justifyContent:'flex-start'
-//   },
-//   gridColStyle: {
-//     flexDirection: 'column', 
-//     justifyContent:'center'
-//  },
-//   textStyle: {
-//     fontSize: 14,
-//     fontFamily: 'Roboto-Italic',
-//     color: 'white',
-//     alignSelf: 'flex-start',
-//     marginLeft: 15, 
-//   }
-// });
+
 
 export default HomeVisitorItems;

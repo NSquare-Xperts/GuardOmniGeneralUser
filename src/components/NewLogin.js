@@ -22,61 +22,7 @@ class NewLogin extends Component {
   onDecline() {
     this.props.closeBlackPopup()
   }
-  //   renderVerify() {
-  //     if (this.props.auth.toggle) {
-  //       return (
-  //         <View style={{ flex: 1 }}>
-
-  //           <LoginInput
-  //             phoneChange={(text) => this.props.phoneChanged(text)}
-
-  //             value={this.props.auth.phone}
-  //             code={this.prop.code} />
-
-  //           <OtpInput
-  //             otpChange={(text) => this.props.otpChanged(text)}
-  //             value={this.props.auth.otp} />
-
-  //           <Text style={styles.textStyle}>{Didnot_received_otp_click_to_resend}</Text>
-  //           <View style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'center', paddingBottom: 40 }}>
-  //             {/* {this.renderVerifyButton()} */}
-  //           </View>
-  //         </View>
-  //       )
-  //     } else {
-  //       return (
-  //         <View style={{ flex: 1 }}>
-  //           <LoginInput
-  //             phoneChange={(text) => this.props.phoneChanged(text)}
-  //             value={this.props.auth.phone}
-  //             code={this.props.auth.code} />
-
-  //           <Text style={styles.textStyle}>{Please_Select_Country_Code_Before_Mobile_Number}</Text>
-  //           <OtpInput />
-  //           <Text style={styles.textStyle}>{Didnot_received_otp_click_to_resend}</Text>
-  //           <Text style={styles.errorStyle}>{this.state.error}</Text>
-  //           <View style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'center', paddingBottom: 40 }}>
-  //             {/* {this.renderButton()} */}
-  //           </View>
-  //         </View>
-  //       )
-  //     }
-  //   }
-
-
-
-  // axios.post('http://192.168.0.118:8080/api/visitor_list_request/?user_id=19')
-  //     .then(response => {
-  //         this.setState({ user: response.data, refreshing: false}),
-  //         console.log("hi ",response.data)
-  //     }
-  //    ).catch((error) =>{
-  //                 console.log(error)
-  //                 this.setState({
-  //                          refreshing: false,
-  //        })
-  //     }); 
-
+  
   renderVerifyButton() {
     if (this.props.auth.loading) {
       return (
@@ -138,7 +84,7 @@ class NewLogin extends Component {
   }
   renderVerify() {
     //toggle : true/false 
-    console.log("toggle state :: ", this.props.auth.toggle)
+    
     if (this.props.auth.toggle) {
       //if mobile number isnot empty
       return (

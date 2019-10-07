@@ -5,11 +5,12 @@ import android.app.Application;
 
 import com.facebook.react.ReactApplication;
 import com.oblador.vectoricons.VectorIconsPackage;
+import io.invertase.firebase.RNFirebasePackage;
+import org.reactnative.camera.RNCameraPackage;
 import com.brentvatne.react.ReactVideoPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.github.yamill.orientation.OrientationPackage;
 import com.corbt.keepawake.KCKeepAwakePackage;
-import io.invertase.firebase.RNFirebasePackage;
 import com.actionsheet.ActionSheetPackage;
 import com.google.firebase.FirebaseApp;
 import com.swmansion.reanimated.ReanimatedPackage;
@@ -18,7 +19,6 @@ import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
 
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import com.imagepicker.ImagePickerPackage;
-import org.reactnative.camera.RNCameraPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -38,18 +38,18 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
-          new MainReactPackage(),
+            new MainReactPackage(),
             new VectorIconsPackage(),
+            new RNFirebasePackage(),
+            new RNCameraPackage(),
             new ReactVideoPackage(),
             new LinearGradientPackage(),
             new OrientationPackage(),
             new KCKeepAwakePackage(),
-            new RNFirebasePackage(),
             new ActionSheetPackage(),
             new ReanimatedPackage(),
             new RNGestureHandlerPackage(),
             new ImagePickerPackage(),
-            new RNCameraPackage(),
               new RNFirebaseMessagingPackage(),
               new RNFirebaseNotificationsPackage()
       );
