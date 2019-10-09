@@ -129,9 +129,8 @@ class RouterComponent extends Component {
                     <Scene title="Property Details" key="PropertyDetails" component={PropertyDetails} />
                     <Scene title="Complaints" key="Complaints" component={Complaints} />
                     <Scene title="Helpdesk" key="Helpdesk" component={Helpdesk} />
-
-                    <Scene title="Details" key="ComplaintDetail" component={ComplaintDetail}/>
-                    <Scene title="Details" key="ComplaintDetailDelete" component={ComplaintDetailDoNotEdit} />
+                    <Scene title="Complaint Detail" key="ComplaintDetail" component={ComplaintDetail}/>
+                    <Scene title="Complaint Detail" key="ComplaintDetailDelete" component={ComplaintDetailDoNotEdit} />
                     
                     <Scene title="Notifications" key="Notifications" component={Notifications} />
 
@@ -189,7 +188,6 @@ class RouterComponent extends Component {
 
                         <Scene title="GuardOmni" key="homepage" component={Homepage} />
                         <Scene title="Maintenance" key="maintenance" component={Maintaince} renderRightButton={false}/>
-                        {/* <Scene title="Notifications" key="notification" component={Notifications} renderRightButton={false}/> */}
                         <Scene title="Notifications" key="notification" component={Notifications} renderRightButton={false}/>
                         <Scene title="Switch Property" key="SwitchProperty" component={SwitchProperty} renderRightButton={false}/>
                         <Scene title="About Us" key="Aboutus" component={Aboutus} renderRightButton={false}/>

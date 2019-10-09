@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { View, ScrollView, Text, Image, AsyncStorage,BackHandler,DeviceEventEmitter } from 'react-native'
+import { View, ScrollView, Text, Image, AsyncStorage,BackHandler } from 'react-native'
+//import axios from 'axios'
 import { white_Original, grey, black, red_lighter } from './common'
-import { callPostApi } from './Util/APIManager'
+import { callPostApi } from './Util/APIManager';
 import ImageLoad from 'react-native-image-placeholder'
 import {Actions} from 'react-native-router-flux'
 
@@ -67,7 +68,6 @@ class NoticeDetail extends Component {
     if (Actions.currentScene == 'NoticeDetail') {
         Actions.pop()
     }
-    DeviceEventEmitter.emit('notificationcount', { isNotificationAdded: true });
     return true;
 }
 
@@ -130,7 +130,7 @@ class NoticeDetail extends Component {
     )
   }
   componentWillUnmount() {
-    DeviceEventEmitter.emit('notificationcount', { isNotificationAdded: true });
+
     BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress)
     return true;
 }

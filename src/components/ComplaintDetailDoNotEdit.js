@@ -81,7 +81,7 @@ class ComplaintDetailDoNotEdit extends Component {
                     refreshing: true,
 
                 }),
-                this.renderComplaintDetails()
+                    this.renderComplaintDetails()
             });
         this.renderComplaintDetails()
 
@@ -393,7 +393,7 @@ class ComplaintDetailDoNotEdit extends Component {
                             data={this.state.complaintsCommentArray}
                             // ItemSeparatorComponent={this.FlatListItemSeparator}
                             renderItem={({ item }) =>                                                                
-                                                               
+                                    // < Text style={styles.textDetailStyle}>{item.comment}</Text>                                
                                     <HTML html={item.comment +', Date : '+item.updated_at} />
                             } />
                 </ScrollView>

@@ -28,6 +28,7 @@ var BUTTONSandroid = [
 var DESTRUCTIVE_INDEX = 1;
 var CANCEL_INDEX = 2;
 
+
 class ComplaintDetail extends Component {
     constructor(props) {
         super(props)
@@ -75,12 +76,9 @@ class ComplaintDetail extends Component {
         const { params = {} } = navigation.state;
         return {
             headerRight: <TouchableOpacity onPress={() => params.handleSave()}>
-            <View style={{flexDirection:'row',width:'90%'}}>
-               <Text style={{fontSize:16,alignSelf:'center',marginRight:Dimensions.get('window').width/3,fontFamily:'OpenSans-Bold'}}>Details</Text>
                 <Image
                     source={require('../components/assets/Complaints/more_options.png')}
                     style={styles.iconNotification} />
-            </View>
             </TouchableOpacity>
         };
     };
@@ -132,6 +130,7 @@ class ComplaintDetail extends Component {
                                                             SimpleToast.show(res.message)
                                                         }
                                                     });
+
                                             });
                                         });
                                     }
@@ -591,7 +590,6 @@ class ComplaintDetail extends Component {
 
     handleBackPress() {
         this.props.navigation.goBack(null);
-        DeviceEventEmitter.emit('notificationcount', { isNotificationAdded: true });
         return true;
     }
 }
@@ -652,7 +650,7 @@ const styles = {
         marginLeft: 5
     },
     commentTitleStyle: {
-        fontFamily: 'OpenSans-Bold',
+        fontFamily: 'OpenSans-Bold.ttf',
         fontSize: 15,
         color: black,
         padding: 3,
@@ -668,7 +666,7 @@ const styles = {
         marginLeft: 5
     },
     flatListStyle: {
-        fontFamily: 'OpenSans',
+        fontFamily: 'OpenSans.ttf',
         fontSize: 13,
         color: black,
         padding: 3,

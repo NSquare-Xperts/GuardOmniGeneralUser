@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Text, View, SectionList, Alert, AsyncStorage, Dimensions,BackHandler,DeviceEventEmitter } from "react-native"
+import { Text, View, SectionList, Alert, AsyncStorage, Dimensions,BackHandler } from "react-native"
 import { red_lighter, white_Original, grey, black } from './common'
 import PropertyDetailSubItem from './common/PropertyDetailSubItem'
 import { ScrollView } from "react-native-gesture-handler"
@@ -77,12 +77,11 @@ class PropertyDetails extends Component {
     if (Actions.currentScene == 'PropertyDetails') {
         Actions.pop()
     }
-    DeviceEventEmitter.emit('notificationcount', { isNotificationAdded: true });
     return true;
   }
- 
   componentWillMount() {
     BackHandler.addEventListener('hardwareBackPress', this.handleBackPress)
+
 }
 
   componentDidMount() {
@@ -200,7 +199,6 @@ class PropertyDetails extends Component {
   }
 
   componentWillUnmount(){
-    DeviceEventEmitter.emit('notificationcount', { isNotificationAdded: true });
     BackHandler.removeEventListener('hardwareBackPress',this.handleBackPress)
   }
 }
