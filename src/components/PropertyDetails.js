@@ -1,11 +1,12 @@
 import React, { Component } from "react"
-import { Text, View, SectionList, Alert, AsyncStorage, Dimensions,BackHandler } from "react-native"
-import { red_lighter, white_Original, grey, black } from './common'
+import { Text, View, SectionList, Alert, AsyncStorage, Dimensions, BackHandler } from "react-native"
+import { red_lighter, white_Original, grey, black, CONST_NO_CONNECTION, CONST_SERVER_ERROR } from './common'
 import PropertyDetailSubItem from './common/PropertyDetailSubItem'
 import { ScrollView } from "react-native-gesture-handler"
 import axios from 'axios'
 import { Actions } from 'react-native-router-flux'
 import HomePropertyDetailEditItem from './common/HomePropertyDetailEditItem'
+import SimpleToast from "react-native-simple-toast"
 
 class PropertyDetails extends Component {
   state = {
@@ -26,14 +27,12 @@ class PropertyDetails extends Component {
   renderPropertyDetailList() {
 
     axios.post('http://guardomni.dutique.com:8000/api/propertyDetails?', {
-       "userId": this.state.userId,
-       "flatId": this.state.flatId
-     
+      "userId": this.state.userId,
+      "flatId": this.state.flatId
     })
       .then(response => {
 
         if (response.data.status == 401) {
-
           AsyncStorage.removeItem('propertyDetails');
           AsyncStorage.removeItem('userDetail');
           AsyncStorage.removeItem('LoginData');
@@ -48,9 +47,17 @@ class PropertyDetails extends Component {
           console.log("property image  ", this.state.property.site_image)
       }).catch((error) => {
         console.log(error)
-        this.setState({
-          refreshing: false,
-        })
+        if (!error.response) {
+          this.setState({
+            refreshing: false,
+          })
+          SimpleToast.show(CONST_NO_CONNECTION)
+        } else {
+          this.setState({
+            refreshing: false,
+          })
+          SimpleToast.show(CONST_SERVER_ERROR)
+        }
       });
   }
 
@@ -72,17 +79,17 @@ class PropertyDetails extends Component {
     this.renderPropertyDetailList()
   }
 
-  handleBackPress(){
-    
+  handleBackPress() {
+
     if (Actions.currentScene == 'PropertyDetails') {
-        Actions.pop()
+      Actions.pop()
     }
     return true;
   }
   componentWillMount() {
     BackHandler.addEventListener('hardwareBackPress', this.handleBackPress)
 
-}
+  }
 
   componentDidMount() {
     this._getStorageValue()
@@ -198,8 +205,8 @@ class PropertyDetails extends Component {
     }
   }
 
-  componentWillUnmount(){
-    BackHandler.removeEventListener('hardwareBackPress',this.handleBackPress)
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress)
   }
 }
 export default PropertyDetails;

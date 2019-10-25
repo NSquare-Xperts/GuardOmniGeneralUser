@@ -3,7 +3,7 @@ export const baseURL = 'http://192.168.0.118:8080/api/'
 export const validateUser = 'validateUser'
 
 export const App_Name = 'GuardOmni ';
-export const App_Version = 'v2.3.2';
+export const App_Version = 'v2.3.5';
 export const GuardOmni_Version = 'GuardOmni' + App_Version;
 export const Redefining_Security_For_Gated_Properties = 'Redefining Security for Gated Properties'
 export const Login_label = 'Login';
@@ -57,6 +57,10 @@ export const Helpline = 'Helplines'
 export const SiteContacts = 'Site Contacts'
 export const close = 'CLOSE'
 export const out = 'OUT'
+
+export const CONST_NO_CONNECTION = 'No internet connection. Please try again';
+export const CONST_SERVER_ERROR = 'Server error. Please try again';
+
 
 export const this_field_is_optional = '*This Field is Optional'
 

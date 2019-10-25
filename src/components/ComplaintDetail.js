@@ -76,12 +76,15 @@ class ComplaintDetail extends Component {
         const { params = {} } = navigation.state;
         return {
             headerRight: <TouchableOpacity onPress={() => params.handleSave()}>
+            <View style={{flexDirection:'row',width:'90%'}}>
+               <Text style={{fontSize:16,alignSelf:'center',marginRight:Dimensions.get('window').width/3,fontFamily:'OpenSans-Bold'}}>Details</Text>
                 <Image
                     source={require('../components/assets/Complaints/more_options.png')}
                     style={styles.iconNotification} />
+            </View>
             </TouchableOpacity>
         };
-    };
+    S};
 
     _saveDetails() {
         ActionSheet.showActionSheetWithOptions({
@@ -129,7 +132,13 @@ class ComplaintDetail extends Component {
                                                         } else {
                                                             SimpleToast.show(res.message)
                                                         }
-                                                    });
+                                                    }).catch((error) => {
+                                                        console.log("errorrrrrrr")
+                                                        this.setState({
+                                                          refreshing: false,
+                                                          //selectedDate: ''
+                                                        })
+                                                      });
 
                                             });
                                         });
@@ -171,7 +180,13 @@ class ComplaintDetail extends Component {
                     } else {
                         // stop calling
                     }
-                });
+                }).catch((error) => {
+                   
+                    this.setState({
+                      refreshing: false,
+                     
+                    })
+                  });
         });
     }
 
@@ -526,27 +541,56 @@ class ComplaintDetail extends Component {
                         source={require('./assets/Visitor/add_fab_click.png')} />
                 </TouchableWithoutFeedback>
 
-                <Dialog.Container
-                    visible={this.state.dialogVisible}>
-                    <Dialog.Title>Add New Comment</Dialog.Title>
-                    <Dialog.Input
-                        height={100}
-                        width={215}
-                        style={styles.inputStyleComment}
-                        //={styles.textDetailStyle}
-                        value={this.state.newComment}
-                        numberOfLines={5}
-                        multiline={true}
-                        onChangeText={comment => this.setState({
-                            errorComment: '',
-                            newComment: comment
-                        })}
-                    >
-                    </Dialog.Input>
-                    <Text style={{ color: 'red' }}> {this.state.errorComment}</Text>
-                    <Dialog.Button label="Cancel" onPress={this.handleCancel} />
-                    <Dialog.Button label="Add" onPress={this.handleAddComment} />
-                </Dialog.Container>
+                  {
+                      Platform.OS == 'ios' ? 
+                      <Dialog.Container
+                      visible={this.state.dialogVisible}>
+                      <Dialog.Title>Add New Comment</Dialog.Title>
+                      <Dialog.Input
+                         height={100}
+                         width={215}
+                         // borderRadius={2}
+                         // style={styles.inputStyleComment}
+                          //={styles.textDetailStyle}
+                          value={this.state.newComment}
+                          numberOfLines={5}
+                          multiline={true}
+                          onChangeText={comment => this.setState({
+                              errorComment: '',
+                              newComment: comment
+                          })}
+                      >
+                      </Dialog.Input>
+                      <Text style={{ color: 'red' }}> {this.state.errorComment}</Text>
+                      <Dialog.Button label="Cancel" onPress={this.handleCancel} />
+                      <Dialog.Button label="Add" onPress={this.handleAddComment} />
+                  </Dialog.Container>
+                      :
+                      <Dialog.Container
+                      visible={this.state.dialogVisible}>
+                      <Dialog.Title>Add New Comment</Dialog.Title>
+                      <Dialog.Input
+                         // height={100}
+                         // width={215}
+                         // borderRadius={2}
+                          style={styles.inputStyleComment}
+                          //={styles.textDetailStyle}
+                          value={this.state.newComment}
+                          numberOfLines={5}
+                          multiline={true}
+                          onChangeText={comment => this.setState({
+                              errorComment: '',
+                              newComment: comment
+                          })}
+                      >
+                      </Dialog.Input>
+                      <Text style={{ color: 'red' }}> {this.state.errorComment}</Text>
+                      <Dialog.Button label="Cancel" onPress={this.handleCancel} />
+                      <Dialog.Button label="Add" onPress={this.handleAddComment} />
+                  </Dialog.Container>
+
+                  }
+              
             </View>
         )
     }
@@ -650,7 +694,7 @@ const styles = {
         marginLeft: 5
     },
     commentTitleStyle: {
-        fontFamily: 'OpenSans-Bold.ttf',
+        fontFamily: 'OpenSans-Bold',
         fontSize: 15,
         color: black,
         padding: 3,
@@ -671,7 +715,6 @@ const styles = {
         color: black,
         padding: 3,
         marginLeft: 5
-
     },
     inputStyleComment: {
         textAlignVertical: 'top',

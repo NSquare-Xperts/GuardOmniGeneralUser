@@ -55,7 +55,6 @@ class Homepage extends Component {
      count = count + 1;     
      NotificationCount.setCurrentCount(count)
      var countIncreased = NotificationCount.getCurrentCount();     
-     console.log("current count : "+countIncreased)
    }
 
   componentWillMount() {
@@ -75,8 +74,6 @@ class Homepage extends Component {
     this.addnotificationListener =
     DeviceEventEmitter.addListener('notificationcount', (e) => {
       if (e) {
-        //console.log("notification count listener : refresh page")
-        //SimpleToast.show("refresh page")
         Actions.refresh()
         this._getStorageValue()
       }

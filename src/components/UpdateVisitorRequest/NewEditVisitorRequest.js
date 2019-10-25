@@ -121,6 +121,7 @@ class NewEditVisitorRequest extends Component {
      _getSelectedPickerValue = () => {
           console.log("selected date type : ", this.state.pickerSelectedValue)
      }
+    
      _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true })
 
      _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false })
@@ -197,12 +198,13 @@ class NewEditVisitorRequest extends Component {
 
                          {/* add vehicle type */}
 
+
                          <View style={styles.displayPickerStyle}>
                               <View style={styles.containerPickerStyle}>
                                    <Picker
                                         placeholder={Vehicle_Type}
                                         placeholderStyle={{ fontSize: 14, textAlign: 'left', color: grey }}
-                                        style={{ marginLeft: 200 }}
+                                        style={{ marginLeft: 10 }}
                                         //displayPickerStyle={{marginLeft:200,backgroundColor: 'pink'}}
                                         selectedValue={this.state.pickerSelectedValue}
                                         //itemStyle={{ backgroundColor: "grey", color: "blue",fontSize:17 }}
@@ -234,7 +236,6 @@ class NewEditVisitorRequest extends Component {
           );
      }
 
-
      componentWillMount() {
           BackHandler.addEventListener('hardwareBackPress', this.handleBackPress)
      }
@@ -254,18 +255,12 @@ class NewEditVisitorRequest extends Component {
           this.state.pickerSelectedValue = ''
           this.props.auth.vehicleNumber = ''
           BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress)
-          //AsyncStorage.removeItem('complaintID')
-          //Actions.pop('Complaints');
-          //Actions.popTo('ComplaintDetail');
-          //Actions.refresh()
+        
           return true;
      }
 
      componentDidMount() {
-
-          //this._getUserStorageValue()
           this._getUserStorageValue()
-
      }
 
      render() {
@@ -278,8 +273,6 @@ class NewEditVisitorRequest extends Component {
           );
      }
 }
-
-//export default AddVisiorRequestNew;
 
 const styles = {
      errorStyle: {

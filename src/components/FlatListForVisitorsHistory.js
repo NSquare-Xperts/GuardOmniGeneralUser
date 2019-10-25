@@ -46,7 +46,13 @@ class FlatListForVisitorsHistory extends Component {
                         refreshing: false,
                     })                    
                 }
-            });
+            }).catch((error) => {
+                
+                this.setState({
+                  refreshing: false,
+                  //selectedDate: ''
+                })
+              });
 
     }
 

@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react'
-import { FlatList, View, ActivityIndicator, DeviceEventEmitter, TouchableWithoutFeedback, Image, AsyncStorage, Text,BackHandler, Dimensions } from 'react-native'
+import { FlatList, View, ActivityIndicator, DeviceEventEmitter, TouchableWithoutFeedback, Image, AsyncStorage, Text, BackHandler, Dimensions } from 'react-native'
 import Placeholder from 'rn-placeholder'
 import { red_lighter, white_Original, grey } from './common'
 import { callPostApi } from './Util/APIManager'
@@ -20,18 +20,17 @@ class Complaints extends Component {
         month_count: '',
         userId: '',
         flatId: '',
-        //isReload: this.props.home
     }
 
     renderUsersList() {
-        //callPostApi('http://guardomni.dutique.com:8000/api/complaintList', {
-            callPostApi('http://guardomni.dutique.com:8000/api/complaintList', {  
+       
+        callPostApi('http://guardomni.dutique.com:8000/api/complaintList', {
             "userId": this.state.userId,
             "pageNumber": this.state.page,
             "flatId": this.state.flatId
-        }).then((response) => {            
+        }).then((response) => {
             res = JSON.parse(response)
-            
+
             if (res.status == 200) {
                 this.setState({
                     notices: this.state.notices.concat(res.data), loadMore: false, refreshing: false, totalRecords: res.totalRecords, month_count: res.month_count,
@@ -49,26 +48,30 @@ class Complaints extends Component {
                 AsyncStorage.removeItem('LoginData');
                 //SimpleToast.show(response.message)
                 Actions.reset('Login')
-              }else {
+            } else {
                 this.setState({
                     refreshing: false,
                 })
             }
-        });
+        }).catch((error) => {
+           
+            this.setState({
+              refreshing: false,
+            })
+          });
     }
 
 
-    handleBackPress() {        
+    handleBackPress() {
         if (Actions.currentScene == 'Complaints') {
             Actions.pop()
         }
         return true;
-      }
-  
-      
-    componentWillMount() {        
-            this._getUserStorageValue()
-            BackHandler.addEventListener('hardwareBackPress', this.handleBackPress)
+    }
+
+    componentWillMount() {
+        this._getUserStorageValue()
+        BackHandler.addEventListener('hardwareBackPress', this.handleBackPress)
     }
 
     async _getUserStorageValue() {
@@ -88,7 +91,7 @@ class Complaints extends Component {
         }
     }
 
-    componentDidMount() {        
+    componentDidMount() {
         this.addComplaintListener =
             DeviceEventEmitter.addListener('eventNewComplaintAdded', (e) => {
                 if (e) {
@@ -98,7 +101,7 @@ class Complaints extends Component {
                         page: 0,
                         notices: [],
                         isReload: false
-                    })                    
+                    })
                     this._getUserStorageValue()
                 }
             });
@@ -112,22 +115,22 @@ class Complaints extends Component {
                         page: 0,
                         notices: [],
                         isReload: false
-                    }),                    
-                    this._getUserStorageValue()
+                    }),
+                        this._getUserStorageValue()
                     Actions.refresh()
                 }
             });
     }
 
-    componentWillUnmount() {       
-       
+    componentWillUnmount() {
+
         BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress)
         Actions.popTo('drawer');
         this.setState({
             notices: []
         })
         this.addComplaintListener.remove()
-        this.deleteComplaintListener.remove()        
+        this.deleteComplaintListener.remove()
         return true;
     }
 
@@ -198,9 +201,6 @@ class Complaints extends Component {
         var id = item;
         sendID = "" + id + ""
 
-        // AsyncStorage.setItem('complaintID', sendID)
-        // AsyncStorage.setItem('userID', this.state.userId)
-        
         AsyncStorage.setItem('complaintID', JSON.stringify(sendID))
         AsyncStorage.setItem('userID', JSON.stringify(this.state.userId))
 
@@ -227,15 +227,12 @@ class Complaints extends Component {
                             renderItem={({ item }) =>
                                 <Placeholder.Paragraph>
                                     <ComplaintListItems
-                                        //notice_image={'1'}
-                                        //index={item.index}
                                         sendData={(item, status) => this._sendData(item, status)}
                                         complaintId={item.id}
                                         complaint_title={item.complaint_title}
                                         complaint_description={item.complaint_description}
                                         complaint_status={item.complaint_status}
                                         complaint_status_img={item.complaint_status_image}
-                                    //out_date_time={item.out_date_time}
                                     />
                                 </Placeholder.Paragraph>
                             }
@@ -266,15 +263,12 @@ class Complaints extends Component {
                             data={this.state.notices}
                             renderItem={({ item }) =>
                                 <ComplaintListItems
-                                    //notice_image={'1'}
-                                    //index={item.index}
                                     sendData={(item, status) => this._sendData(item, status)}
                                     complaintId={item.id}
                                     complaint_title={item.complaint_title}
                                     complaint_description={item.complaint_description}
                                     complaint_status={item.complaint_status}
                                     complaint_status_img={item.complaint_status_image}
-                                //out_date_time={item.out_date_time}
                                 />
                             }
                             keyExtractor={(item, index) => index.toString()}
@@ -314,16 +308,6 @@ const styles = {
         marginTop: 12,
         borderRadius: 2
     },
-    // thumbnail_arrow: {
-    //     height: 55,
-    //     width: 55,
-    //     elevation: 4,
-    //     position: 'absolute',
-    //     bottom: 0,
-    //     alignSelf: 'flex-end',
-    //     marginRight: 5,
-    //     marginBottom: 5,
-    // },
     thumbnail_arrow: {
         height: 55,
         width: 55,
@@ -331,12 +315,8 @@ const styles = {
         position: 'absolute',
         bottom: 0,
         right: 0,
-        //padding: 20,
-        //flex: 1,
         justifyContent: 'flex-end',
-        //alignItems: 'flex-end',
         marginRight: 10,
-        //alignSelf: 'flex-end',
         marginLeft: 10,
         marginBottom: 8
     },

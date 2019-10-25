@@ -25,7 +25,7 @@ const Notification = (props) => {
             return(
                 <TouchableWithoutFeedback onPress={() => Actions.Notifications()}>
                 <ImageBackground source={require('../assets/guard/home/notification_icn.png')}
-                    style={{ width: 31, height: 31, marginEnd: 10 }}>
+                    style={{ width: 30, height: 30, marginEnd: 10 }}>
                     <View style={styles.TextViewStyle}>
                         <Text style={styles.TextStyle}>{NotificationCount.getCurrentCount()}</Text>
                     </View>

@@ -6,6 +6,7 @@ import { callPostApi } from './Util/APIManager'
 import ImageLoad from 'react-native-image-placeholder'
 import HTML from 'react-native-render-html'
 import Video from 'react-native-video'
+import {Actions} from 'react-native-router-flux'
 //1 : resolved 
 //0 : not
 class ComplaintDetailDoNotEdit extends Component {
@@ -67,9 +68,12 @@ class ComplaintDetailDoNotEdit extends Component {
                       }else {
                         // stop calling
                     }
-
                 });
         });
+    }
+
+    videoPressed(url) {
+        Actions.fullscreen({ url: url })
     }
 
     componentDidMount() {
@@ -364,7 +368,6 @@ class ComplaintDetailDoNotEdit extends Component {
             )
         }
     }
-
 
     render() {
         return (

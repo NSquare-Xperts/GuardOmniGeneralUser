@@ -2,6 +2,8 @@ import { COMPLAINT_TITLE, COMPLAINT_COMMENTS, ADD_COMPLAINT, event_NEW_COMPLAINT
 import { Actions } from 'react-native-router-flux'
 import { callFormDataPostApi } from '../Util/APIManager';
 import { DeviceEventEmitter } from 'react-native'
+import SimpleToast from 'react-native-simple-toast';
+import { CONST_NO_CONNECTION } from '../common';
 
 export const addComplaint_ = (title, comments, uri1, type1, name1, uri2, type2, name2, uri3, type3, name3, flatId, userId) => {
 
@@ -25,7 +27,6 @@ export const addComplaint_ = (title, comments, uri1, type1, name1, uri2, type2, 
         })
             .then((response) => {
                 res = JSON.parse(response)
-                
                 if (res.status == '200') {
                     Actions.popTo('Complaints')
                     DeviceEventEmitter.emit('eventNewComplaintAdded', { isAddeddSuccessFully: true });
@@ -38,7 +39,11 @@ export const addComplaint_ = (title, comments, uri1, type1, name1, uri2, type2, 
                   }  else {
                     addComplaintFailed(dispatch, response.message)
                 }
-            });
+            }).catch((error)=>{
+                if (!error.response) {
+                    SimpleToast.show(CONST_NO_CONNECTION)  
+                }
+            })
 
     }
 }

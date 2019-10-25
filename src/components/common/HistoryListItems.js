@@ -68,6 +68,8 @@ class HistoryListItem extends Component {
                           this.setState({
                             isShowingDialog: true
                           })
+                          SimpleToast.show(res.message)
+
                         } else {
                           this.setState({
                             isShowingDialog: false

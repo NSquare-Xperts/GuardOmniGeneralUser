@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, ImageBackground, Image, TouchableOpacity, PixelRatio, DeviceEventEmitter, ActivityIndicator, AsyncStorage } from 'react-native'
+import { Text, View, ImageBackground, Image, TouchableOpacity, PixelRatio, Platform, DeviceEventEmitter, ActivityIndicator, AsyncStorage } from 'react-native'
 import { connect } from 'react-redux'
 import Button from '../common/Button'
 import { titleChanged, editCommentsChanged, editComplaint_ } from './EditComplaintActions'
@@ -52,52 +52,178 @@ class NewEditComplaints extends Component {
           complaintId: ''
      }
 
-
      selectPhotoTapped() {
           const options = {
                quality: 1.0,
                maxWidth: 500,
                maxHeight: 500,
+
+               customButtons: [{ name: 'image', title: 'Take a Photo' }, { name: 'video', title: 'Take a Video' }, { name: 'library', title: 'Choose from Library' }],
                storageOptions: {
                     skipBackup: true
                }
           };
 
-          ImagePicker.showImagePicker(options, (response) => {
-               console.log('Response = ', response);
+          ImagePicker.showImagePicker({
+               title: 'Choose Image or Video',
+               customButtons: [{ name: 'image', title: 'Take a Photo' }, { name: 'video', title: 'Take a Video' }, { name: 'library', title: 'Choose from Library' }],
+               chooseFromLibraryButtonTitle: null,
+               takePhotoButtonTitle: null,
+          }, (res) => {
+               if (res.customButton == 'library' && Platform.OS == 'ios') {
+                    //if selected library for ios devce
+                    ImagePicker.launchImageLibrary({
+                         //---------------start
+                         title: 'Choose Image or Video',
+                         customButtons: [{ name: 'image', title: 'Take a Photo' }, { name: 'video', title: 'Take a Video' }, { name: 'library', title: 'Choose from Library' }],
+                         chooseFromLibraryButtonTitle: null,
+                         takePhotoButtonTitle: null,
+                    }, (res) => {
+                         if (res.customButton) {
+                              ImagePicker.launchCamera({
+                                   mediaType: res.customButton,
+                                   videoQuality: 'medium',
+                                   //durationLimit: 60,
+                                   quality: 1,
+                              }, (response) => {
+                                   let source;
+                                   source = { uri: response.uri };
 
-               if (response.didCancel) {
-                    console.log('User cancelled photo picker');
-               }
-               else if (response.error) {
-                    console.log('ImagePicker Error: ', response.error);
-               }
-               else if (response.customButton) {
-                    console.log('User tapped custom button: ', response.customButton);
-               }
-               else {
-                    let source = { uri: response.uri };
+                                   if (res.customButton != "image") {
 
-                    if (Platform.OS == 'ios') {
-                         this.setState({
-                              uriToSend: response.uri,
-                              ImageSource: source,
-                              imageName: response.fileSize + "",
-                              type: response.type,
-                              isFile1: '1'
+                                        if (Platform.OS == 'ios') {
+                                             this.setState({
+                                                  uriToSend: response.uri,
+                                                  ImageSource: source,
+                                                  imageName: 'video_ios_1',
+                                                  type: "video/mp4",
+                                                  isFile1: '1'
+                                             });
+                                        } else {
+                                             this.setState({
+                                                  uriToSend: response.uri,
+                                                  ImageSource: source,
+                                                  imageName: response.path,
+                                                  type: "video/mp4",
+                                                  isFile1: '1'
+                                             });
+                                        }
+
+
+                                   } else {
+                                        console.log("name >> " + response.fileName)
+
+                                        if (Platform.OS == 'ios') {
+                                             this.setState({
+                                                  uriToSend: response.uri,
+                                                  ImageSource: source,
+                                                  imageName: response.fileSize + "",
+                                                  type: response.type,
+                                                  isFile1: '1'
+                                             });
+
+                                        } else {
+                                             this.setState({
+                                                  uriToSend: response.uri,
+                                                  ImageSource: source,
+                                                  imageName: response.fileName,
+                                                  type: response.type,
+                                                  isFile1: '1'
+                                             });
+                                        }
+                                   }
+                              });
+                         } else if (!res.didCancel) {
+                              console.log("responseon from gallery >> " + JSON.stringify(res))
+                              const source = { uri: 'data:image/jpeg;base64,' + res.data };
+                              console.log("source : " + JSON.stringify(source))
+                              console.log("URI >> " + res.uri)
+                              this.setState({
+                                   uriToSend: res.uri,
+                                   ImageSource: source,
+                                   imageName: res.fileName,
+                                   type: res.type,
+                                   isFile1: '1'
+                              });
+                         }
+                    })
+               } else {
+                    if (res.customButton) {
+                         ImagePicker.launchCamera({
+                              mediaType: res.customButton,
+                              videoQuality: 'medium',
+                              //durationLimit: 60,
+                              quality: 1,
+                         }, (response) => {
+                              let source;
+                              source = { uri: response.uri };
+
+                              if (res.customButton != "image") {
+                                   if (Platform.OS == 'ios') {
+                                        if (JSON.stringify(source) != '{}') {
+                                             this.setState({
+                                                  uriToSend: response.uri,
+                                                  ImageSource: source,
+                                                  imageName: 'video_ios_1',
+                                                  type: "video/mp4",
+                                                  isFile1: '1'
+                                             });
+                                        }
+                                   } else {
+                                        if (JSON.stringify(source) != '{}') {
+                                             this.setState({
+                                                  uriToSend: response.uri,
+                                                  ImageSource: source,
+                                                  imageName: response.path,
+                                                  type: "video/mp4",
+                                                  isFile1: '1'
+                                             });
+                                        }
+                                   }
+
+                              } else {
+                                   console.log("name >> " + response.fileName)
+                                   if (Platform.OS == 'ios') {
+                                        if (JSON.stringify(source) != '{}') {
+                                             this.setState({
+                                                  uriToSend: response.uri,
+                                                  ImageSource: source,
+                                                  imageName: response.fileSize + "",
+                                                  type: response.type,
+                                                  isFile1: '1'
+                                             });
+                                        }
+
+                                   } else {
+                                        if (JSON.stringify(source) != '{}') {
+                                             this.setState({
+                                                  uriToSend: response.uri,
+                                                  ImageSource: source,
+                                                  imageName: response.fileName,
+                                                  type: response.type,
+                                                  isFile1: '1'
+                                             });
+                                        }
+                                   }
+
+                              }
                          });
-
-                    } else {
+                    } else if (!res.didCancel) {
+                         console.log("responseon from gallery >> " + JSON.stringify(res))
+                         const source = { uri: 'data:image/jpeg;base64,' + res.data };
+                         console.log("source : " + JSON.stringify(source))
+                         console.log("URI >> " + res.uri)
                          this.setState({
-                              uriToSend: response.uri,
+                              uriToSend: res.uri,
                               ImageSource: source,
-                              imageName: response.fileName,
-                              type: response.type,
+                              imageName: res.fileName,
+                              type: res.type,
                               isFile1: '1'
                          });
                     }
                }
           });
+
      }
 
      selectPhoto2Tapped() {
@@ -105,46 +231,169 @@ class NewEditComplaints extends Component {
                quality: 1.0,
                maxWidth: 500,
                maxHeight: 500,
+
+               customButtons: [{ name: 'image', title: 'Take a Photo' }, { name: 'video', title: 'Take a Video' }, { name: 'library', title: 'Choose from Library' }],
                storageOptions: {
                     skipBackup: true
                }
           };
 
-          ImagePicker.showImagePicker(options, (response) => {
-               console.log('Response = ', response);
+          ImagePicker.showImagePicker({
+               title: 'Choose Image or Video',
+               customButtons: [{ name: 'image', title: 'Take a Photo' }, { name: 'video', title: 'Take a Video' }, { name: 'library', title: 'Choose from Library' }],
+               chooseFromLibraryButtonTitle: null,
+               takePhotoButtonTitle: null,
+          }, (res) => {
 
-               if (response.didCancel) {
-                    console.log('User cancelled photo picker');
-               }
-               else if (response.error) {
-                    console.log('ImagePicker Error: ', response.error);
-               }
-               else if (response.customButton) {
-                    console.log('User tapped custom button: ', response.customButton);
-               }
-               else {
-                    let source = { uri: response.uri };
+               if (res.customButton == 'library' && Platform.OS == 'ios') {
+                    //if selected library for ios devce
+                    ImagePicker.launchImageLibrary({
+                         //---------------start
+                         title: 'Choose Image or Video',
+                         customButtons: [{ name: 'image', title: 'Take a Photo' }, { name: 'video', title: 'Take a Video' }, { name: 'library', title: 'Choose from Library' }],
+                         chooseFromLibraryButtonTitle: null,
+                         takePhotoButtonTitle: null,
+                    }, (res) => {
 
-                    if (Platform.OS == 'ios') {
-                         this.setState({
-                              uriTo1Send: response.uri,
-                              ImageSource1: source,
-                              imageName1: response.fileSize + "",
-                              type1: response.type,
-                              isFile2: '1'
+                         if (res.customButton) {
+                              ImagePicker.launchCamera({
+                                   mediaType: res.customButton,
+                                   videoQuality: 'medium',
+                                   //durationLimit: 60,
+                                   quality: 1,
+                              }, (response) => {
+                                   let source;
+                                   source = { uri: response.uri };
+
+                                   if (res.customButton != "image") {
+
+                                        if (Platform.OS == 'ios') {
+                                             this.setState({
+                                                  uriTo1Send: response.uri,
+                                                  ImageSource1: source,
+                                                  imageName1: 'video_ios_2',
+                                                  type1: "video/mp4",
+                                                  isFile2: '1'
+                                             });
+                                        } else {
+                                             this.setState({
+                                                  uriTo1Send: response.uri,
+                                                  ImageSource1: source,
+                                                  imageName1: response.path,
+                                                  type1: "video/mp4",
+                                                  isFile2: '1'
+                                             });
+                                        }
+                                   } else {
+                                        if (Platform.OS == 'ios') {
+                                             this.setState({
+                                                  uriTo1Send: response.uri,
+                                                  ImageSource1: source,
+                                                  imageName1: response.fileSize + "",
+                                                  type1: response.type,
+                                                  isFile2: '1'
+                                             });
+                                        } else {
+                                             this.setState({
+                                                  uriTo1Send: response.uri,
+                                                  ImageSource1: source,
+                                                  imageName1: response.fileName,
+                                                  type1: response.type,
+                                                  isFile2: '1'
+                                             });
+                                        }
+                                   }
+                              });
+                         }
+                         else if (!res.didCancel) {
+                              console.log("responseon from gallery >> " + JSON.stringify(res))
+                              const source = { uri: 'data:image/jpeg;base64,' + res.data };
+                              console.log("source : " + JSON.stringify(source))
+                              console.log("URI >> " + res.uri)
+                              this.setState({
+                                   uriTo1Send: res.uri,
+                                   ImageSource1: source,
+                                   imageName1: res.fileName,
+                                   type1: res.type,
+                                   isFile2: '1'
+                              });
+                         }
+                    })
+               } else {
+                    if (res.customButton) {
+                         ImagePicker.launchCamera({
+                              mediaType: res.customButton,
+                              videoQuality: 'medium',
+                              //durationLimit: 60,
+                              quality: 1,
+                         }, (response) => {
+                              let source;
+                              source = { uri: response.uri };
+
+                              if (res.customButton != "image") {
+
+                                   if (Platform.OS == 'ios') {
+                                        if (JSON.stringify(source) != '{}') {
+                                             this.setState({
+                                                  uriTo1Send: response.uri,
+                                                  ImageSource1: source,
+                                                  imageName1: 'video_ios_2',
+                                                  type1: "video/mp4",
+                                                  isFile2: '1'
+                                             });
+                                        }
+                                   } else {
+                                        if (JSON.stringify(source) != '{}') {
+                                             this.setState({
+                                                  uriTo1Send: response.uri,
+                                                  ImageSource1: source,
+                                                  imageName1: response.path,
+                                                  type1: "video/mp4",
+                                                  isFile2: '1'
+                                             });
+                                        }
+                                   }
+
+                              } else {
+                                   if (Platform.OS == 'ios') {
+                                        if (JSON.stringify(source) != '{}') {
+                                             this.setState({
+                                                  uriTo1Send: response.uri,
+                                                  ImageSource1: source,
+                                                  imageName1: response.fileSize + "",
+                                                  type1: response.type,
+                                                  isFile2: '1'
+                                             });
+                                        }
+                                   } else {
+                                        if (JSON.stringify(source) != '{}') {
+                                             this.setState({
+                                                  uriTo1Send: response.uri,
+                                                  ImageSource1: source,
+                                                  imageName1: response.fileName,
+                                                  type1: response.type,
+                                                  isFile2: '1'
+                                             });
+                                        }
+                                   }
+                              }
                          });
-                    } else {
+                    }
+                    else if (!res.didCancel) {
+                         console.log("responseon from gallery >> " + JSON.stringify(res))
+                         const source = { uri: 'data:image/jpeg;base64,' + res.data };
+                         console.log("source : " + JSON.stringify(source))
+                         console.log("URI >> " + res.uri)
                          this.setState({
-                              uriTo1Send: response.uri,
+                              uriTo1Send: res.uri,
                               ImageSource1: source,
-                              imageName1: response.fileName,
-                              type1: response.type,
+                              imageName1: res.fileName,
+                              type1: res.type,
                               isFile2: '1'
                          });
                     }
                }
           });
-
      }
 
      selectPhoto3Tapped() {
@@ -152,46 +401,173 @@ class NewEditComplaints extends Component {
                quality: 1.0,
                maxWidth: 500,
                maxHeight: 500,
+
+               customButtons: [{ name: 'image', title: 'Take a Photo' }, { name: 'video', title: 'Take a Video' }, { name: 'library', title: 'Choose from Library' }],
                storageOptions: {
                     skipBackup: true
                }
           };
 
-          ImagePicker.showImagePicker(options, (response) => {
-               console.log('Response = ', response);
+          ImagePicker.showImagePicker({
+               title: 'Choose Image or Video',
+               customButtons: [{ name: 'image', title: 'Take a Photo' }, { name: 'video', title: 'Take a Video' }, { name: 'library', title: 'Choose from Library' }],
+               chooseFromLibraryButtonTitle: null,
+               takePhotoButtonTitle: null,
+          }, (res) => {
 
-               if (response.didCancel) {
-                    console.log('User cancelled photo picker');
-               }
-               else if (response.error) {
-                    console.log('ImagePicker Error: ', response.error);
-               }
-               else if (response.customButton) {
-                    console.log('User tapped custom button: ', response.customButton);
-               }
-               else {
-                    let source = { uri: response.uri };
+               if (res.customButton == 'library' && Platform.OS == 'ios') {
+                    //if selected library for ios devce
+                    ImagePicker.launchImageLibrary({
+                         //---------------start
+                         title: 'Choose Image or Video',
+                         customButtons: [{ name: 'image', title: 'Take a Photo' }, { name: 'video', title: 'Take a Video' }, { name: 'library', title: 'Choose from Library' }],
+                         chooseFromLibraryButtonTitle: null,
+                         takePhotoButtonTitle: null,
+                    }, (res) => {
+                         if (res.customButton) {
+                              ImagePicker.launchCamera({
+                                   mediaType: res.customButton,
+                                   videoQuality: 'medium',
+                                   //durationLimit: 60,
+                                   quality: 1,
+                              }, (response) => {
 
-                    if (Platform.OS == 'ios') {
-                         this.setState({
-                              uriTo2Send: response.uri,
-                              ImageSource2: source,
-                              imageName2: response.fileSize + "",
-                              type2: response.type,
-                              isFile3: '1'
+                                   let source;
+                                   source = { uri: response.uri };
+                                   if (res.customButton != "image") {
+
+                                        if (Platform.OS == 'ios') {
+                                             this.setState({
+                                                  uriTo2Send: response.uri,
+                                                  ImageSource2: source,
+                                                  imageName2: 'video_ios_3',
+                                                  type2: "video/mp4",
+                                                  isFile3: '1'
+                                             });
+                                        } else {
+                                             this.setState({
+                                                  uriTo2Send: response.uri,
+                                                  ImageSource2: source,
+                                                  imageName2: response.path,
+                                                  type2: "video/mp4",
+                                                  isFile3: '1'
+                                             });
+                                        }
+                                   } else {
+
+                                        if (Platform.OS == 'ios') {
+                                             this.setState({
+                                                  uriTo2Send: response.uri,
+                                                  ImageSource2: source,
+                                                  imageName2: response.fileSize + "",
+                                                  type2: response.type,
+                                                  isFile3: '1'
+                                             });
+                                        } else {
+                                             this.setState({
+                                                  uriTo2Send: response.uri,
+                                                  ImageSource2: source,
+                                                  imageName2: response.fileName,
+                                                  type2: response.type,
+                                                  isFile3: '1'
+                                             });
+                                        }
+                                   }
+                              });
+                         } else if (!res.didCancel) {
+
+                              console.log("responseon from gallery >> " + JSON.stringify(res))
+                              const source = { uri: 'data:image/jpeg;base64,' + res.data };
+                              console.log("source : " + JSON.stringify(source))
+                              console.log("URI >> " + res.uri)
+                              this.setState({
+                                   uriTo2Send: res.uri,
+                                   ImageSource2: source,
+                                   imageName2: res.fileName,
+                                   type2: res.type,
+                                   isFile3: '1'
+                              });
+                         }
+                    })
+               } else {
+                    if (res.customButton) {
+                         ImagePicker.launchCamera({
+                              mediaType: res.customButton,
+                              videoQuality: 'medium',
+                              //durationLimit: 60,
+                              quality: 1,
+                         }, (response) => {
+
+                              let source;
+                              source = { uri: response.uri };
+
+                              if (res.customButton != "image") {
+
+                                   if (Platform.OS == 'ios') {
+                                        if (JSON.stringify(source) != '{}') {
+                                             this.setState({
+                                                  uriTo2Send: response.uri,
+                                                  ImageSource2: source,
+                                                  imageName2: 'video_ios_3',
+                                                  type2: "video/mp4",
+                                                  isFile3: '1'
+                                             });
+                                        }
+                                   } else {
+                                        if (JSON.stringify(source) != '{}') {
+                                             this.setState({
+                                                  uriTo2Send: response.uri,
+                                                  ImageSource2: source,
+                                                  imageName2: response.path,
+                                                  type2: "video/mp4",
+                                                  isFile3: '1'
+                                             });
+                                        }
+                                   }
+                              } else {
+
+                                   if (Platform.OS == 'ios') {
+                                        if (JSON.stringify(source) != '{}') {
+                                             this.setState({
+                                                  uriTo2Send: response.uri,
+                                                  ImageSource2: source,
+                                                  imageName2: response.fileSize + "",
+                                                  type2: response.type,
+                                                  isFile3: '1'
+                                             });
+                                        }
+                                   } else {
+                                        if (JSON.stringify(source) != '{}') {
+                                             this.setState({
+                                                  uriTo2Send: response.uri,
+                                                  ImageSource2: source,
+                                                  imageName2: response.fileName,
+                                                  type2: response.type,
+                                                  isFile3: '1'
+                                             });
+                                        }
+                                   }
+                              }
                          });
-                    } else {
+                    } else if (!res.didCancel) {
+
+                         console.log("responseon from gallery >> " + JSON.stringify(res))
+
+                         const source = { uri: 'data:image/jpeg;base64,' + res.data };
+                         console.log("source : " + JSON.stringify(source))
+                         console.log("URI >> " + res.uri)
                          this.setState({
-                              uriTo2Send: response.uri,
+                              uriTo2Send: res.uri,
                               ImageSource2: source,
-                              imageName2: response.fileName,
-                              type2: response.type,
+                              imageName2: res.fileName,
+                              type2: res.type,
                               isFile3: '1'
                          });
                     }
                }
           });
      }
+
      renderButton() {
           if (this.state.isLoading) {
                return (
@@ -246,16 +622,23 @@ class NewEditComplaints extends Component {
      }
      //call async data
      renderUsersComplaints() {
+          //pass complaintIs
+          console.log("Complaint Edit: UserID:", this.state.userId, "Complaint ID: ", this.state.complaintId)
 
           callPostApi('http://guardomni.dutique.com:8000/api/complaintDetails?', {
+               //"userId": this.state.userId,
                "userId": this.state.userId,
                "complaintId": this.state.complaintId
           })
                .then((response) => {
+                    // Continue your code here...
                     res = JSON.parse(response)
+                    console.log("data user COMPLAINTS : ", res.data[0], ",", res.data[0].complaint_title)
                     if (res.status == "200") {
+
                          this.props.auth.title = res.data[0].complaint_title
                          this.props.auth.comments = res.data[0].complaint_description
+
                          this.setState({
                               refreshing: false,
                               url1: res.data[0].complaint_image_1,
@@ -280,11 +663,13 @@ class NewEditComplaints extends Component {
 
           var complaintId = await AsyncStorage.getItem('complaintID')
           var dataComplaintID = JSON.parse(complaintId);
+          console.log("***** complaintId", dataComplaintID)
 
           if (dataUser != '' || dataUser != null) {
                this.setState({
                     userId: dataUser.user_id,
                     complaintId: dataComplaintID
+                    //flatId: data.flat_id,
 
                }, this.renderUsersComplaints())
           }
@@ -305,9 +690,7 @@ class NewEditComplaints extends Component {
      //check url 3 first 
      _handlePhotoView = () => {
           //url3 if present : show all 3 url
-          console.log("inside handlePhotoView")
           if (this.state.url3 != '') {
-               console.log("inside url3 !=  " + this.state.url3)
                return (
                     <View style={{ flexDirection: 'row' }}>
                          <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
@@ -322,6 +705,7 @@ class NewEditComplaints extends Component {
                                                        ref={(ref) => {
                                                             this.player = ref
                                                        }}
+                                                       paused={true}
                                                        onBuffer={this.onBuffer}
                                                        onLoadStart={this.onLoadStart}
                                                        onLoad={this.onLoad}
@@ -354,6 +738,7 @@ class NewEditComplaints extends Component {
                                                   ref={(ref) => {
                                                        this.player = ref
                                                   }}
+                                                  paused={true}
                                                   onBuffer={this.onBuffer}
                                                   onLoadStart={this.onLoadStart}
                                                   onLoad={this.onLoad}
@@ -386,6 +771,7 @@ class NewEditComplaints extends Component {
                                                   ref={(ref) => {
                                                        this.player = ref
                                                   }}
+                                                  paused={true}
                                                   onBuffer={this.onBuffer}
                                                   onLoadStart={this.onLoadStart}
                                                   onLoad={this.onLoad}
@@ -409,6 +795,9 @@ class NewEditComplaints extends Component {
                     </View>
                )
           } else if (this.state.url2 != '') {
+               // console.log("inside url2 != ImageSource"+this.state.ImageSource)
+               // console.log("inside url1 != url1"+this.state.url1) 
+               console.log("inside url2 !=  " + this.state.url2)
                return (
                     <View style={{ flexDirection: 'row' }}>
                          <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
@@ -423,6 +812,7 @@ class NewEditComplaints extends Component {
                                                        ref={(ref) => {
                                                             this.player = ref
                                                        }}
+                                                       paused={true}
                                                        onBuffer={this.onBuffer}
                                                        onLoadStart={this.onLoadStart}
                                                        onLoad={this.onLoad}
@@ -459,6 +849,7 @@ class NewEditComplaints extends Component {
                                                        ref={(ref) => {
                                                             this.player = ref
                                                        }}
+                                                       paused={true}
                                                        onBuffer={this.onBuffer}
                                                        onLoadStart={this.onLoadStart}
                                                        onLoad={this.onLoad}
@@ -478,7 +869,36 @@ class NewEditComplaints extends Component {
                               }
                          </TouchableOpacity>
 
-
+                         {/* <TouchableOpacity onPress={this.selectPhoto2Tapped.bind(this)}> {
+                                  
+                               
+                                  this.state.ImageSource1 === null ?
+                                  this.state.url2.includes('.mp4') ? 
+                                  <View>
+                                   <Video 
+                                        style={styles.imageStyle}
+                                        controls={false}
+                                        source={{ uri: this.state.url2 }}
+                                        ref={(ref) => {
+                                             this.player = ref
+                                        }}
+                                        onBuffer={this.onBuffer}
+                                        onLoadStart={this.onLoadStart}
+                                        onLoad={this.onLoad}
+                                        onError={this.videoError}                       
+                                        />
+                                        <ActivityIndicator
+                                             animating
+                                             size="large"
+                                             color={grey_lighter}
+                                             style={[styles.activityIndicator, { opacity: this.state.opacity }]}/>
+                                   </View> 
+                                    :
+                                   <Image style={styles.imageStyle} source={{ uri: this.state.url2 }} />
+                                   :
+                                   <Image style={styles.imageStyle} source={this.state.ImageSource1} />
+                               }
+                         </TouchableOpacity>  */}
 
                          < TouchableOpacity onPress={this.selectPhoto3Tapped.bind(this)}>
                               {this.state.ImageSource2 === null ?
@@ -516,6 +936,7 @@ class NewEditComplaints extends Component {
                                                        ref={(ref) => {
                                                             this.player = ref
                                                        }}
+                                                       paused={true}
                                                        onBuffer={this.onBuffer}
                                                        onLoadStart={this.onLoadStart}
                                                        onLoad={this.onLoad}
@@ -796,8 +1217,6 @@ class NewEditComplaints extends Component {
           );
      }
 }
-
-//export default AddVisiorRequestNew;
 
 const styles = {
      errorStyle: {

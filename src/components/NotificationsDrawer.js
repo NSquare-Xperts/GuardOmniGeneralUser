@@ -1,0 +1,355 @@
+import React, { Component } from 'react'
+import { FlatList, Text, View, TouchableWithoutFeedback, AsyncStorage,DeviceEventEmitter, Image, Alert, Dimensions, BackHandler } from 'react-native'
+import Placeholder from 'rn-placeholder'
+import { red_lighter, white_Original, grey } from './common'
+import { Actions } from 'react-native-router-flux'
+import NotificationListItem from './common/NotificationListItem'
+import { callPostApi } from './Util/APIManager'
+import SimpleToast from 'react-native-simple-toast'
+import { ScrollView } from 'react-native-gesture-handler';
+import NotificationCount from './NotificationCount'
+
+class NotificationsDrawer extends Component {
+    state = {
+        refreshing: true,
+        notificationsList: [],
+        flatId: '',
+        userID: '',
+        page: 0,
+        isClickable: true
+    }
+
+    renderNotificationList() {
+        
+        callPostApi('http://guardomni.dutique.com:8000/api/getNotificationList', {
+            "userId": this.state.userId,
+            "flatId": this.state.flatId,
+            "pageNumber": this.state.page,
+            "loginType": '4'
+        })
+            .then((response) => {
+                // Continue your code here...
+                res = JSON.parse(response)
+                
+                if (res.status == 200) {
+                    this.setState({
+                        notificationsList: this.state.notificationsList.concat(res.data), loadMore: false, refreshing: false,
+                        status: res.status
+                    })
+                } else if (res.status == 401) {
+                    AsyncStorage.removeItem('propertyDetails');
+                    AsyncStorage.removeItem('userDetail');
+                    AsyncStorage.removeItem('LoginData');
+                    Actions.reset('Login')
+                }
+                else {
+                    this.setState({
+                        refreshing: false,
+                    })
+                }
+            }).catch((error) => {
+                
+                this.setState({
+                  refreshing: false                  
+                })
+              });
+    }
+
+    handleLoadMore = () => {
+        //console.warn('handleLoadMore');
+        this.setState(
+            {
+                page: this.state.page + 1, loadMore: true
+            },
+            this.renderNotificationList
+        )
+    }
+
+    async _getUserStorageValue() {
+
+        var value = await AsyncStorage.getItem('propertyDetails')
+        var data = JSON.parse(value);
+
+        var valueUser = await AsyncStorage.getItem('userDetail')
+        var dataUser = JSON.parse(valueUser);
+
+        if (dataUser != '' || dataUser != null) {
+            this.setState({
+                userId: dataUser.user_id,
+                flatId: data.flat_id
+            })
+           this.renderNotificationList()
+        }
+    }
+
+    handleBackPress() {
+      // SimpleToast.show("back pressed")
+        if (Actions.currentScene == 'Notifications' || Actions.currentScene == '_notification') {
+            Actions.popTo('_homepage')
+           // Actions.pop()
+            //DeviceEventEmitter.emit('notificationcount', { isNotificationAdded: true });
+        }
+       // DeviceEventEmitter.emit('notificationcount', { isNotificationAdded: true });
+        return true;
+    }
+
+    componentWillMount() {
+        this._getUserStorageValue()
+        NotificationCount.setCurrentCount(0)
+        //DeviceEventEmitter.emit('notificationcount', { isNotificationAdded: true });
+        
+        BackHandler.addEventListener('hardwareBackPress', this.handleBackPress)
+    }
+    
+    _handleRefresh = () => {
+        this.setState({
+            refreshing: true,
+            loadMore: false,
+            page: 0,
+            isClickable: true,
+            notificationsList: []
+        },
+            () => {
+                this.renderNotificationList();
+            })
+    }
+
+    componentWillUnmount() {
+        //SimpleToast.show("unmount")
+        //DeviceEventEmitter.emit('notificationcount', { isNotificationAdded: true });
+        BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress)
+    }
+
+    _emptyPropertyList = () => {
+        //call for empty component or error
+        if (this.state.refreshing) {
+            return (
+                <View style={{ backgroundColor: red_lighter, display: 'flex', flex: 1, justifyContent: 'center', alignSelf: 'center', marginTop: Dimensions.get('window').height / 4 }}>
+                </View>
+            )
+        }else {
+            this.setState({
+                isClickable: false
+            })
+            return (
+                <View style={{ backgroundColor: red_lighter, display: 'flex', flex: 1, justifyContent: 'center', alignSelf: 'center', marginTop: Dimensions.get('window').height / 4, height: '100%' }}>
+                    <Text style={styles.textStyle}>No Data Found</Text>
+                </View>
+            )
+        }
+    }
+
+    FlatListItemSeparator = () => {
+        return (
+            <View
+                style={{
+                    height: 0.4,
+                    width: "95%",
+                    backgroundColor: grey,
+                    marginLeft: 10,
+                    marginRight: 10,
+                }}
+            />
+        );
+    }
+
+    renderFooter = () => {
+        return (
+            this.state.loadMore ?
+                <View style={styles.loader}>
+                    <ActivityIndicator
+                        size="large" />
+                </View> : null
+        )
+    }
+
+    _sendId(item) {
+        // check notice type
+        // 0 => notice detail
+        // 1 => manual in : general user 
+        // 2 => Reported Visitor request REported inout list in guard 
+        // 3 => Complaint resolved
+
+        SENDid = JSON.parse(item.notification_data)
+
+        if (SENDid.notification_category == "0") {
+            Actions.NoticeDetail({ noticeID: SENDid.id })
+        } else if (SENDid.notification_category == "2") {            
+            Actions.ReportedInOutDetails({ RId: SENDid.id })
+        } else if (SENDid.notification_category == "3") {            
+            Actions.ComplaintDetailDelete({ complaintID: SENDid.id })
+        }
+    }
+    _deleteId(item) {
+        
+        callPostApi('http://guardomni.dutique.com:8000/api/deleteSingleNotification', {
+            "userId": this.state.userId,
+            "notificationId": item.id,
+        })
+            .then((response) => {
+                res = JSON.parse(response)
+                if (res.status == 200) {
+                    SimpleToast.show(res.message)
+                    this._handleRefresh()
+                } else {
+                    SimpleToast.show(res.message)
+
+                    this._handleRefresh()
+                }
+            });
+
+
+
+    }
+    render() {
+        if (this.state.refreshing) {
+            return (
+                <View style={{ backgroundColor: red_lighter, flex: 1 }}>
+                    <View style={styles.container}>
+                        <FlatList
+                            data={this.state.notificationsList}
+                            ItemSeparatorComponent={this.FlatListItemSeparator}
+                            renderItem={({ item }) =>
+                                <Placeholder.Paragraph
+                                    lineSpacing={10}
+                                    firstLineWidth={'50%'}
+                                    animate='fade'
+                                    color={'grey'}
+                                    lastLineWidth="30%"
+                                >
+                                    <NotificationListItem
+                                        dataDelete={(item) => this._deleteId(item)}
+                                        title={item.notification_title}
+                                        description={item.notification_description} />
+
+                                    < Text style={{ padding: 10, justifyContent: 'center', fontSize: 11 }}>{item.name}</Text>
+                                </Placeholder.Paragraph>
+                            }
+                            refreshing={this.state.refreshing}
+                            onRefresh={this._handleRefresh} />
+                    </View>
+                </View>
+            )
+        }
+        else {
+            return (
+                <View style={{ backgroundColor: red_lighter, flex: 1, marginBottom: 5 }}>
+                    <View style={styles.container}>
+                        <FlatList
+                            ListEmptyComponent={this._emptyPropertyList}
+                            nestedScrollEnabled={true}
+                            ItemSeparatorComponent={this.FlatListItemSeparator}
+                            data={this.state.notificationsList}
+                            renderItem={({ item }) =>
+                                <NotificationListItem
+                                    sendData={(item) => this._sendId(item)}
+                                    dataDelete={(item) => this._deleteId(item)}
+                                    objNotification={item}
+                                    title={item.notification_title}
+                                    description={item.notification_description}
+                                />}
+                            keyExtractor={(item, index) => index.toString()}
+                            onEndReached={this.handleLoadMore}
+                            refreshing={this.state.refreshing}
+                            onRefresh={this._handleRefresh}
+                            ListFooterComponent={this.renderFooter} />
+                    </View>
+
+                    {this.state.isClickable ? <TouchableWithoutFeedback
+                        onPress={() =>
+
+                            Alert.alert(
+                                'Are you sure you want to delete all notifications ?',
+                                'All Notifications Will be deleted Permantly',
+                                [
+                                    {
+                                        text: 'No', onPress: () =>
+                                            //Actions.notifications()
+                                            console.log("delete nothing")
+                                    },
+                                    {
+                                        text: 'Yes', onPress: () => {
+
+                                            //call notification delete api 
+                                            callPostApi('http://guardomni.dutique.com:8000/api/deleteAllNotifications', {
+                                                "userId": this.state.userId,
+                                                "flatId": this.state.flatId
+                                            })
+                                                .then((response) => {
+                                                    // Continue your code here...
+                                                    res = JSON.parse(response)
+                                                    if (res.status == 200) {
+                                                        //AsyncStorage.removeItem('complaintID')
+                                                        //AsyncStorage.removeItem('userID')
+                                                        //Actions.pop('Complaints');
+                                                        //DeviceEventEmitter.emit('eventDeletedComplaint',{isDeletedSuccessFully: true});
+                                                        //Actions.popTo('_Complaints');
+                                                        SimpleToast.show(res.message)
+                                                        this._handleRefresh()
+                                                    } else {
+                                                        SimpleToast.show(res.message)
+                                                    }
+                                                });
+
+                                        }
+                                    }
+                                ],
+                                { cancelable: true }
+                            )
+                        }>
+                        <Image style={styles.thumbnail_arrow}
+                            source={require('./assets/Home/delete_fab.png')} />
+                    </TouchableWithoutFeedback>
+
+                        :
+
+                        <TouchableWithoutFeedback
+                            onPress={() =>
+                                console.log("no data ")
+                            }>
+                            <Image style={styles.thumbnail_arrow}
+
+                            />
+                        </TouchableWithoutFeedback>
+                    }
+                    
+
+                </View>
+            )
+        }
+    }
+}
+export default NotificationsDrawer;
+
+const styles = {
+    container: {
+        backgroundColor: white_Original,
+        width: '95.55%',
+        height: '100%',
+        display: 'flex',
+        justifyContent: 'space-between',
+        flexDirection: 'row',
+        padding: 5,
+        marginLeft: 10,
+        justifyitems: 'center',
+        elevation: 4,
+        marginTop: 12,
+        borderRadius: 2
+    },
+    thumbnail_arrow: {
+        height: 55,
+        width: 55,
+        elevation: 4,
+        position: 'absolute',
+        bottom: 0,
+        right: 0,
+        //padding: 20,
+        //flex: 1,
+        justifyContent: 'flex-end',
+        //alignItems: 'flex-end',
+        marginRight: 10,
+        //alignSelf: 'flex-end',
+        // marginLeft: 10,
+        marginBottom: 8
+    }
+}

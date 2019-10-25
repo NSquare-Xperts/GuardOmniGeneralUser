@@ -5,7 +5,7 @@ import MobileNumberInput from './MobileNumberInput'
 import { connect } from 'react-redux'
 import SubmitButton from '../common/Button'
 import { usernameChanged, phoneChanged, codeChanged, noOfPeopleChanged, VisitorRequest, noOfVehicleChanged, vehicleNoChanged, dateChanged } from './AddVisitorRequestActions'
-import { Add_Request, white_Original, red_lighter, This_field_is_optional, grey_light, grey_lighter, Expected_arrival_date_and_time } from '../common'
+import { Add_Request, white_Original, red_lighter, This_field_is_optional, grey_light, grey_lighter, Expected_arrival_date_and_time, Vehicle_Type, grey } from '../common'
 import NoOfPeopleInput from './NoOfPeopleInput'
 import VehicleNoInput from './VehicleNoInput'
 import DateTimePicker from "react-native-modal-datetime-picker"
@@ -17,6 +17,7 @@ import TimePicker from '../TimePicker';
 import SimpleToast from 'react-native-simple-toast'
 
 class AddVisiorRequestNew extends Component {
+   
     constructor(props) {
         super(props)
         this.state = {
@@ -33,15 +34,12 @@ class AddVisiorRequestNew extends Component {
             pickerSelectedValue: '',
             minimumDate: new Date(),
             is24Hours: false,
-
         }
     }
 
     componentWillMount() {
         this.props.auth.phone = ''
-        //this.props.auth.code = '+91'
         console.log("Reached At: ", Actions.currentScene)
-        // SimpleToast.show("Reached At: ",Actions.currentScene)
 
     }
     componentDidMount() {
@@ -79,13 +77,17 @@ class AddVisiorRequestNew extends Component {
         }
 
     }
+   
     _getSelectedPickerValue = () => {
         console.log("selected date type : ", this.state.pickerSelectedValue)
     }
+    
     _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true })
 
+   
     _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false })
 
+  
     _handleDatePicked = date => {
 
         var today = new Date(date.toString());
@@ -94,6 +96,7 @@ class AddVisiorRequestNew extends Component {
         time = today.getHours() + ':' + today.getMinutes()
         dateTime = dateParsed + ' ' + time
 
+        console.log("selected : "+dateTime)
         this.setState({ selectedDate: dateTime });
         this.props.dateChanged(dateTime);
         this._hideDateTimePicker();
@@ -161,8 +164,8 @@ class AddVisiorRequestNew extends Component {
 
                         <DateTimeInput
                             nameChange={(text) => this.props.dateChanged(text)}
-                            value={this.state.selectedDate}
-                        />
+                            value={this.state.selectedDate}  />
+                        
                         {/* <View style={styles.pickerStyle}>
                                 <Text style={{ marginLeft: 50 }}>{this.state.selectedDate}</Text>
                                 { <TextInput
@@ -174,9 +177,7 @@ class AddVisiorRequestNew extends Component {
                                     maxLength={30}
                                 /> }
                             </View> */}
-
                     </TouchableOpacity>
-
                 </View>
                 <Text style={styles.errorStyle}>{this.state.errorDate}</Text>
                 <NoOfPeopleInput
@@ -191,10 +192,11 @@ class AddVisiorRequestNew extends Component {
                             value={this.props.auth.vehicleNumber} />
                     </View>
                     {/* add vehicle type */}
-
                     <View style={styles.containerPickerStyle}>
                         <Picker
-                            style={{ marginLeft: 10 }}
+                           placeholder={Vehicle_Type}
+                           placeholderStyle={{ fontSize: 14, textAlign: 'left', color: grey }}
+                           style={{ marginLeft: 10 }}
                             selectedValue={this.state.pickerSelectedValue}
                             onValueChange={(itemValue, itemIndex) => this.setState({ pickerSelectedValue: itemValue })}
                             mode='dropdown'>
@@ -203,7 +205,6 @@ class AddVisiorRequestNew extends Component {
                             <Picker.Item label="4-w" value="4-w" />
                         </Picker>
                     </View>
-
                 </View>
 
                 <Text style={styles.textstyle}>{This_field_is_optional}</Text>
@@ -212,8 +213,8 @@ class AddVisiorRequestNew extends Component {
                     isVisible={this.state.isDateTimePickerVisible}
                     mode={'datetime'}
                     is24Hour={this.state.is24Hours}
-                    minimumDate={this.state.minimumDate}
-                    //onDateChange={this._handleDatePicked}
+                    minimumDate={Date.now()}
+                    onDateChange={this._handleDatePicked}
                     onConfirm={this._handleDatePicked}
                     onCancel={this._hideDateTimePicker} />
 
@@ -237,7 +238,6 @@ class AddVisiorRequestNew extends Component {
         );
     }
 }
-//export default AddVisiorRequestNew;
 
 const styles = {
     errorStyle: {
@@ -313,7 +313,6 @@ const styles = {
         justifyContent: 'center',
         alignItems: 'center'
     },
-
 }
 
 const mapStateToProps = (state) => {
@@ -322,3 +321,4 @@ const mapStateToProps = (state) => {
     }
 }
 export default connect(mapStateToProps, { usernameChanged, vehicleNoChanged, phoneChanged, codeChanged, noOfPeopleChanged, dateChanged, VisitorRequest, noOfVehicleChanged })(AddVisiorRequestNew)
+

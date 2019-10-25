@@ -2,6 +2,7 @@ import axios from 'axios'
 import { Actions } from 'react-native-router-flux'
 import { PHONE_CHANGED, LOGIN_PRESSED, LOGIN_SUCCESS, LOGIN_FAIL, OTP_CHANGED, LOGIN_USER, CLOSE_BLACK_POPUP, CODE_CHANGED, LOGIN_FAIL_MOBILE_NUMBER } from './types'
 import { AsyncStorage } from 'react-native'
+import { CONST_NO_CONNECTION } from '../components/common'
 
 export const loginUser = (phone) => {
     return (dispatch) => {
@@ -27,7 +28,7 @@ export const loginUser = (phone) => {
                 }
             })
             .catch(error => {                
-                loginFailedMobileNumber(dispatch, 'Error While Connecting Server. Please Try Again.')                
+                loginFailedMobileNumber(dispatch, CONST_NO_CONNECTION)                
             });
     }
 }

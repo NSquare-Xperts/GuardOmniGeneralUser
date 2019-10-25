@@ -28,7 +28,7 @@ class Notices extends Component {
             "pageNumber": this.state.page,
             "flatId": this.state.flatId
         })
-            .then((response) => {                
+        .then((response) => {                
                 res = JSON.parse(response)                
                 if (res.status == 200) {
                     this.setState({
@@ -48,11 +48,14 @@ class Notices extends Component {
                         loadMore: false
                     })
                 }
-            });
-        // });
+            }).catch((error) => {                
+                this.setState({
+                  refreshing: false,
+                  loadMore: false
+                })
+              });        
     }
-
-
+    
     async _getUserStorageValue() {
         var value = await AsyncStorage.getItem('propertyDetails')
         var data = JSON.parse(value);

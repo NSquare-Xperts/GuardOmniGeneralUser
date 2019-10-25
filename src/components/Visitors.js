@@ -1,14 +1,74 @@
+//2
+// import React, { Component } from 'react';
+// import {
+//   AppRegistry,
+//   StyleSheet,
+//   Text,
+//   View
+// } from 'react-native';
+// import ScrollableTabView from 'react-native-scrollable-tab-view';
+// import HomeNumberOfVisitors from './common/HomeNumberOfVisitors'
+// import TabBar from "react-native-underline-tabbar";
+// import FlatListForVisitorsHistory from './FlatListForVisitorsHistory'
+// import FlatListForVisitors from './FlatListForVisitors'
+// import { purple } from './common';
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//     backgroundColor: '#F5FCFF',
+//   },
+//   welcome: {
+//     fontSize: 20,
+//     textAlign: 'center',
+//     margin: 10,
+//   },
+//   instructions: {
+//     textAlign: 'center',
+//     color: '#333333',
+//     marginBottom: 5,
+//     fontSize: 28,
+//   },
+//   tabItem: {
+//     flexDirection: 'row',
+//     justifyContent: 'flex-start',
+//     alignItems: 'flex-start',
+//     padding: 10,
+//     marginLeft: 12,
+//     marginRight: 5,
+//     borderBottomColor: purple,
+//     borderBottomWidth: 2
+//   }
+// });
+
+// export default class Visitors extends Component {
+//   render() {
+//     return (
+//         <ScrollableTabView>
+//           <FlatListForVisitors tabLabel="React" />
+//           <FlatListForVisitorsHistory tabLabel="Flow" />
+//         </ScrollableTabView>
+//     )
+//   }
+// }
+
+//1
 import * as React from 'react'
 import { View, Animated, TouchableOpacity, StyleSheet, AsyncStorage, Image, DeviceEventEmitter, BackHandler } from 'react-native'
-import { TabView, SceneMap } from 'react-native-tab-view'
+import { TabView, SceneMap, PagerScroll,PagerPan } from 'react-native-tab-view'
 import HomeNumberOfVisitors from './common/HomeNumberOfVisitors'
 import FlatListForVisitors from './FlatListForVisitors'
 import { purple, black, grey, red_lighter } from './common'
 import { Actions } from 'react-native-router-flux'
 import FlatListForVisitorsHistory from './FlatListForVisitorsHistory'
 import { callPostApi } from './Util/APIManager'
+import { ScrollableTab } from 'native-base'
+import ScrollableTabView from 'react-native-scrollable-tab-view';
 
 export default class Visitors extends React.Component {
+
   state = {
     refreshing: true,
     noOfVisitors: 'NA',
@@ -44,13 +104,15 @@ export default class Visitors extends React.Component {
   }
 
   renderUsersList() {
-    
+
     callPostApi('http://guardomni.dutique.com:8000/api/visitorList', {
       "userId": this.state.userId,
       "pageNumber": 0,
       "flatId": this.state.flatId
-    }).then((response) => {    
-      res = JSON.parse(response)    
+    }).then((response) => {
+
+      res = JSON.parse(response)
+
       if (res.status == 200) {
         this.setState({
           noOfVisitors: res.month_count + "",
@@ -61,7 +123,7 @@ export default class Visitors extends React.Component {
         AsyncStorage.removeItem('propertyDetails');
         AsyncStorage.removeItem('userDetail');
         AsyncStorage.removeItem('LoginData');
-        //SimpleToast.show(response.message)
+
         Actions.reset('Login')
       } else {
         this.setState({
@@ -71,9 +133,7 @@ export default class Visitors extends React.Component {
     });
   }
 
-
   handleBackPress() {
-    
     if (Actions.currentScene == 'visitors') {
       Actions.pop()
     }
@@ -88,7 +148,6 @@ export default class Visitors extends React.Component {
     var valueUser = await AsyncStorage.getItem('userDetail')
     var dataUser = JSON.parse(valueUser);
 
-
     if (data != '' || data != null) {
       this.setState({
         userId: dataUser.user_id,
@@ -98,7 +157,7 @@ export default class Visitors extends React.Component {
     }
   }
 
-  _handleIndexChange = index => this.setState({ index });
+  _handleIndexChange = index => this.setState({ index: index });
 
   _renderTabBar = props => {
     const inputRange = props.navigationState.routes.map((x, i) => i);
@@ -107,9 +166,11 @@ export default class Visitors extends React.Component {
 
         <HomeNumberOfVisitors
           noOfVisitors={this.state.noOfVisitors} />
+
         <View style={styles.tabBar}>
           {
             props.navigationState.routes.map((route, i) => {
+              console.log("route : " + route + ',' + i)
               const color = props.position.interpolate({
                 inputRange,
                 outputRange: inputRange.map(
@@ -133,23 +194,17 @@ export default class Visitors extends React.Component {
     first: FlatListForVisitors,
     second: FlatListForVisitorsHistory
   });
-  //  AddTodoButton = ({ onPress }) => (
-  //   <Fab
-  //       direction="up"
-  //       containerStyle={{}}
-  //       style={{ backgroundColor: COLORS.primary }}
-  //       position="bottomRight"
-  //       onPress={onPress}
-  //   >
-  //       <Icon name="add" />
-  //   </Fab>
-  // );
 
   componentWillUnmount() {
     this.addRequestListener.remove();
     BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress)
     return true;
   }
+
+  renderPager = props => (
+    <PagerPan {...props} />
+  )
+
   render() {
     if (this.state.refreshing) {
       return (
@@ -159,8 +214,8 @@ export default class Visitors extends React.Component {
             navigationState={this.state}
             renderScene={this._renderScene}
             renderTabBar={this._renderTabBar}
+            renderPager={this.renderPager}
             onIndexChange={this._handleIndexChange} />
-
         </View>
       )
     } else {
@@ -170,6 +225,7 @@ export default class Visitors extends React.Component {
             swipeEnabled={true}
             navigationState={this.state}
             renderScene={this._renderScene}
+            renderPager={this.renderPager}
             renderTabBar={this._renderTabBar}
             onIndexChange={this._handleIndexChange} />
         </View>

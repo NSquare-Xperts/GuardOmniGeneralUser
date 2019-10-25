@@ -1,4 +1,6 @@
 import { Alert } from 'react-native'
+import SimpleToast from 'react-native-simple-toast'
+import { CONST_NO_CONNECTION, CONST_SERVER_ERROR } from '../common';
 // STATUS : 400
 //{uri: photo.uri, name: 'image.jpg', type: 'multipart/form-data'}
 export function callFormDataPostApi(urlStr, params) {
@@ -30,11 +32,7 @@ export function callFormDataPostApi(urlStr, params) {
             name: params.name3,
         };
         formdata.append("complaintImage3", photo3)
-        
     }
-
-
-
 
     formdata.append("userId", params.userId)
     formdata.append("complaintTitle", params.complaintTitle)
@@ -58,7 +56,8 @@ export function callFormDataPostApi(urlStr, params) {
             return result
         })
         .catch((error) => {            
-            Alert.alert('Error' + JSON.stringify(error))
+            SimpleToast.show(error)
+            //Alert.alert('Error' + JSON.stringify(error))
         });
 }
 
@@ -98,14 +97,13 @@ export function callFormDataUpdateProfilePostApi(urlStr, params) {
             return result
         })
         .catch((error) => {            
-            Alert.alert('Error' + JSON.stringify(error))
-
+            SimpleToast.show(error)
+            //Alert.alert('Error' + JSON.stringify(error))
         });
 }
 
 export function callPostApi(urlStr, params) {
 
-    
     return fetch(urlStr, {
         method: "POST",
         headers: {
@@ -118,26 +116,17 @@ export function callPostApi(urlStr, params) {
         .then((response) => response.json())
         .then((responseData) => {
             result = JSON.stringify(responseData)
-    
             return result
         })
         .catch((error) => {
-            var errorString;
-            if (error instanceof TimeoutError) {
-                errorString = 'Request timed out. Please try again';
-            } else if (error instanceof NoConnectionError) {
-                errorString = 'No connection. Please try again';
-            }  else if (error instanceof AuthFailureError) {
-                errorString = 'Authentication error. Please try again';
-            } else if (error instanceof ServerError) {
-                errorString = 'Server error. Please try again';
-            } else if (error instanceof NetworkError) {
-                errorString = 'Network error. Please try again';
-            } else if (error instanceof ParseError) {
-                errorString = 'Invalid data. Please try again';
+            if (!error.response) {
+                console.log("*****validate error "+JSON.stringify(error))
+                SimpleToast.show(CONST_NO_CONNECTION)
+                // Alert.alert(CONST_NO_CONNECTION)
+            }else{
+                SimpleToast.show(CONST_SERVER_ERROR)
+                //Alert.alert(CONST_SERVER_ERROR)
             }
-
-            Alert.alert(errorString)
             // ((ParentActivity) context).dismissProcessingDialog();
         });
 }
@@ -202,7 +191,8 @@ export function callFormDataUpdateComplaintPostApi(urlStr, params) {
         })
         .catch((error) => {
             
-            Alert.alert('Error' + JSON.stringify(error))
+            SimpleToast.show(error)
+            //Alert.alert('Error' + JSON.stringify(error))
 
         });
 }

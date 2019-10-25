@@ -14,10 +14,9 @@ class MyId extends Component {
 
     componentWillMount(){
         BackHandler.addEventListener('hardwareBackPress', this.handleBackPress)
-    }
-    componentDidMount() {
         this._getUserDetails()
     }
+   
 
     getUserName() {
         AsyncStorage.multiGet(["LoginData"]).then((data) => {
@@ -34,11 +33,12 @@ class MyId extends Component {
         })
     }
 
-    async  _getUserDetails() {
+    async _getUserDetails() {
 
         var value = await AsyncStorage.getItem('propertyDetails')
         var data = JSON.parse(value);
         
+        console.log("  qr : "+JSON.stringify(data.user_qr_code))
         if (data != null) {
             this.setState({
                 ImageSource: data.user_qr_code
@@ -52,15 +52,10 @@ class MyId extends Component {
             <View style={styles.container}>
                 <View style={{ height: '60%', justifyContent: 'center', alignSelf: 'center' }}>
 
-                    {/* <Image style={styles.thumbnail_arrow}
-                        source={{ uri: this.state.ImageSource }}
-                    /> */}
-
-                    <ImageLoad
-                        style={styles.thumbnail_arrow}
-                        loadingStyle={{ size: 'large', color: 'blue' }}
-                        source={{ uri: this.state.ImageSource }} />
-
+                <ImageLoad 
+                         style={styles.thumbnail_arrow}
+                         loadingStyle={{ size: 'large', color: 'blue' }}
+                         source={{ uri: this.state.ImageSource  }}/> 
                 </View>
 
                 <View style={{ height: '30%', justifyContent: 'center', alignSelf: 'center', alignItems: 'center' }}>

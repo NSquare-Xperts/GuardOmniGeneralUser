@@ -45,9 +45,13 @@ class FlatListForVisitors extends Component {
                         refreshing: false,
                     })
                 }
-            });
+            }).catch((error) => {
+                
+                this.setState({
+                  refreshing: false                
+                })
+              });
     }
-
     //call async
     async _getUserStorageValue() {
 
@@ -67,7 +71,6 @@ class FlatListForVisitors extends Component {
         }
         this.renderUsersList()
     }
-
 
     componentDidMount() {
 
@@ -173,7 +176,6 @@ class FlatListForVisitors extends Component {
                 </View> : null
         )
     }
-
     _emptyPropertyList = () => {
         //call for empty component or error
         if (this.state.loadMore || this.state.refreshing) {
@@ -190,7 +192,6 @@ class FlatListForVisitors extends Component {
             )
         }
     }
-
     render() {
         if (this.state.refreshing) {
             return (

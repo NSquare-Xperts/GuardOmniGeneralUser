@@ -59,12 +59,14 @@ import ComplaintDetailTextAlert from './components/ComplaintDetailTextAlert'
 import ComplaintDetailDoNotEdit from './components/ComplaintDetailDoNotEdit';
 import Maintaince from './components/Maintenance/Maintaince';
 import VideoSample from './components/VideoSample';
+import NotificationsDrawer from './components/NotificationsDrawer'
 
 const MoreIcon = require('./components/assets/Complaints/more_options.png');
 
 class RouterComponent extends Component {
 
-    componentDidMount() {        
+    //Latest Code 
+    componentDidMount() {
         BackHandler.addEventListener('hardwareBackPress', () => {
             if (Actions.currentScene == 'Login') {
                 BackHandler.exitApp()
@@ -81,10 +83,11 @@ class RouterComponent extends Component {
             LoginData = data[0][1];
             this.setState({
                 Login: LoginData
-            })            
-            if (LoginData == null) {            
-                Actions.reset('splash')            
-            } else {            
+            })
+
+            if (LoginData == null) {
+                Actions.reset('splash')
+            } else {
                 Actions.reset('drawer')
             }
         })
@@ -94,13 +97,16 @@ class RouterComponent extends Component {
         BackHandler.removeEventListener()
     }
     render() {
+
         return (
             <Router>
                 <Scene key="root">
 
                     <Scene title="Splash" key="splashome" component={SplashScreenNoLogin} left={() => null} hideNavBar />
+
                     <Scene title="Login" key="Login" component={Login} hideNavBar />
-                    <Scene title="Play Video" key="fullscreen" component={VideoSample} hideNavBar/>
+
+                    <Scene title="Play Video" key="fullscreen" component={VideoSample}  />
 
                     <Scene title="Splash" key="splash" component={SplashScreen} left={() => null} hideNavBar />
 
@@ -110,6 +116,7 @@ class RouterComponent extends Component {
                     <Scene title="Edit Complaint" key="newedit" component={NewEditComplaints} />
 
                     <Scene title="dateTime" key="dateTime" component={DateTimePickerTester} />
+
                     <Scene title="Select Country Code" key="countrycode" component={CountryCode}
                         leftButtonIconStyle={{ height: 24, width: 24 }}
                         leftButtonStyle={{ marginLeft: 16 }} />
@@ -118,6 +125,7 @@ class RouterComponent extends Component {
                         leftButtonIconStyle={{ height: 24, width: 24 }}
                         leftButtonStyle={{ marginLeft: 16 }} />
 
+
                     <Scene title="Select Country Code" key="countrycodeVR" component={CountryCodeVisitorRequest}
                         leftButtonIconStyle={{ height: 24, width: 24 }}
                         leftButtonStyle={{ marginLeft: 16 }} />
@@ -125,13 +133,16 @@ class RouterComponent extends Component {
                     <Scene title="Visitors" key="visitors" component={Visitors} />
                     <Scene title="Add Visitor" key="visitorRequest1" component={AddVisiorRequestNew} />
                     <Scene title="Add Visitor" key="visitorRequest" component={AddVisiorRequest} />
+
                     <Scene title="Profile Details" key="profileDetails" component={EditProfile} />
                     <Scene title="Property Details" key="PropertyDetails" component={PropertyDetails} />
                     <Scene title="Complaints" key="Complaints" component={Complaints} />
                     <Scene title="Helpdesk" key="Helpdesk" component={Helpdesk} />
-                    <Scene title="Complaint Detail" key="ComplaintDetail" component={ComplaintDetail}/>
+                   
+                    <Scene title="Complaint Detail" key="ComplaintDetail" component={ComplaintDetail} />
+                   
                     <Scene title="Complaint Detail" key="ComplaintDetailDelete" component={ComplaintDetailDoNotEdit} />
-                    
+
                     <Scene title="Notifications" key="Notifications" component={Notifications} />
 
                     <Scene title="Homepage" key="GuardHomepage" component={GuardHomepage} />
@@ -153,6 +164,7 @@ class RouterComponent extends Component {
 
                     <Scene title="My ID" key="MyId" component={MyId} />
 
+
                     <Scene title="Notices" key="Notices" component={Notices} />
 
                     <Scene title="Details" key="GuardDetails" component={GuardDetails} />
@@ -172,7 +184,7 @@ class RouterComponent extends Component {
                     <Scene title="LoadMore" key="Hii" component={PaginationLoadMore} />
 
                     <Scene title="Camera" key="camera" component={Camera} />
-                    <Scene title="" key ="ComplaintDetailTextAlert" component={ComplaintDetailTextAlert} />
+                    <Scene title="" key="ComplaintDetailTextAlert" component={ComplaintDetailTextAlert} />
 
                     <Scene
                         key="drawer"
@@ -187,10 +199,10 @@ class RouterComponent extends Component {
                         hideNavBar>
 
                         <Scene title="GuardOmni" key="homepage" component={Homepage} />
-                        <Scene title="Maintenance" key="maintenance" component={Maintaince} renderRightButton={false}/>
-                        <Scene title="Notifications" key="notification" component={Notifications} renderRightButton={false}/>
-                        <Scene title="Switch Property" key="SwitchProperty" component={SwitchProperty} renderRightButton={false}/>
-                        <Scene title="About Us" key="Aboutus" component={Aboutus} renderRightButton={false}/>
+                        <Scene title="Maintenance" key="maintenance" component={Maintaince} renderRightButton={false} />
+                        <Scene title="Notifications" key="notification" component={NotificationsDrawer} renderRightButton={false} />
+                        <Scene title="Switch Property" key="SwitchProperty" component={SwitchProperty} renderRightButton={false} />
+                        <Scene title="About Us" key="Aboutus" component={Aboutus} renderRightButton={false} />
 
                     </Scene>
                 </Scene>
@@ -199,4 +211,3 @@ class RouterComponent extends Component {
     }
 }
 export default RouterComponent;
-

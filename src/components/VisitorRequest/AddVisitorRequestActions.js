@@ -25,7 +25,7 @@ export const VisitorRequest = (name,phone,selectedDate,noOfPeople,vehicleType,ve
         .then((response) => {
             // Continue your code here...
             res = JSON.parse(response)
-            
+            console.log("add req : "+JSON.stringify(res))
             if (res.status == '200') {
                 Actions.popTo('visitors')
                               

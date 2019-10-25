@@ -8,7 +8,7 @@ const VehicleNoInput = (props) => {
         <View style={styles.displayStyle}>
             <View style={styles.containerStyle}>
                 <TextInput
-                    style={{ height: 50, width: '100%', marginLeft: 15, justifyContent: 'center' }}
+                    style={{ height: 50, width: '100%', marginLeft: 30, justifyContent: 'center' }}
                     placeholder={Vehicle_No}
                     underlineColorAndroid='rgba(0,0,0,0)'
                     onChangeText={props.vehicleChange}
@@ -18,6 +18,7 @@ const VehicleNoInput = (props) => {
         </View>
     );
 };
+
 const styles = {
     containerStyle: {
         height: 50,
@@ -25,7 +26,7 @@ const styles = {
         flexDirection: 'row',
         borderRadius: 30,
         shadowRadius: 4,
-        marginLeft: 30,
+        marginLeft: 35,
         //marginRight: 20,
         borderColor: grey_lighter,
         borderWidth: 1,

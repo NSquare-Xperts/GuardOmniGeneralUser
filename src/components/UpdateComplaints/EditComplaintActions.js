@@ -3,6 +3,7 @@ import { Actions } from 'react-native-router-flux'
 import { callFormDataUpdateComplaintPostApi } from '../Util/APIManager'
 import { DeviceEventEmitter } from 'react-native'
 import SimpleToast from 'react-native-simple-toast'
+import { CONST_NO_CONNECTION } from '../common'
 
 export const editComplaint_ = (title, comments, uri1, type1, name1, uri2, type2, name2, uri3, type3, name3, complaintId,isFile1,isFile2,isFile3,userId) => {
 
@@ -50,8 +51,10 @@ export const editComplaint_ = (title, comments, uri1, type1, name1, uri2, type2,
                     editComplaintFailed(dispatch, data.message)
                 }                                
             }).catch((error)=>{
-                SimpleToast.show(error)
-            })
+                if (!error.response) {
+                    SimpleToast.show(CONST_NO_CONNECTION)  
+                }
+                          })
     }
 }
 

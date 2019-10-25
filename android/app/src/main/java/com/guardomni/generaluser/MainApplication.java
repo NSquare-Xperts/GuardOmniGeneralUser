@@ -50,8 +50,8 @@ public class MainApplication extends Application implements ReactApplication {
             new ReanimatedPackage(),
             new RNGestureHandlerPackage(),
             new ImagePickerPackage(),
-              new RNFirebaseMessagingPackage(),
-              new RNFirebaseNotificationsPackage()
+            new RNFirebaseMessagingPackage(),
+            new RNFirebaseNotificationsPackage()
       );
     }
 

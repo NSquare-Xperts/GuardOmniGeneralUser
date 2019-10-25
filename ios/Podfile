@@ -18,6 +18,10 @@ target 'GeneralUserGO' do
 
   pod 'react-native-video', :path => '../node_modules/react-native-video'
 
+   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
++  `pod 'react-native-video', :path => '../node_modules/react-native-video/react-native-video.podspec'`
+end
+
   post_install do |installer|
     installer.pods_project.targets.each do |target|
       if target.name == "React"

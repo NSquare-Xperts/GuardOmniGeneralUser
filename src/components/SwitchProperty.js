@@ -34,7 +34,6 @@ class SwitchProperty extends Component {
                         propertyListRevertInJson: res.data,
                         refreshing: false
                     })
-                    
                 }else if(res.status == 401) {
 
                     AsyncStorage.removeItem('propertyDetails');
@@ -48,7 +47,11 @@ class SwitchProperty extends Component {
                     })
                     
                 }
-            });
+            }).catch((error) => {                
+                this.setState({
+                  refreshing: false,                 
+                })
+              }); 
     }
     componentDidMount() {
         this._getUserStorageValue()

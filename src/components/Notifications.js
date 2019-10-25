@@ -47,7 +47,13 @@ class Notifications extends Component {
                         refreshing: false,
                     })
                 }
-            });
+            }).catch((error) => {
+                
+                this.setState({
+                  refreshing: false,
+                  
+                })
+              });
     }
 
     handleLoadMore = () => {
@@ -80,7 +86,8 @@ class Notifications extends Component {
     handleBackPress() {
       // SimpleToast.show("back pressed")
         if (Actions.currentScene == 'Notifications' || Actions.currentScene == '_notification') {
-            Actions.pop()
+            Actions.popTo('_homepage')
+           // Actions.pop()
             DeviceEventEmitter.emit('notificationcount', { isNotificationAdded: true });
         }
         DeviceEventEmitter.emit('notificationcount', { isNotificationAdded: true });
@@ -347,4 +354,3 @@ const styles = {
         marginBottom: 8
     }
 }
-
